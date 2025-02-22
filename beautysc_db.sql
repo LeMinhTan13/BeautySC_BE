@@ -44,6 +44,7 @@ CREATE TABLE `routine` (
     FOREIGN KEY (skin_type_id) REFERENCES skin_type(skin_type_id)
 );
 
+
 CREATE TABLE routine_detail (
 	routine_detail_id INT AUTO_INCREMENT PRIMARY KEY,
     routine_detail_name VARCHAR(50) NOT NULL, 
@@ -623,3 +624,20 @@ VALUES
 (49, 'I do not wear sunscreen during outdoor activities', 6, 3),
 (50, 'None of the above', 6, 4);
 
+INSERT INTO `routine` (routine_id, routine_name, status, skin_type_id) VALUES
+(1, 'routine cho da Khô', 1, 5),
+(2, 'routine cho da hỗn hợp', 1, 2);
+INSERT INTO `routine_detail` (routine_id, routine_detail_name) VALUES
+(1,  'Morning'), -- Morning Routine for Dry Skin: Cleanser
+(1, 'Evening'), -- Morning Routine for Dry Skin: Moisturizer
+(2, 'Morning'), -- Morning Routine for Dry Skin: Sunscreen
+(2, 'Evening'); -- Morning Routine for Combination Skin: Cleanser
+
+
+INSERT INTO `routine_step` (routine_detail_id, category_id, instruction, step) 
+VALUES 
+(1, 1, 'These face washes are ideal for sensitive skin, as they use anti-inflammatory ingredients to soothe and calm red, irritated skin. Smoothing cleansers contain only gentle ingredients that are safe to use with rosacea, eczema, hypersensitive, sensitive and post-procedure skin. These cleansers are the best choice for those struggling with red, flushed skin or when other cleansers cause burning or stinging.', 1),
+(1, 2, 'Soothing barrier repair moisturizers contain ceramides, fatty acids, and cholesterol to repair and strengthen your skin barrier, as well as anti-inflammatory ingredients to soothe and calm redness, stinging, and other signs of skin irritation. Soothing barrier repair moisturizers are best for dry and sensitive skin types and are safe for rosacea and eczema.', 2),
+(1, 3, 'Zinc oxide and iron oxide are the active sunscreen ingredients in physical SPFs. These products also contain moisturizing ingredients, making them ideal for dry or flaky skin. They do not contain parabens, phthalates, or chemical ingredients.', 3),
+(2, 1, 'These face washes are ideal for sensitive skin, as they use anti-inflammatory ingredients to soothe and calm red, irritated skin. Smoothing cleansers contain only gentle ingredients that are safe to use with rosacea, eczema, hypersensitive, sensitive and post-procedure skin. These cleansers are the best choice for those struggling with red, flushed skin or when other cleansers cause burning or stinging.', 1),
+(2, 2, 'Soothing barrier repair moisturizers contain ceramides, fatty acids, and cholesterol to repair and strengthen your skin barrier, as well as anti-inflammatory ingredients to soothe and calm redness, stinging, and other signs of skin irritation. Soothing barrier repair moisturizers are best for dry and sensitive skin types and are safe for rosacea and eczema.', 2);

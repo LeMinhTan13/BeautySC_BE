@@ -2,8 +2,6 @@ using MailKit.Net.Smtp;
 using Microsoft.Extensions.DependencyInjection;
 using BeautySCProject.Service.Interfaces;
 using BeautySCProject.Service.Services;
-using BeautySCProject.Data.Interfaces;
-using BeautySCProject.Data.Repositories;
 
 namespace BeautySCProject.Service
 {
@@ -33,6 +31,7 @@ namespace BeautySCProject.Service
             service.AddTransient<IIngredientService, IngredientService>();
 
             //thành
+            service.AddTransient<IRoutineService, RoutineService>();
             service.AddTransient<ISkinTestService, SkinTestService>();
             return service;
         }

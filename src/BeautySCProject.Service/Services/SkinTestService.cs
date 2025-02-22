@@ -10,6 +10,7 @@ using BeautySCProject.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.Crmf;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,6 +104,11 @@ namespace BeautySCProject.Service.Services
         {
             return await _skinTestRepository.GetSkinTestByIdAsync(skinTestId);
         }
+        public async Task<MethodResult<IEnumerable<SkinTestViewModel>>> GetAllSkinTestAsync()
+        {
+            var result = await _skinTestRepository.GetAllSkinTestAsync();
+            return new MethodResult<IEnumerable<SkinTestViewModel>>.Success(result);
+        }
         public async Task<MethodResult<string>> UpdateSkinTestAsync(SkinTestUpdateRequest request)
         {
             try
@@ -149,7 +155,7 @@ namespace BeautySCProject.Service.Services
 
             // Lấy danh sách các loại da với điểm số của chúng
             var skinTypeIds = skinTypeScores.Keys.ToList();
-            var skinTypes = new List<BeautySCProject.Data.Entities.SkinType>();
+            var skinTypes = new List<SkinType>();
             foreach (var skinTypeId in skinTypeIds)
             {
                 var skinType = await _skinTestRepository.GetSkinTypeByIdAsync(skinTypeId);
@@ -184,5 +190,7 @@ namespace BeautySCProject.Service.Services
             // Trả về kết quả
             return new MethodResult<object>.Success(skinResult);
         }
+
+        
     }
 }

@@ -130,5 +130,6 @@ namespace BeautySCProject.Data
 
             return query.ToListAsync();
         }
+
     }
 }
