@@ -28,7 +28,6 @@ namespace BeautySCProject.Data.ViewModels
 
         public CategoryViewModel Category { get; set; }
 
-        //public List<ProductSku> Details { get; set; }
         public List<ProductImageViewModel> ProductImages { get; set; }
 
         public List<SkinTypeViewModel> SkinTypes { get; set; }
@@ -39,20 +38,7 @@ namespace BeautySCProject.Data.ViewModels
 
         public List<FeedbackViewModel> Feedbacks { get; set; }
     }
-    //public class ProductSku
-    //{
-    //    public int ProductVersionId { get; set; }
-
-    //    public string Size { get; set; } 
-
-    //    public decimal Price { get; set; }
-
-    //    public float Discount { get; set; }
-
-    //    public int Quantity { get; set; }
-
-    //    public string Status { get; set; } 
-    //}
+  
     public class ProductImageViewModel
     {
         public int ProductImageId { get; set; }

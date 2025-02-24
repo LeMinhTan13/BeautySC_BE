@@ -33,5 +33,7 @@ namespace BeautySCProject.Data.Models.ProductModel
         public List<IngredientDetail> Ingredients { get; set; } = new List<IngredientDetail>();
 
         public List<int> Functions { get; set; } = new List<int>();
+
+        public List<string> Images { get; set; } = new List<string>();
     }
 }

@@ -22,8 +22,8 @@ namespace BeautySCProject.Data.Mapper
             CreateMap<ProductUpdateRequest, Product>();
 
             CreateMap<Product, ProductViewModel>()
-                .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Feedbacks.Select(x => x.Rating).Average()))
-                .ForMember(dest => dest.ProductImage, opt => opt.MapFrom(src => src.ProductImages.FirstOrDefault().Url));         
+                .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Feedbacks.Any() ? src.Feedbacks.Select(x => x.Rating).Average() : 0))
+                .ForMember(dest => dest.ProductImage, opt => opt.MapFrom(src => src.ProductImages.Any() ? src.ProductImages.FirstOrDefault().Url : null));         
             
             CreateMap<Product, ProductDetailViewModel>()               
                 .ForMember(dest => dest.ProductImages, opt => opt.MapFrom(src => src.ProductImages.Select(x => new ProductImageViewModel

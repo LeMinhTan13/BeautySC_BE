@@ -22,15 +22,17 @@ namespace BeautySCProject.Service.Services
         private readonly IProductSkinTypeService _productSkinTypeService;
         private readonly IProductFunctionService _productFunctionService;
         private readonly IProductIngredientService _productIngredientService;
+        private readonly IProductImageService _productImageService;
         private readonly IUnitOfWork _uow;
 
-        public ProductService(IProductRepository productRepository, IMapper mapper, IProductSkinTypeService productSkinTypeService, IProductFunctionService productFunctionService, IProductIngredientService productIngredientService, IUnitOfWork uow)
+        public ProductService(IProductRepository productRepository, IMapper mapper, IProductSkinTypeService productSkinTypeService, IProductFunctionService productFunctionService, IProductIngredientService productIngredientService, IProductImageService productImageService, IUnitOfWork uow)
         {
             _productRepository = productRepository;
             _mapper = mapper;
             _productSkinTypeService = productSkinTypeService;
             _productFunctionService = productFunctionService;
             _productIngredientService = productIngredientService;
+            _productImageService = productImageService;
             _uow = uow;
         }
 
@@ -107,6 +109,25 @@ namespace BeautySCProject.Service.Services
                         if (!checkCreProIngre)
                         {
                             return new MethodResult<string>.Failure("Fail while create product ingredient", StatusCodes.Status500InternalServerError);
+                        }
+                    }
+                }
+
+                if (request.Images.Any())
+                {
+                    foreach (var image in request.Images)
+                    {
+                        var productImage = new ProductImage
+                        {
+                            Url = image,
+                            ProductId = product.ProductId
+                        };
+
+                        var checkCreProImg = await _productImageService.CreateProductImageAsync(productImage);
+
+                        if (!checkCreProImg)
+                        {
+                            return new MethodResult<string>.Failure("Fail while create product image", StatusCodes.Status500InternalServerError);
                         }
                     }
                 }
@@ -221,8 +242,34 @@ namespace BeautySCProject.Service.Services
                     }
                 }
 
+                var checkDelProImg = await _productImageService.DeleteProductImagesByProductIdAsync(productId);
+
+                if (!checkDelProImg)
+                {
+                    return new MethodResult<string>.Failure("Fail while delete old product image", StatusCodes.Status500InternalServerError);
+                }
+
+                if (request.Images.Any())
+                {
+                    foreach (var image in request.Images)
+                    {
+                        var productImage = new ProductImage
+                        {
+                            Url = image,
+                            ProductId = product.ProductId
+                        };
+
+                        var checkCreProImg = await _productImageService.CreateProductImageAsync(productImage);
+
+                        if (!checkCreProImg)
+                        {
+                            return new MethodResult<string>.Failure("Fail while create product image", StatusCodes.Status500InternalServerError);
+                        }
+                    }                    
+                }
+
                 await _uow.CommitTransactionAsync();
-                return new MethodResult<string>.Success("Create product succesfully");
+                return new MethodResult<string>.Success("Update product succesfully");
             }
             catch (Exception e)
             {

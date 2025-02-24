@@ -29,6 +29,7 @@ namespace BeautySCProject.Service
             service.AddTransient<ICategoryService, CategoryService>();
             service.AddTransient<IFunctionService, FunctionService>();
             service.AddTransient<IIngredientService, IngredientService>();
+            service.AddTransient<IProductImageService, ProductImageService>();
             service.AddTransient<IVoucherService, VoucherService>();
 
             //thành

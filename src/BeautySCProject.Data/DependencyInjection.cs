@@ -24,6 +24,7 @@ namespace BeautySCProject.Data
             service.AddTransient<ICategoryRepository, CategoryRepository>();
             service.AddTransient<IFunctionRepository, FunctionRepository>();
             service.AddTransient<IIngredientRepository, IngredientRepository>();
+            service.AddTransient<IProductImageRepository, ProductImageRepository>();
             service.AddTransient<IVoucherRepository, VoucherRepository>();
 
             //thành
