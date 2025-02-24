@@ -20,10 +20,10 @@ namespace BeautySCProject.API.Controllers
 
         [HttpPost("create-order")]
         [Authorize]
-        public async Task<IActionResult> CreateOrder(OrderCreateRequest request)
+        public async Task<IActionResult> CreateOrder(int? voucherId, OrderCreateRequest request)
         {
             var customerId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
-            var result = await _orderService.CreateOrderAsync(customerId, request);
+            var result = await _orderService.CreateOrderAsync(customerId, voucherId, request);
             return result.Match(
                 (l, c) => Problem(detail: l, statusCode: c),
                 Ok
@@ -31,11 +31,10 @@ namespace BeautySCProject.API.Controllers
         }
 
         [HttpPatch("complete-order")]
-        [Authorize]
+        [Authorize(Roles = Constants.USER_ROLE_STAFF)]
         public async Task<IActionResult> CompleteOrder(int orderId)
         {
-            var customerId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
-            var result = await _orderService.CompleteOrderAsync(customerId, orderId);
+            var result = await _orderService.CompleteOrderAsync(orderId);
             return result.Match(
                 (l, c) => Problem(detail: l, statusCode: c),
                 Ok
@@ -43,7 +42,7 @@ namespace BeautySCProject.API.Controllers
         }
 
         [HttpPatch("cancel-order")]
-        [Authorize]
+        [Authorize(Roles = Constants.USER_ROLE_CUSTOMER)]
         public async Task<IActionResult> CancelOrder(int orderId)
         {
             var customerId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
@@ -70,7 +69,6 @@ namespace BeautySCProject.API.Controllers
         [Authorize(Roles = Constants.USER_ROLE_MANAGER)]
         public async Task<IActionResult> GetAllOrder()
         {
-            var customerId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
             var result = await _orderService.GetAllOrderAsync();
             return result.Match(
                 (l, c) => Problem(detail: l, statusCode: c),

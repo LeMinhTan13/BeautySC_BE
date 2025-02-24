@@ -17,7 +17,9 @@ namespace BeautySCProject.Data.Mapper
         public OrderProfile()
         {
             CreateMap<OrderCreateRequest, Order>()
+                .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetailRequests))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Constants.ORDER_STATUS_PENDING))
+                .ForMember(dest => dest.TotalAmount, opt => opt.MapFrom(src => 0))
                 .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => DateTime.Now));            
         }
     }

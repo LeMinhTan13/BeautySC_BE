@@ -14,6 +14,8 @@ namespace BeautySCProject.Data.ViewModels
 
         public string? Summary { get; set; }
 
+        public int Quantity { get; set; }
+
         public decimal Price { get; set; }
 
         public decimal Discount { get; set; }

@@ -44,7 +44,6 @@ CREATE TABLE `routine` (
     FOREIGN KEY (skin_type_id) REFERENCES skin_type(skin_type_id)
 );
 
-
 CREATE TABLE routine_detail (
 	routine_detail_id INT AUTO_INCREMENT PRIMARY KEY,
     routine_detail_name VARCHAR(50) NOT NULL, 
@@ -164,10 +163,15 @@ CREATE TABLE product_ingredient (
 );
 
 CREATE TABLE voucher (
-    voucher_id INT AUTO_INCREMENT PRIMARY KEY,
-    voucher_name VARCHAR(100) NOT NULL,
-    voucher_code VARCHAR(100) NOT NULL,
-    voucher_value FLOAT NOT NULL
+	voucher_id INT AUTO_INCREMENT PRIMARY KEY,
+    voucher_name VARCHAR(255) NOT NULL,
+    voucher_code VARCHAR(255) NOT NULL,
+    `description` VARCHAR(255),
+    discount_amount DECIMAL(10, 2) NOT NULL,
+    start_date DATETIME NOT NULL,
+    end_date DATETIME NOT NULL,
+    minimum_purchase DECIMAL(10, 2),
+    `status` BOOLEAN NOT NULL DEFAULT 1
 );
 
 CREATE TABLE `order` (
@@ -388,6 +392,14 @@ INSERT INTO product_skin_type (product_id, skin_type_id) VALUES
 (8, 2), (8, 4), (9, 3), (9, 5), (10, 1), (10, 4), (11, 2), (11, 5), (12, 1), (12, 3),
 (13, 2), (13, 4), (14, 3), (14, 5), (15, 1), (15, 4), (16, 2), (16, 5), (17, 1), (17, 3);
 
+INSERT INTO voucher (voucher_name, voucher_code, `description`, discount_amount, start_date, end_date, minimum_purchase, `status`) VALUES
+('Summer Sale', 'SUMMER2025', 'Discount for summer season', 20000.00, '2025-01-01 00:00:00', '2025-06-30 23:59:59', 100000.00, 1),
+('Black Friday', 'BLACKFRIDAY25', 'Black Friday Special Discount', 25000.00, '2025-11-24 00:00:00', '2025-11-25 23:59:59', 50000.00, 1),
+('Christmas Offer', 'XMAS2025', 'Christmas Discount', 15000.00, '2025-12-20 00:00:00', '2025-12-25 23:59:59', 75000.00, 1),
+('New Year Sale', 'NEWYEAR2025', 'New Year Celebration Discount', 30000.00, '2025-01-01 00:00:00', '2025-01-05 23:59:59', 120000.00, 1),
+('Clearance Sale', 'CLEARANCE10', 'Discount on clearance items', 10000.00, '2025-03-01 00:00:00', '2025-03-15 23:59:59', NULL, 1);
+
+
 -- Thêm 20 đơn hàng
 INSERT INTO `order` (customer_id, `status`, created_date, total_amount) VALUES
 (1, 'Complete', '2023-01-05 10:00:00', 360000),   -- Order 1
@@ -410,11 +422,6 @@ INSERT INTO `order` (customer_id, `status`, created_date, total_amount) VALUES
 (3, 'Complete', '2024-06-30 09:45:00', 532000),   -- Order 18
 (1, 'Complete', '2024-07-05 16:20:00', 435000),  -- Order 19
 (2, 'Complete', '2024-08-10 11:10:00', 540000);  -- Order 20
-
-INSERT INTO `order` (customer_id, `status`) VALUES
-(1, 'InCart'),
-(2, 'InCart'),
-(3, 'InCart');
 
 -- Thêm order_detail (đã tính toán sẵn giá sau khi áp dụng discount)
 INSERT INTO order_detail (price, quantity, product_id, order_id) VALUES
@@ -624,20 +631,3 @@ VALUES
 (49, 'I do not wear sunscreen during outdoor activities', 6, 3),
 (50, 'None of the above', 6, 4);
 
-INSERT INTO `routine` (routine_id, routine_name, status, skin_type_id) VALUES
-(1, 'routine cho da Khô', 1, 5),
-(2, 'routine cho da hỗn hợp', 1, 2);
-INSERT INTO `routine_detail` (routine_id, routine_detail_name) VALUES
-(1,  'Morning'), -- Morning Routine for Dry Skin: Cleanser
-(1, 'Evening'), -- Morning Routine for Dry Skin: Moisturizer
-(2, 'Morning'), -- Morning Routine for Dry Skin: Sunscreen
-(2, 'Evening'); -- Morning Routine for Combination Skin: Cleanser
-
-
-INSERT INTO `routine_step` (routine_detail_id, category_id, instruction, step) 
-VALUES 
-(1, 1, 'These face washes are ideal for sensitive skin, as they use anti-inflammatory ingredients to soothe and calm red, irritated skin. Smoothing cleansers contain only gentle ingredients that are safe to use with rosacea, eczema, hypersensitive, sensitive and post-procedure skin. These cleansers are the best choice for those struggling with red, flushed skin or when other cleansers cause burning or stinging.', 1),
-(1, 2, 'Soothing barrier repair moisturizers contain ceramides, fatty acids, and cholesterol to repair and strengthen your skin barrier, as well as anti-inflammatory ingredients to soothe and calm redness, stinging, and other signs of skin irritation. Soothing barrier repair moisturizers are best for dry and sensitive skin types and are safe for rosacea and eczema.', 2),
-(1, 3, 'Zinc oxide and iron oxide are the active sunscreen ingredients in physical SPFs. These products also contain moisturizing ingredients, making them ideal for dry or flaky skin. They do not contain parabens, phthalates, or chemical ingredients.', 3),
-(2, 1, 'These face washes are ideal for sensitive skin, as they use anti-inflammatory ingredients to soothe and calm red, irritated skin. Smoothing cleansers contain only gentle ingredients that are safe to use with rosacea, eczema, hypersensitive, sensitive and post-procedure skin. These cleansers are the best choice for those struggling with red, flushed skin or when other cleansers cause burning or stinging.', 1),
-(2, 2, 'Soothing barrier repair moisturizers contain ceramides, fatty acids, and cholesterol to repair and strengthen your skin barrier, as well as anti-inflammatory ingredients to soothe and calm redness, stinging, and other signs of skin irritation. Soothing barrier repair moisturizers are best for dry and sensitive skin types and are safe for rosacea and eczema.', 2);

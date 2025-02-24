@@ -65,19 +65,8 @@ namespace BeautySCProject.Service.Services
             {
                 return new MethodResult<string>.Failure("Phone number already in use", StatusCodes.Status400BadRequest);
             }
-            var createCustomerResult = await CreateCustomerAsyc(request);
 
-            return await createCustomerResult.Bind(async customer =>
-            {
-                var checkCreOrd = await _orderService.CreateNewOrderAsync(customer.CustomerId);
-
-                if (!checkCreOrd)
-                {
-                    return new MethodResult<string>.Failure("Fail while create new order", StatusCodes.Status500InternalServerError);
-                }
-
-                return await _emailService.SendAccountVerificationEmailAsync(customer);
-            });
+            return await CreateCustomerAsyc(request).Result.Bind(customer => _emailService.SendAccountVerificationEmailAsync(customer));            
         }
 
         public async Task<MethodResult<Customer>> GetByEmailAsync(string email)

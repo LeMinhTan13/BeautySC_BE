@@ -665,13 +665,31 @@ public partial class BeautyscDbContext : DbContext
             entity.ToTable("voucher");
 
             entity.Property(e => e.VoucherId).HasColumnName("voucher_id");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
+            entity.Property(e => e.DiscountAmount)
+                .HasPrecision(10, 2)
+                .HasColumnName("discount_amount");
+            entity.Property(e => e.EndDate)
+                .HasColumnType("datetime")
+                .HasColumnName("end_date");
+            entity.Property(e => e.MinimumPurchase)
+                .HasPrecision(10, 2)
+                .HasColumnName("minimum_purchase");
+            entity.Property(e => e.StartDate)
+                .HasColumnType("datetime")
+                .HasColumnName("start_date");
+            entity.Property(e => e.Status)
+                .IsRequired()
+                .HasDefaultValueSql("'1'")
+                .HasColumnName("status");
             entity.Property(e => e.VoucherCode)
-                .HasMaxLength(100)
+                .HasMaxLength(255)
                 .HasColumnName("voucher_code");
             entity.Property(e => e.VoucherName)
-                .HasMaxLength(100)
+                .HasMaxLength(255)
                 .HasColumnName("voucher_name");
-            entity.Property(e => e.VoucherValue).HasColumnName("voucher_value");
         });
 
         OnModelCreatingPartial(modelBuilder);

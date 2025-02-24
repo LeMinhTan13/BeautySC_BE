@@ -10,9 +10,6 @@ namespace BeautySCProject.Data.Models.ProductModel
     public class ProductUpdateRequest
     {
         [Required]
-        public int ProductId { get; set; }
-
-        [Required]
         public string ProductName { get; set; } = null!;
 
         public string Size { get; set; } = null!;
@@ -25,7 +22,7 @@ namespace BeautySCProject.Data.Models.ProductModel
 
         public string? Summary { get; set; }
 
-        public ulong IsRecommended { get; set; }
+        public bool IsRecommended { get; set; }
 
         public int BrandId { get; set; }
 
@@ -36,7 +33,5 @@ namespace BeautySCProject.Data.Models.ProductModel
         public List<IngredientDetail> Ingredients { get; set; } = new List<IngredientDetail>();
 
         public List<int> Functions { get; set; } = new List<int>();
-
-        public List<ProductDetail> Details { get; set; }
     }
 }

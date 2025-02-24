@@ -54,7 +54,7 @@ namespace BeautySCProject.Data.Repositories
 
         public async Task<Order> GetOrderByIdAsync(int orderId)
         {
-            return await Entities.FirstOrDefaultAsync(x => x.OrderId == orderId);
+            return await Entities.Include(x => x.OrderDetails).FirstOrDefaultAsync(x => x.OrderId == orderId);
         }
 
         public async Task<IEnumerable<OrderViewModel>> GetOrderByCustomerAsync(int customerId)

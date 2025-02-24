@@ -16,14 +16,6 @@ namespace BeautySCProject.Data.Mapper
         public OrderDetailProfile()
         {
             CreateMap<OrderDetailCreateRequest, OrderDetail>();
-
-            CreateMap<Product, OrderDetail>()
-                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
-                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price * (1 - src.Discount)))
-                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => 1));
-
-            CreateMap<OrderDetail, CartViewModel>();
-            CreateMap<OrderDetail, CartViewModel>();
         }
     }
 }

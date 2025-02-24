@@ -111,30 +111,6 @@ namespace BeautySCProject.Service.Services
                     }
                 }
 
-                //foreach (var detail in request.Details)
-                //{
-                //    var productVersion = new ProductVersion
-                //    {
-                //        ProductName = request.ProductName,
-                //        Summary = request.Summary,
-                //        Sku = detail.Size.ToUpper(),
-                //        Price = detail.Price,
-                //        Discount = detail.Discount,
-                //        Quantity = detail.Quantity,
-                //        Version = 1,
-                //        CreatedDate = DateTime.Now,
-                //        Status = Constants.PRODUCTVERSION_STATUS_ACTIVE,
-                //        ProductId = product.ProductId,
-                //    };
-
-                //    var checkCreProVer = await _productVersionService.CreateProductVersionAsync(productVersion);
-
-                //    if (!checkCreProVer)
-                //    {
-                //        return new MethodResult<string>.Failure("Fail while create product version", StatusCodes.Status500InternalServerError);
-                //    }
-                //}
-
                 await _uow.CommitTransactionAsync();
                 return new MethodResult<string>.Success("Create product succesfully");
             }
@@ -145,19 +121,19 @@ namespace BeautySCProject.Service.Services
             }
         }
 
-        public async Task<MethodResult<string>> UpdateProductAsync(ProductUpdateRequest request)
+        public async Task<MethodResult<string>> UpdateProductAsync(int productId, ProductUpdateRequest request)
         {
             await _uow.BeginTransactionAsync();
             try
             {
-                var product = await _productRepository.GetProductByIdAsync(request.ProductId);
+                var product = await _productRepository.GetProductByIdAsync(productId);
 
                 if (product == null)
                 {
                     return new MethodResult<string>.Failure("Fail while get product", StatusCodes.Status400BadRequest);
                 }
 
-                product = _mapper.Map<Product>(request);
+                _mapper.Map(request, product);
 
                 var checkUpPro = await _productRepository.UpdateProductAsync(product);
 
@@ -166,7 +142,7 @@ namespace BeautySCProject.Service.Services
                     return new MethodResult<string>.Failure("Fail while update product", StatusCodes.Status500InternalServerError);
                 }
 
-                var checkDelProSkinType = await _productSkinTypeService.DeleteProductSkinTypesByProductIdAsync(request.ProductId);
+                var checkDelProSkinType = await _productSkinTypeService.DeleteProductSkinTypesByProductIdAsync(productId);
 
                 if (!checkDelProSkinType)
                 {
@@ -192,7 +168,7 @@ namespace BeautySCProject.Service.Services
                     }
                 }
 
-                var checkDelProFunc = await _productFunctionService.DeleteProductFunctionsByProductIdAsync(request.ProductId);
+                var checkDelProFunc = await _productFunctionService.DeleteProductFunctionsByProductIdAsync(productId);
 
                 if (!checkDelProFunc)
                 {
@@ -218,7 +194,7 @@ namespace BeautySCProject.Service.Services
                     }
                 }
 
-                var checkDelProIng = await _productIngredientService.DeleteProductIngredientsByProductIdAsync(request.ProductId);
+                var checkDelProIng = await _productIngredientService.DeleteProductIngredientsByProductIdAsync(productId);
 
                 if (!checkDelProIng)
                 {
@@ -244,32 +220,6 @@ namespace BeautySCProject.Service.Services
                         }
                     }
                 }
-
-                //var latestVersion = await _productVersionService.GetLatestVersionAsync(request.ProductId);
-
-                //foreach (var detail in request.Details)
-                //{
-                //    var productVersion = new ProductVersion
-                //    {
-                //        ProductName = request.ProductName,
-                //        Summary = request.Summary,
-                //        Sku = detail.Size.ToUpper(),
-                //        Price = detail.Price,
-                //        Discount = detail.Discount,
-                //        Quantity = detail.Quantity,
-                //        Version = ++latestVersion,
-                //        CreatedDate = DateTime.Now,
-                //        Status = Constants.PRODUCTVERSION_STATUS_ACTIVE,
-                //        ProductId = product.ProductId,
-                //    };
-
-                //    var checkCreProVer = await _productVersionService.CreateProductVersionAsync(productVersion);
-
-                //    if (!checkCreProVer)
-                //    {
-                //        return new MethodResult<string>.Failure("Fail while create product version", StatusCodes.Status500InternalServerError);
-                //    }
-                //}
 
                 await _uow.CommitTransactionAsync();
                 return new MethodResult<string>.Success("Create product succesfully");

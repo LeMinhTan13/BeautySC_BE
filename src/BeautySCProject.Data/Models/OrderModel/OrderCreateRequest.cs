@@ -15,7 +15,8 @@ namespace BeautySCProject.Data.Models.OrderModel
         public string Address { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
-        //public List<OrderDetailCreateRequest> OrderDetailRequests { get; set; }
-        //public int? VoucherId { get; set; } = null!;
+
+        public List<OrderDetailCreateRequest> OrderDetailRequests { get; set; }
+        
     }
 }

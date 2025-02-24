@@ -12,11 +12,10 @@ namespace BeautySCProject.Service.Interfaces
 {
     public interface IOrderService
     {
-        Task<MethodResult<string>> CreateOrderAsync(int customerId, OrderCreateRequest request);
-        Task<bool> CreateNewOrderAsync(int customerId);
+        Task<MethodResult<string>> CreateOrderAsync(int customerId, int? voucherId, OrderCreateRequest request);
         Task<MethodResult<Order>> GetOrderByIdAsync(int orderId);
         Task<bool> UpdateOrderAsync(Order order);
-        Task<MethodResult<string>> CompleteOrderAsync(int customerId, int orderId);
+        Task<MethodResult<string>> CompleteOrderAsync(int orderId);
         Task<MethodResult<string>> CancelOrderAsync(int customerId, int orderId);
         Task<MethodResult<IEnumerable<OrderViewModel>>> GetOrderByCustomerAsync(int customerId);
         Task<MethodResult<IEnumerable<OrderViewModel>>> GetAllOrderAsync();

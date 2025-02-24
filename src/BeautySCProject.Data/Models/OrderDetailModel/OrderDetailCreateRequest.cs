@@ -10,7 +10,7 @@ namespace BeautySCProject.Data.Models.OrderDetailModel
     public class OrderDetailCreateRequest
     {
         [Required]
-        public int ProductVersionId { get; set; }
+        public int ProductId { get; set; }
         [Required]
         public int Quantity { get; set; }
     }

@@ -14,7 +14,7 @@ namespace BeautySCProject.Service.Interfaces
     {
         Task<Product> GetProductByIdAsync(int productId);
         Task<MethodResult<string>> CreateProductAsync(ProductCreateRequest request);
-        Task<MethodResult<string>> UpdateProductAsync(ProductUpdateRequest request);
+        Task<MethodResult<string>> UpdateProductAsync(int productId, ProductUpdateRequest request);
         Task<MethodResult<string>> ActiveProductAsync(int productId);
         Task<MethodResult<string>> InactiveProductAsync(int productId);
         Task<MethodResult<IEnumerable<ProductViewModel>>> GetAllProductAsync(int pageIndex, int pageSize, ProductSortContent sorts);
