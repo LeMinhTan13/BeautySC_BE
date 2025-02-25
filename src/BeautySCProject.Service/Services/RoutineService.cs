@@ -51,12 +51,25 @@ namespace BeautySCProject.Service.Services
 
         public async Task<MethodResult<RoutineViewModel>> GetRoutineAsync(int skinTypeId)
         {
-            var result = await _routineRepository.GetRoutinesBySkinTypeAsync(skinTypeId);
-            if (result == null) // Kiểm tra danh sách rỗng
+            var routine = await _routineRepository.GetRoutinesBySkinTypeAsync(skinTypeId);
+            var mappedRoutine = _mapper.Map<RoutineViewModel>(routine);
+            foreach (var routineDetail in mappedRoutine.RoutineDetails)// lọc 6 sản phẩm daàu tiên
+            {
+                foreach (var routineStep in routineDetail.RoutineSteps)
+                {
+                    if (routineStep.Category != null)
+                    {
+                        routineStep.Category.Products = routineStep.Category.Products
+                            .Take(6) 
+                            .ToList();
+                    }
+                }
+            }
+            if (mappedRoutine == null) // Kiểm tra danh sách rỗng
             {
                 return new MethodResult<RoutineViewModel>.Failure("Can't found routine!", StatusCodes.Status404NotFound);
             }
-            return new MethodResult<RoutineViewModel>.Success(result);
+            return new MethodResult<RoutineViewModel>.Success(mappedRoutine);
         }
 
         public async Task<MethodResult<string>> UpdateRoutineAsync(RoutineUpdateRequest request)
@@ -87,12 +100,24 @@ namespace BeautySCProject.Service.Services
         public async Task<MethodResult<RoutineViewModel>> GetRoutineByRoutineIdAsync(int routineId)
         {
             var routine = await _routineRepository.GetRoutinesByRoutineIdAsync(routineId);
-            var result = _mapper.Map<RoutineViewModel>(routine);
-            if (result == null) // Kiểm tra danh sách rỗng
+            var mappedRoutine = _mapper.Map<RoutineViewModel>(routine);
+            foreach (var routineDetail in mappedRoutine.RoutineDetails)// lọc 6 sản phẩm daàu tiên
+            {
+                foreach (var routineStep in routineDetail.RoutineSteps)
+                {
+                    if (routineStep.Category != null)
+                    {
+                        routineStep.Category.Products = routineStep.Category.Products
+                            .Take(6)
+                            .ToList();
+                    }
+                }
+            }
+            if (mappedRoutine == null) // Kiểm tra danh sách rỗng
             {
                 return new MethodResult<RoutineViewModel>.Failure("Can't found routine!", StatusCodes.Status404NotFound);
             }
-            return new MethodResult<RoutineViewModel>.Success(result);
+            return new MethodResult<RoutineViewModel>.Success(mappedRoutine);
         }
     }
 }

@@ -25,17 +25,19 @@ namespace BeautySCProject.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<RoutineViewModel> GetRoutinesBySkinTypeAsync(int skinTypeId)
+        public async Task<Routine> GetRoutinesBySkinTypeAsync(int skinTypeId)
         {
             var routine = await Entities
                 .Where(r => r.SkinTypeId == skinTypeId)
                 .Include(r => r.SkinType) 
                 .Include(r => r.RoutineDetails)
                     .ThenInclude(rd => rd.RoutineSteps)
-                        .ThenInclude(rs => rs.Category) 
+                        .ThenInclude(rs => rs.Category)
+                            .ThenInclude(c => c.Products)
+                                .ThenInclude(p => p.ProductImages)
                 .FirstOrDefaultAsync();
 
-            return _mapper.Map<RoutineViewModel>(routine);
+            return routine;
         }
         public async Task<bool> CreateRoutineAsync(Routine routine)
         {
@@ -86,6 +88,8 @@ namespace BeautySCProject.Data.Repositories
             .Include(r => r.RoutineDetails)
                 .ThenInclude(rd => rd.RoutineSteps)
                     .ThenInclude(rs => rs.Category)
+                        .ThenInclude(c => c.Products)
+                                    .ThenInclude(p => p.ProductImages)
             .FirstOrDefaultAsync();
         }
     }

@@ -34,6 +34,10 @@ namespace BeautySCProject.Data.Mapper
                 .ForMember(dest => dest.RoutineSteps, opt => opt.MapFrom(src => src.RoutineSteps));
 
             CreateMap<RoutineStep, RoutineStepRequest>();
+            CreateMap<Product, ProductRoutineViewModel>()
+                .ForMember(dest => dest.ProductImages,
+                    opt => opt.MapFrom(src => src.ProductImages));
+            CreateMap<ProductImage, ProductImageRoutineViewModel>();// liên quan tới product nhưng chưa sửa vào product profile
         }
     }
 }
