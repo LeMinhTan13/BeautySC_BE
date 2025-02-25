@@ -3,7 +3,6 @@ using BeautySCProject.Common.Helpers;
 using BeautySCProject.Data.Entities;
 using BeautySCProject.Data.Interfaces;
 using BeautySCProject.Data.Models.SkinTestModel;
-using BeautySCProject.Data.Models.SkinTypeModel;
 using BeautySCProject.Data.Repositories;
 using BeautySCProject.Data.ViewModels;
 using BeautySCProject.Service.Interfaces;
@@ -130,7 +129,7 @@ namespace BeautySCProject.Service.Services
         }
 
         //xác định loại da 
-        public async Task<MethodResult<object>> DetermineSkinTypeAsync(int customerId,SkinTypeModel model)
+        public async Task<MethodResult<object>> DetermineSkinTypeAsync(int customerId,ListUserAnswerModel model)
         {
             var skinTypeScores = new Dictionary<int, int>(); 
 

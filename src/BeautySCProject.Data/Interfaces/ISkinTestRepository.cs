@@ -19,5 +19,6 @@ namespace BeautySCProject.Data.Interfaces
         Task<List<SkinTypeAnswer>> GetSkinTypeAnswersAsync(List<int> answerIds);
         Task<SkinType> GetSkinTypeByIdAsync(int skinTypeId);
         Task<IEnumerable<SkinTestGetAllViewModel>> GetAllSkinTestAsync();
+        
     }
 }

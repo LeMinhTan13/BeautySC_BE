@@ -1,5 +1,4 @@
 ﻿using BeautySCProject.Data.Models.SkinTestModel;
-using BeautySCProject.Data.Models.SkinTypeModel;
 using BeautySCProject.Service.Interfaces;
 using BeautySCProject.Service.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +17,7 @@ namespace BeautySCProject.API.Controllers
         }
         [HttpPost("determine-skin-type")]
         [Authorize]
-        public async Task<ActionResult<object>> DetermineSkinType([FromBody] SkinTypeModel request)
+        public async Task<ActionResult<object>> DetermineSkinType([FromBody] ListUserAnswerModel request)
         {
             var customerId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
             var result = await _skinTestService.DetermineSkinTypeAsync(customerId,request);

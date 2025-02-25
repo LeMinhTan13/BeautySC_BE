@@ -22,8 +22,6 @@ namespace BeautySCProject.Data.Mapper
 
             CreateMap<RoutineStep, RoutineStepViewModel>();
             CreateMap<Category, CategoryViewModel>();
-            CreateMap<SkinType, SkinTypeViewModel>();
-
             CreateMap<RoutineCreateRequest, Routine>()
                 .ForMember(dest => dest.RoutineDetails, opt => opt.MapFrom(src => src.RoutineDetails));
 

@@ -32,6 +32,7 @@ namespace BeautySCProject.Data
             service.AddTransient<ISkinTypeQuestionRepository, SkinTypeQuestionRepository>();
             service.AddTransient<ISkinTypeAnswerRepository, SkinTypeAnswerRepository>();
             service.AddTransient<ISkinTestRepository,SkinTestRepository>();
+            service.AddTransient<ISkinTypeRepository, SkinTypeRepository>();
             return service;
         }
     }

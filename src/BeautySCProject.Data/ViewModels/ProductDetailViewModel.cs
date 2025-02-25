@@ -45,12 +45,7 @@ namespace BeautySCProject.Data.ViewModels
 
         public string ProductImage { get; set; }
     }
-    public class SkinTypeViewModel
-    {
-        public int SkinTypeId { get; set; }
-
-        public string SkinTypeName { get; set; }
-    }
+    
     public class BrandViewModel
     {
         public int BrandId { get; set; }

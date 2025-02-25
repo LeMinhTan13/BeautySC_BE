@@ -1,4 +1,5 @@
 ﻿using BeautySCProject.Data.Entities;
+using BeautySCProject.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,10 @@ namespace BeautySCProject.Data.Interfaces
 {
     public interface ISkinTypeRepository
     {
-        Task<List<SkinTypeAnswer>> GetSkinTypeAnswersAsync(List<int> answerIds);
-        Task<SkinType> GetSkinTypeByIdAsync(int skinTypeId);
+        Task<SkinType?> GetSkinTypeByIdAsync(int skinTypeId);
+      /*  Task<bool> CreateSkinTypeAsync(SkinType skinType);
+        Task<bool> UpdateSkinTypeAsync(SkinType skinType);*/
+        Task<IEnumerable<SkinTypeViewModel>> GetAllSkinTypeAsync();
     }
 
 }

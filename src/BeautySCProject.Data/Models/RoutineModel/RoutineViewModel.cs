@@ -1,4 +1,5 @@
 ﻿using BeautySCProject.Data.Entities;
+using BeautySCProject.Data.ViewModels;
 using System.Collections.Generic;
 
 namespace BeautySCProject.Domain.ViewModels
@@ -24,11 +25,7 @@ namespace BeautySCProject.Domain.ViewModels
         public CategoryViewModel Category { get; set; } 
     }
 
-    public class SkinTypeViewModel
-    {
-        public int SkinTypeId { get; set; }
-        public string SkinTypeName { get; set; }
-    }
+    
 
     public class CategoryViewModel
     {

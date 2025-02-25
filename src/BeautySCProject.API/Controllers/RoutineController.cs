@@ -42,6 +42,15 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
+        [HttpGet("get-routine-by-routine-id")]
+        public async Task<IActionResult> GetRoutineByRoutineId(int routineId)
+        {
+            var result = await _routineService.GetRoutineByRoutineIdAsync(routineId);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
 
         [HttpGet("get-all-routine")]
         public async Task<IActionResult> GetAllRoutine()

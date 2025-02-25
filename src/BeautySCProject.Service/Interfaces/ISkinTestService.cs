@@ -2,7 +2,6 @@
 using BeautySCProject.Data.Entities;
 using BeautySCProject.Data.Models.ProductModel;
 using BeautySCProject.Data.Models.SkinTestModel;
-using BeautySCProject.Data.Models.SkinTypeModel;
 using BeautySCProject.Data.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,7 +17,7 @@ namespace BeautySCProject.Service.Interfaces
         Task<MethodResult<SkinTestViewModel>> GetSkinTestAsync(int skinTestId);
         Task<MethodResult<string>> UpdateSkinTestAsync(SkinTestUpdateRequest request);
         Task<SkinTest> GetSkinTestByIdAsync (int skinTestId);
-        Task<MethodResult<object>> DetermineSkinTypeAsync(int customerId, SkinTypeModel model);
+        Task<MethodResult<object>> DetermineSkinTypeAsync(int customerId, ListUserAnswerModel model);
         Task<MethodResult<IEnumerable<SkinTestGetAllViewModel>>> GetAllSkinTestAsync();
     }
 }

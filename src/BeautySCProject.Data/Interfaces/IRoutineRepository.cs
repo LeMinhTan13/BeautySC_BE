@@ -11,6 +11,7 @@ namespace BeautySCProject.Data.Interfaces
     public interface IRoutineRepository
     {
         Task<RoutineViewModel?> GetRoutinesBySkinTypeAsync(int skinTypeId);
+        Task<Routine?> GetRoutinesByRoutineIdAsync(int routineId);
         Task<bool> CreateRoutineAsync(Routine routine);
         /*Task<bool> DeleteRoutineAsync(int routineId);*/
         Task<bool> UpdateRoutineAsync(Routine routine);

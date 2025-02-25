@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BeautySCProject.Data.Models.SkinTypeModel
+namespace BeautySCProject.Data.Models.SkinTestModel
 {
-    public class SkinTypeModel
+    public class ListUserAnswerModel
     {
         public List<int> ListUserAnswer { get; set; }
     }

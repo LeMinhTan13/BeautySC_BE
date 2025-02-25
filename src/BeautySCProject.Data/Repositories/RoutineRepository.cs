@@ -77,5 +77,16 @@ namespace BeautySCProject.Data.Repositories
                 })
                 .ToListAsync();
         }
+
+        public async Task<Routine> GetRoutinesByRoutineIdAsync(int routineId)
+        {
+            return await Entities
+            .Where(r => r.RoutineId == routineId)
+            .Include(r => r.SkinType)
+            .Include(r => r.RoutineDetails)
+                .ThenInclude(rd => rd.RoutineSteps)
+                    .ThenInclude(rs => rs.Category)
+            .FirstOrDefaultAsync();
+        }
     }
 }

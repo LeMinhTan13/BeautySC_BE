@@ -83,5 +83,16 @@ namespace BeautySCProject.Service.Services
             var result = await _routineRepository.GetAllRoutineAsync();
             return new MethodResult<IEnumerable<RoutineGetAllViewModel>>.Success(result);
         }
+
+        public async Task<MethodResult<RoutineViewModel>> GetRoutineByRoutineIdAsync(int routineId)
+        {
+            var routine = await _routineRepository.GetRoutinesByRoutineIdAsync(routineId);
+            var result = _mapper.Map<RoutineViewModel>(routine);
+            if (result == null) // Kiểm tra danh sách rỗng
+            {
+                return new MethodResult<RoutineViewModel>.Failure("Can't found routine!", StatusCodes.Status404NotFound);
+            }
+            return new MethodResult<RoutineViewModel>.Success(result);
+        }
     }
 }
