@@ -1,4 +1,6 @@
-﻿using BeautySCProject.Data.Entities;
+﻿using BeautySCProject.Common.Helpers;
+using BeautySCProject.Data.Entities;
+using BeautySCProject.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +12,7 @@ namespace BeautySCProject.Service.Interfaces
     public interface IVoucherService
     {
         Task<Voucher> GetVoucherByIdAsync(int voucherId);
+        Task<MethodResult<VoucherViewModel>> GetVoucherDetailByIdAsync(int voucherId);
+        Task<MethodResult<IEnumerable<VoucherViewModel>>> GetAllVoucherAsync();
     }
 }

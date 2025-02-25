@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BeautySCProject.Data.Entities;
 using BeautySCProject.Data.Models.RoutineModel;
+using BeautySCProject.Data.ViewModels;
 using BeautySCProject.Domain.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace BeautySCProject.Data.Mapper
                 .ForMember(dest => dest.RoutineSteps, opt => opt.MapFrom(src => src.RoutineSteps));
 
             CreateMap<RoutineStep, RoutineStepViewModel>();
-            CreateMap<Category, CategoryViewModel>();
+            CreateMap<Category, CategoryRoutineViewModel>();
             CreateMap<RoutineCreateRequest, Routine>()
                 .ForMember(dest => dest.RoutineDetails, opt => opt.MapFrom(src => src.RoutineDetails));
 
@@ -36,7 +37,11 @@ namespace BeautySCProject.Data.Mapper
             CreateMap<RoutineStep, RoutineStepRequest>();
             CreateMap<Product, ProductRoutineViewModel>()
                 .ForMember(dest => dest.ProductImages,
-                    opt => opt.MapFrom(src => src.ProductImages));
+                    opt => opt.MapFrom(src => src.ProductImages))
+                .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src => src.ProductIngredients.Select(pi => pi.Ingredient)));
+            CreateMap<ProductIngredient, IngredientViewModel>()
+            .ForMember(dest => dest.IngredientId, opt => opt.MapFrom(src => src.Ingredient.IngredientId))
+            .ForMember(dest => dest.IngredientName, opt => opt.MapFrom(src => src.Ingredient.IngredientName));
             CreateMap<ProductImage, ProductImageRoutineViewModel>();// liên quan tới product nhưng chưa sửa vào product profile
         }
     }

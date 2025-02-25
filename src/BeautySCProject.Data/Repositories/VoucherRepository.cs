@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BeautySCProject.Data.Entities;
 using BeautySCProject.Data.Interfaces;
+using BeautySCProject.Data.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,5 +28,24 @@ namespace BeautySCProject.Data.Repositories
         {
             return await Entities.FirstOrDefaultAsync(x => x.VoucherId == voucherId);
         }
+
+        public async Task<IEnumerable<VoucherViewModel>> GetAllVoucherAsync()
+        {
+             return await Entities
+            .Select(st => new VoucherViewModel
+            {
+                VoucherId = st.VoucherId,
+                VoucherName = st.VoucherName,
+                VoucherCode = st.VoucherCode,
+                Description = st.Description,
+                DiscountAmount = st.DiscountAmount,
+                EndDate = st.EndDate,
+                MinimumPurchase = st.MinimumPurchase,
+                StartDate = st.StartDate
+            })
+            .ToListAsync();
+        }
+
+
     }
 }

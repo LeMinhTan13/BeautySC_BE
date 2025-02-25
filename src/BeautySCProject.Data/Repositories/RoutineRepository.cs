@@ -35,6 +35,12 @@ namespace BeautySCProject.Data.Repositories
                         .ThenInclude(rs => rs.Category)
                             .ThenInclude(c => c.Products)
                                 .ThenInclude(p => p.ProductImages)
+                .Include(r => r.RoutineDetails)
+                    .ThenInclude(rd => rd.RoutineSteps)
+                        .ThenInclude(rs => rs.Category)
+                            .ThenInclude(c => c.Products)
+                                .ThenInclude(p => p.ProductIngredients)
+                                    .ThenInclude(pi => pi.Ingredient)
                 .FirstOrDefaultAsync();
 
             return routine;
@@ -90,6 +96,12 @@ namespace BeautySCProject.Data.Repositories
                     .ThenInclude(rs => rs.Category)
                         .ThenInclude(c => c.Products)
                                     .ThenInclude(p => p.ProductImages)
+            .Include(r => r.RoutineDetails)
+                    .ThenInclude(rd => rd.RoutineSteps)
+                        .ThenInclude(rs => rs.Category)
+                            .ThenInclude(c => c.Products)
+                                .ThenInclude(p => p.ProductIngredients)
+                                    .ThenInclude(pi => pi.Ingredient)
             .FirstOrDefaultAsync();
         }
     }

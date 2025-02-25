@@ -65,7 +65,7 @@ namespace BeautySCProject.Service.Services
                     }
                 }
             }
-            if (mappedRoutine == null) // Kiểm tra danh sách rỗng
+            if (mappedRoutine == null) 
             {
                 return new MethodResult<RoutineViewModel>.Failure("Can't found routine!", StatusCodes.Status404NotFound);
             }
@@ -113,7 +113,7 @@ namespace BeautySCProject.Service.Services
                     }
                 }
             }
-            if (mappedRoutine == null) // Kiểm tra danh sách rỗng
+            if (mappedRoutine == null) 
             {
                 return new MethodResult<RoutineViewModel>.Failure("Can't found routine!", StatusCodes.Status404NotFound);
             }

@@ -24,12 +24,12 @@ namespace BeautySCProject.Domain.ViewModels
     {
         public int Step { get; set; }
         public string Instruction { get; set; }
-        public CategoryViewModel Category { get; set; }
+        public CategoryRoutineViewModel Category { get; set; }
     }
 
 
 
-    public class CategoryViewModel
+    public class CategoryRoutineViewModel
     {
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
@@ -48,6 +48,7 @@ namespace BeautySCProject.Domain.ViewModels
         public decimal Price { get; set; }
 
         public decimal Discount { get; set; }
+        public List<IngredientViewModel> Ingredients { get; set; }
 
         public List<ProductImageRoutineViewModel> ProductImages { get; set; } = new List<ProductImageRoutineViewModel>();
     }
