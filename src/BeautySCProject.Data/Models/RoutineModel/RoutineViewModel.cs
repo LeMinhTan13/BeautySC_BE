@@ -35,4 +35,11 @@ namespace BeautySCProject.Domain.ViewModels
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
     }
+    public class RoutineGetAllViewModel
+    {
+        public int RoutineId { get; set; }
+        public string RoutineName { get; set; } = null!;
+        public string SkinTypeName { get; set; } = null!; 
+    }
+
 }

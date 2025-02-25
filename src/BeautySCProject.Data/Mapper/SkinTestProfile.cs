@@ -46,7 +46,7 @@ namespace BeautySCProject.Data.Mapper
                 .ForMember(dest => dest.SkinTypeAnswers, opt => opt.MapFrom(src => src.SkinTypeAnswers));
 
             CreateMap<SkinTypeAnswer, SkinTypeAnswerViewModel>();
-
+            CreateMap<SkinTest, SkinTestGetAllViewModel>();
         }
     }
 }

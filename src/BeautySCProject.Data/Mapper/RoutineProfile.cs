@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BeautySCProject.Data.Entities;
+using BeautySCProject.Data.Models.RoutineModel;
 using BeautySCProject.Domain.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,19 @@ namespace BeautySCProject.Data.Mapper
             CreateMap<RoutineStep, RoutineStepViewModel>();
             CreateMap<Category, CategoryViewModel>();
             CreateMap<SkinType, SkinTypeViewModel>();
+
+            CreateMap<RoutineCreateRequest, Routine>()
+                .ForMember(dest => dest.RoutineDetails, opt => opt.MapFrom(src => src.RoutineDetails));
+
+            CreateMap<RoutineDetailCreateRequest, RoutineDetail>()
+                .ForMember(dest => dest.RoutineSteps, opt => opt.MapFrom(src => src.RoutineSteps));
+
+            CreateMap<RoutineStepRequest, RoutineStep>();
+
+            CreateMap<RoutineDetail, RoutineDetailCreateRequest>()
+                .ForMember(dest => dest.RoutineSteps, opt => opt.MapFrom(src => src.RoutineSteps));
+
+            CreateMap<RoutineStep, RoutineStepRequest>();
         }
     }
 }

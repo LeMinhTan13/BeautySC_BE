@@ -8,11 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BeautySCProject.Domain.ViewModels;
+using BeautySCProject.Data.Models.RoutineModel;
 
 namespace BeautySCProject.Service.Interfaces
 {
     public interface IRoutineService
     {
         Task<MethodResult<RoutineViewModel>> GetRoutineAsync(int skinTypeId); 
+        Task<MethodResult<string>> CreateRoutineAsync(RoutineCreateRequest request);
+        Task<MethodResult<string>> UpdateRoutineAsync(RoutineUpdateRequest request);
+        Task<MethodResult<IEnumerable<RoutineGetAllViewModel>>> GetAllRoutineAsync();
     }
 }

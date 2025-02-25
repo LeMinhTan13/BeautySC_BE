@@ -84,7 +84,7 @@ namespace BeautySCProject.Data.Repositories
                 .Where(st => st.SkinTypeId == skinTypeId)
                 .FirstOrDefaultAsync();
         }
-        public async Task<IEnumerable<SkinTestViewModel>> GetAllSkinTestAsync()
+        /*public async Task<IEnumerable<SkinTestViewModel>> GetAllSkinTestAsync()
         {
             return await Entities
                 .Include(x => x.SkinTypeQuestions)
@@ -109,8 +109,17 @@ namespace BeautySCProject.Data.Repositories
                                 }).ToList()
                         }).ToList()
                 }).ToListAsync();
+        }*/
+        public async Task<IEnumerable<SkinTestGetAllViewModel>> GetAllSkinTestAsync()
+        {
+            return await Entities
+                .Select(st => new SkinTestGetAllViewModel
+                {
+                    SkinTestId = st.SkinTestId,
+                    SkinTestName = st.SkinTestName
+                })
+                .ToListAsync();
         }
-
 
     }
 

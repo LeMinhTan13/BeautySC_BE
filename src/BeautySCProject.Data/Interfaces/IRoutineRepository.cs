@@ -1,4 +1,5 @@
-﻿using BeautySCProject.Domain.ViewModels;
+﻿using BeautySCProject.Data.Entities;
+using BeautySCProject.Domain.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,9 @@ namespace BeautySCProject.Data.Interfaces
     public interface IRoutineRepository
     {
         Task<RoutineViewModel?> GetRoutinesBySkinTypeAsync(int skinTypeId);
+        Task<bool> CreateRoutineAsync(Routine routine);
+        /*Task<bool> DeleteRoutineAsync(int routineId);*/
+        Task<bool> UpdateRoutineAsync(Routine routine);
+        Task<IEnumerable<RoutineGetAllViewModel>> GetAllRoutineAsync();
     }
 }

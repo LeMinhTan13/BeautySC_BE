@@ -60,7 +60,7 @@ namespace BeautySCProject.API.Controllers
             );
         }
         [HttpGet("get-all-skin-test")]
-        [Authorize]
+        
         public async Task<IActionResult> GetAllSkinTest()
         {
             var result = await _skinTestService.GetAllSkinTestAsync();
@@ -69,5 +69,6 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
+        
     };
 }

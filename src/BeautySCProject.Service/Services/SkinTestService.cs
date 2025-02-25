@@ -104,10 +104,10 @@ namespace BeautySCProject.Service.Services
         {
             return await _skinTestRepository.GetSkinTestByIdAsync(skinTestId);
         }
-        public async Task<MethodResult<IEnumerable<SkinTestViewModel>>> GetAllSkinTestAsync()
+        public async Task<MethodResult<IEnumerable<SkinTestGetAllViewModel>>> GetAllSkinTestAsync()
         {
             var result = await _skinTestRepository.GetAllSkinTestAsync();
-            return new MethodResult<IEnumerable<SkinTestViewModel>>.Success(result);
+            return new MethodResult<IEnumerable<SkinTestGetAllViewModel>>.Success(result);
         }
         public async Task<MethodResult<string>> UpdateSkinTestAsync(SkinTestUpdateRequest request)
         {

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BeautySCProject.Data.Entities;
 using BeautySCProject.Data.Interfaces;
+using BeautySCProject.Data.ViewModels;
 using BeautySCProject.Domain.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -36,6 +37,45 @@ namespace BeautySCProject.Data.Repositories
 
             return _mapper.Map<RoutineViewModel>(routine);
         }
-
+        public async Task<bool> CreateRoutineAsync(Routine routine)
+        {
+            try
+            {
+                Entities.Add(routine);
+                await _unitOfWork.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+        public async Task<bool> UpdateRoutineAsync(Routine routine)
+        {
+            try
+            {
+                Entities.Update(routine);
+                await _unitOfWork.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+        public async Task<IEnumerable<RoutineGetAllViewModel>> GetAllRoutineAsync()
+        {
+            return await Entities
+                .Include(r => r.SkinType)  
+                .Select(r => new RoutineGetAllViewModel
+                {
+                    RoutineId = r.RoutineId,
+                    RoutineName = r.RoutineName,
+                    SkinTypeName = r.SkinType.SkinTypeName 
+                })
+                .ToListAsync();
+        }
     }
 }
