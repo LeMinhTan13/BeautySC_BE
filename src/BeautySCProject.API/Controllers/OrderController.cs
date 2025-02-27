@@ -45,8 +45,7 @@ namespace BeautySCProject.API.Controllers
         [Authorize(Roles = $"{Constants.USER_ROLE_CUSTOMER}, {Constants.USER_ROLE_STAFF}")]
         public async Task<IActionResult> CancelOrder(int orderId)
         {
-            var customerId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
-            var result = await _orderService.CancelOrderAsync(customerId, orderId);
+            var result = await _orderService.CancelOrderAsync(orderId);
             return result.Match(
                 (l, c) => Problem(detail: l, statusCode: c),
                 Ok
