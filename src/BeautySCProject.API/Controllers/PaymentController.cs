@@ -41,10 +41,10 @@ namespace BeautySCProject.API.Controllers
 
             if (result is MethodResult<string>.Failure rs)
             {
-                return Redirect($"{redirectUrl}/fail");
+                return Redirect($"{redirectUrl}/cart?status=fail");
             }
 
-            return Redirect($"{redirectUrl}/success");
+            return Redirect($"{redirectUrl}/cart?status=success");
         }
     }
 }

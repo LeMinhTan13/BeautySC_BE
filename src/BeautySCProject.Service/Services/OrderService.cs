@@ -38,7 +38,7 @@ namespace BeautySCProject.Service.Services
             _uow = uow;
         }
 
-        public async Task<MethodResult<string>> CreateOrderAsync(int customerId, int? voucherId, OrderCreateRequest request)
+        public async Task<MethodResult<CreateOrderViewModel>> CreateOrderAsync(int customerId, int? voucherId, OrderCreateRequest request)
         {
             await _uow.BeginTransactionAsync();
             try
@@ -52,7 +52,7 @@ namespace BeautySCProject.Service.Services
 
                     if (product.Quantity < item.Quantity)
                     {
-                        return new MethodResult<string>.Failure($"Proudct {product.ProductName} do not enough quantity", StatusCodes.Status400BadRequest);
+                        return new MethodResult<CreateOrderViewModel>.Failure($"Proudct {product.ProductName} do not enough quantity", StatusCodes.Status400BadRequest);
                     }
 
                     product.Quantity -= item.Quantity;
@@ -60,7 +60,7 @@ namespace BeautySCProject.Service.Services
                     var checkUpPro = await _productRepository.UpdateProductAsync(product);
                     if (!checkUpPro)
                     {
-                        return new MethodResult<string>.Failure($"Fail while update product", StatusCodes.Status500InternalServerError);
+                        return new MethodResult<CreateOrderViewModel>.Failure($"Fail while update product", StatusCodes.Status500InternalServerError);
                     }
 
                     item.Price = product.Price * (1 - product.Discount / 100);
@@ -72,17 +72,23 @@ namespace BeautySCProject.Service.Services
                     var voucher = await _voucherService.GetVoucherByIdAsync((int) voucherId);
                     if (voucher == null)
                     {
-                        return new MethodResult<string>.Failure("Voucher not found", StatusCodes.Status404NotFound);
+                        return new MethodResult<CreateOrderViewModel>.Failure("Voucher not found", StatusCodes.Status404NotFound);
                     }
 
                     if (voucher.StartDate > DateTime.Now || voucher.EndDate < DateTime.Now)
                     {
-                        return new MethodResult<string>.Failure("Invalid date of voucher", StatusCodes.Status400BadRequest);
+                        return new MethodResult<CreateOrderViewModel>.Failure("Invalid date of voucher", StatusCodes.Status400BadRequest);
                     }
 
                     if (voucher.MinimumPurchase > order.TotalAmount)
                     {
-                        return new MethodResult<string>.Failure("Order do not enough amount to apply voucher", StatusCodes.Status400BadRequest);
+                        return new MethodResult<CreateOrderViewModel>.Failure("Order do not enough amount to apply voucher", StatusCodes.Status400BadRequest);
+                    }
+
+                    var checkUsedVoucher = await _orderRepository.CheckUsedVoucherAsync(customerId, (int) voucherId);
+                    if (checkUsedVoucher)
+                    {
+                        return new MethodResult<CreateOrderViewModel>.Failure("this voucher is used", StatusCodes.Status400BadRequest);
                     }
 
                     order.TotalAmount -= voucher.DiscountAmount;
@@ -91,16 +97,21 @@ namespace BeautySCProject.Service.Services
                 var checkCreOrder = await _orderRepository.CreateOneAsync(order);
                 if (!checkCreOrder)
                 {
-                    return new MethodResult<string>.Failure("Fail while create order", StatusCodes.Status500InternalServerError);
+                    return new MethodResult<CreateOrderViewModel>.Failure("Fail while create order", StatusCodes.Status500InternalServerError);
                 }
                
                 await _uow.CommitTransactionAsync();
-                return new MethodResult<string>.Success("Create order succesfully");
+
+                var result = new CreateOrderViewModel
+                {
+                    OrderId = order.OrderId,
+                };
+                return new MethodResult<CreateOrderViewModel>.Success(result);
             }
             catch (Exception e)
             {
                 await _uow.RollbackTransactionAsync();
-                return new MethodResult<string>.Failure(e.ToString(), StatusCodes.Status500InternalServerError);
+                return new MethodResult<CreateOrderViewModel>.Failure(e.ToString(), StatusCodes.Status500InternalServerError);
             }
         }
         
@@ -173,15 +184,15 @@ namespace BeautySCProject.Service.Services
             return new MethodResult<string>.Success("Cancel order successfully");
         }
 
-        public async Task<MethodResult<IEnumerable<OrderViewModel>>> GetOrderByCustomerAsync(int customerId) 
+        public async Task<MethodResult<IEnumerable<OrderViewModel>>> GetOrderByCustomerAsync(int customerId, string status) 
         {
-            var result = await _orderRepository.GetOrderByCustomerAsync(customerId);
+            var result = await _orderRepository.GetOrderByCustomerAsync(customerId, status);
             return new MethodResult<IEnumerable<OrderViewModel>>.Success(result);
         }
 
-        public async Task<MethodResult<IEnumerable<OrderViewModel>>> GetAllOrderAsync()
+        public async Task<MethodResult<IEnumerable<OrderViewModel>>> GetAllOrderAsync(string status)
         {
-            var result = await _orderRepository.GetAllOrderAsync();
+            var result = await _orderRepository.GetAllOrderAsync(status);
             return new MethodResult<IEnumerable<OrderViewModel>>.Success(result);
         }
     }

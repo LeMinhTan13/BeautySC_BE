@@ -1,7 +1,9 @@
+using AutoMapper;
 using BeautySCProject.Common.Helpers;
 using BeautySCProject.Data.Entities;
 using BeautySCProject.Data.Interfaces;
 using BeautySCProject.Data.Models.AuthenticationModel;
+using BeautySCProject.Data.ViewModels;
 using BeautySCProject.Service.Interfaces;
 using Org.BouncyCastle.Asn1.Ocsp;
 
@@ -12,15 +14,17 @@ namespace BeautySCProject.Service.Services
         private readonly ITokenGenerator _tokenGenerator;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly ICustomerService _customerService;
+        private readonly IMapper _mapper;
 
         public AuthenticationService(ITokenGenerator tokenGenerator,
             IRefreshTokenRepository refreshTokenRepository,
-            ICustomerService customerService)
+            ICustomerService customerService,
+            IMapper mapper)
         {
             _tokenGenerator = tokenGenerator;
             _refreshTokenRepository = refreshTokenRepository;
             _customerService = customerService;
-
+            _mapper = mapper;
         }
         public async Task<MethodResult<AccessToken>> AuthenticateAsync(Account account)
            => await _customerService.GetByEmailAsync(account.Email).Result.Bind<AccessToken>(async customer =>
@@ -101,6 +105,6 @@ namespace BeautySCProject.Service.Services
                     return new MethodResult<string>.Failure("Failed to logout", 500);
                 }
                 return new MethodResult<string>.Success("Logged out successfully");
-            });
+            });        
     }
 }
