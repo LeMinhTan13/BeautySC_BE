@@ -149,17 +149,13 @@ namespace BeautySCProject.Service.Services
             return new MethodResult<string>.Success("Complete order successfully");
         }
 
-        public async Task<MethodResult<string>> CancelOrderAsync(int customerId, int orderId)
+        public async Task<MethodResult<string>> CancelOrderAsync(int orderId)
         {
             var order = await _orderRepository.GetOrderByIdAsync(orderId);
             if (order == null)
             {
                 return new MethodResult<string>.Failure("Order not found", StatusCodes.Status404NotFound);
-            }
-            if (order.CustomerId != customerId)
-            {
-                return new MethodResult<string>.Failure("Customer does not have this order", StatusCodes.Status400BadRequest);
-            }
+            }            
 
             foreach (var orderDetail in order.OrderDetails)
             {
