@@ -2,6 +2,7 @@
 using BeautySCProject.Common.Helpers;
 using BeautySCProject.Data.Entities;
 using BeautySCProject.Data.Models.AuthenticationModel;
+using BeautySCProject.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,12 @@ namespace BeautySCProject.Data.Mapper
                   .ForMember(dest => dest.Password, opt => opt.MapFrom(src => BCrypt.Net.BCrypt.HashPassword(src.Password)))
                   .ForMember(dest => dest.Role, opt => opt.MapFrom(src => Constants.USER_ROLE_CUSTOMER));
             CreateMap<SignupRequest, Customer>();
-            //CreateMap<Customer, CustomerViewModel>();
+            CreateMap<Customer, ProfileViewModel>()
+                .ForMember(dest => dest.SkinType, opt => opt.MapFrom(src => src.SkinTypeId == null ? null : new SkinTypeViewModel
+                {
+                    SkinTypeId = (int) src.SkinTypeId,
+                    SkinTypeName = src.SkinType.SkinTypeName
+                }));
         }
     }
 }

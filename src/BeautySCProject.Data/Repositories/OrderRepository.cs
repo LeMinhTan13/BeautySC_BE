@@ -57,12 +57,14 @@ namespace BeautySCProject.Data.Repositories
             return await Entities.Include(x => x.OrderDetails).FirstOrDefaultAsync(x => x.OrderId == orderId);
         }
 
-        public async Task<IEnumerable<OrderViewModel>> GetOrderByCustomerAsync(int customerId)
+        public async Task<IEnumerable<OrderViewModel>> GetOrderByCustomerAsync(int customerId, string status)
         {
             return await Entities
                                 .Include(x => x.OrderDetails)
                                     .ThenInclude(od => od.Product)
-                                .Where(x => x.CustomerId == customerId && x.Status != Constants.ORDER_STATUS_CANCEL)
+                                .Where(x => x.CustomerId == customerId && 
+                                            x.Status != Constants.ORDER_STATUS_CANCEL &&
+                                            (string.IsNullOrEmpty(status) || x.Status.ToLower() == status.ToLower()))
                                 .Select(x => new OrderViewModel
                                 {
                                     OrderId = x.OrderId,
@@ -88,11 +90,12 @@ namespace BeautySCProject.Data.Repositories
                                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<OrderViewModel>> GetAllOrderAsync()
+        public async Task<IEnumerable<OrderViewModel>> GetAllOrderAsync(string status)
         {
             return await Entities
                                 .Include(x => x.OrderDetails)
                                     .ThenInclude(od => od.Product)
+                                .Where(x => string.IsNullOrEmpty(status) || x.Status.ToLower() == status.ToLower())
                                 .Select(x => new OrderViewModel
                                 {
                                     OrderId = x.OrderId,
@@ -116,6 +119,12 @@ namespace BeautySCProject.Data.Repositories
                                         .ToList()
                                 })
                                 .ToListAsync();
+        }
+
+        public async Task<bool> CheckUsedVoucherAsync(int customerId, int voucherId)
+        {
+            return await Entities.AnyAsync(x => x.CustomerId == customerId && x.VoucherId == voucherId);
+                                
         }
     }
 }

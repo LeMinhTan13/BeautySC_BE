@@ -78,7 +78,7 @@ namespace BeautySCProject.Data.Repositories
 		}
 		public async Task<Customer?> FindByEmailAsync(string email)
 		{
-			return await Entities.Include(x => x.Account).FirstOrDefaultAsync(u => u.Account.Email == email);
+			return await Entities.Include(x => x.Account).Include(x => x.SkinType).FirstOrDefaultAsync(u => u.Account.Email == email);
 		}
 		public async Task<Customer?> FindByPhoneNumberAsync(string number)
 		{

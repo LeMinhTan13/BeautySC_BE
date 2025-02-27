@@ -42,7 +42,7 @@ namespace BeautySCProject.API.Controllers
         }
 
         [HttpPatch("cancel-order")]
-        [Authorize(Roles = Constants.USER_ROLE_CUSTOMER)]
+        [Authorize(Roles = $"{Constants.USER_ROLE_CUSTOMER}, {Constants.USER_ROLE_STAFF}")]
         public async Task<IActionResult> CancelOrder(int orderId)
         {
             var customerId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
@@ -55,10 +55,10 @@ namespace BeautySCProject.API.Controllers
 
         [HttpGet("get-user-order")]
         [Authorize]
-        public async Task<IActionResult> GetOrderByCustomer()
+        public async Task<IActionResult> GetOrderByCustomer(string status)
         {
             var customerId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
-            var result = await _orderService.GetOrderByCustomerAsync(customerId);
+            var result = await _orderService.GetOrderByCustomerAsync(customerId, status);
             return result.Match(
                 (l, c) => Problem(detail: l, statusCode: c),
                 Ok
@@ -66,10 +66,10 @@ namespace BeautySCProject.API.Controllers
         }
 
         [HttpGet("get_all_order")]
-        [Authorize(Roles = Constants.USER_ROLE_MANAGER)]
-        public async Task<IActionResult> GetAllOrder()
+        [Authorize(Roles = Constants.USER_ROLE_STAFF)]
+        public async Task<IActionResult> GetAllOrder(string status)
         {
-            var result = await _orderService.GetAllOrderAsync();
+            var result = await _orderService.GetAllOrderAsync(status);
             return result.Match(
                 (l, c) => Problem(detail: l, statusCode: c),
                 Ok

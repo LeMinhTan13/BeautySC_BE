@@ -15,6 +15,7 @@ using BeautySCProject.Data.Models.CustomerModel;
 using Microsoft.AspNetCore.Http;
 using Org.BouncyCastle.Asn1.Ocsp;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using BeautySCProject.Data.ViewModels;
 
 namespace BeautySCProject.Service.Services
 {
@@ -201,5 +202,12 @@ namespace BeautySCProject.Service.Services
             }
             return new MethodResult<Account>.Failure("Customer not found", StatusCodes.Status404NotFound);
         }
+
+        public async Task<MethodResult<ProfileViewModel>> GetProfileAsync(string email)
+            => await GetByEmailAsync(email).Result.Bind<ProfileViewModel>(async customer =>
+            {
+                var result = _mapper.Map<ProfileViewModel>(customer);
+                return new MethodResult<ProfileViewModel>.Success(result);
+            });
     }
 }

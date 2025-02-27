@@ -119,7 +119,7 @@ namespace BeautySCProject.API.Controllers
                 return Unauthorized();
             }
             // Fetch user details from database
-            var result = await _customerService.GetByEmailAsync(email);
+            var result = await _customerService.GetProfileAsync(email);
             return result.Match(
                 (errorMessage, statusCode) => Problem(detail: errorMessage, statusCode: statusCode),
                 Ok

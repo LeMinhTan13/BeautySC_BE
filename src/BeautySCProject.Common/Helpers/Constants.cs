@@ -17,7 +17,6 @@ namespace BeautySCProject.Common.Helpers
         public const bool PRODUCT_STATUS_ACTIVE = true;
         public const bool PRODUCT_STATUS_INACTIVE = false;
 
-        public const string ORDER_STATUS_INCART = "InCart";
         public const string ORDER_STATUS_PENDING = "Pending";
         public const string ORDER_STATUS_SHIPPING = "Shipping";
         public const string ORDER_STATUS_COMPLETE = "Complete";

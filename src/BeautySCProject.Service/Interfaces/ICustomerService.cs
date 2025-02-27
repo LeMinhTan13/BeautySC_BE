@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BeautySCProject.Common.Helpers;
 using BeautySCProject.Data.Models.CustomerModel;
+using BeautySCProject.Data.ViewModels;
 
 
 namespace BeautySCProject.Service.Interfaces
@@ -32,5 +33,6 @@ namespace BeautySCProject.Service.Interfaces
         Task<MethodResult<string>> RequestResendVerificationEmailAsync(string email);
         Task<MethodResult<Customer>> GetCustomerByIdAsync(int id);
         Task<MethodResult<Account>> GetAccountByEmailAsync(string email);
+        Task<MethodResult<ProfileViewModel>> GetProfileAsync(string email);
     }
 }
