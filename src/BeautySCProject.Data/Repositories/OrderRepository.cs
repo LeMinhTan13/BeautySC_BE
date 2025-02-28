@@ -57,7 +57,7 @@ namespace BeautySCProject.Data.Repositories
             return await Entities.Include(x => x.OrderDetails).FirstOrDefaultAsync(x => x.OrderId == orderId);
         }
 
-        public async Task<IEnumerable<OrderViewModel>> GetOrderByCustomerAsync(int customerId, string status)
+        public async Task<IEnumerable<OrderViewModel>> GetOrderByCustomerAsync(int customerId, string? status)
         {
             return await Entities
                                 .Include(x => x.OrderDetails)
@@ -90,7 +90,7 @@ namespace BeautySCProject.Data.Repositories
                                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<OrderViewModel>> GetAllOrderAsync(string status)
+        public async Task<IEnumerable<OrderViewModel>> GetAllOrderAsync(string? status)
         {
             return await Entities
                                 .Include(x => x.OrderDetails)
