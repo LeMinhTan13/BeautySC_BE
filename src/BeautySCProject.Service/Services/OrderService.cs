@@ -91,6 +91,7 @@ namespace BeautySCProject.Service.Services
                         return new MethodResult<CreateOrderViewModel>.Failure("this voucher is used", StatusCodes.Status400BadRequest);
                     }
 
+                    order.VoucherId = voucherId;
                     order.TotalAmount -= voucher.DiscountAmount;
                 }
 
