@@ -54,7 +54,7 @@ namespace BeautySCProject.API.Controllers
 
         [HttpGet("get-user-order")]
         [Authorize]
-        public async Task<IActionResult> GetOrderByCustomer(string status)
+        public async Task<IActionResult> GetOrderByCustomer(string? status)
         {
             var customerId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
             var result = await _orderService.GetOrderByCustomerAsync(customerId, status);
@@ -66,7 +66,7 @@ namespace BeautySCProject.API.Controllers
 
         [HttpGet("get_all_order")]
         [Authorize(Roles = Constants.USER_ROLE_STAFF)]
-        public async Task<IActionResult> GetAllOrder(string status)
+        public async Task<IActionResult> GetAllOrder(string? status)
         {
             var result = await _orderService.GetAllOrderAsync(status);
             return result.Match(

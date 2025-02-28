@@ -181,13 +181,13 @@ namespace BeautySCProject.Service.Services
             return new MethodResult<string>.Success("Cancel order successfully");
         }
 
-        public async Task<MethodResult<IEnumerable<OrderViewModel>>> GetOrderByCustomerAsync(int customerId, string status) 
+        public async Task<MethodResult<IEnumerable<OrderViewModel>>> GetOrderByCustomerAsync(int customerId, string? status) 
         {
             var result = await _orderRepository.GetOrderByCustomerAsync(customerId, status);
             return new MethodResult<IEnumerable<OrderViewModel>>.Success(result);
         }
 
-        public async Task<MethodResult<IEnumerable<OrderViewModel>>> GetAllOrderAsync(string status)
+        public async Task<MethodResult<IEnumerable<OrderViewModel>>> GetAllOrderAsync(string? status)
         {
             var result = await _orderRepository.GetAllOrderAsync(status);
             return new MethodResult<IEnumerable<OrderViewModel>>.Success(result);

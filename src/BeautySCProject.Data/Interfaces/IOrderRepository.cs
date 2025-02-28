@@ -13,8 +13,8 @@ namespace BeautySCProject.Data.Interfaces
         Task<bool> CreateOneAsync(Order order);
         Task<Order> GetOrderByIdAsync(int orderId);
         Task<bool> UpdateOrderAsync(Order order);
-        Task<IEnumerable<OrderViewModel>> GetOrderByCustomerAsync(int customerId, string status);
-        Task<IEnumerable<OrderViewModel>> GetAllOrderAsync(string status);
+        Task<IEnumerable<OrderViewModel>> GetOrderByCustomerAsync(int customerId, string? status);
+        Task<IEnumerable<OrderViewModel>> GetAllOrderAsync(string? status);
         Task<bool> CheckUsedVoucherAsync(int customerId, int voucherId);
     }
 }

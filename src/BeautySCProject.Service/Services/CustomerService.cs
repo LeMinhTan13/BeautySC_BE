@@ -209,5 +209,17 @@ namespace BeautySCProject.Service.Services
                 var result = _mapper.Map<ProfileViewModel>(customer);
                 return new MethodResult<ProfileViewModel>.Success(result);
             });
+
+        public async Task<MethodResult<string>> UpdateAvatarAsync(string email, string image)
+            => await GetByEmailAsync(email).Result.Bind<string>(async customer =>
+            {
+                customer.Image = image;
+                var check = await _customerRepository.UpdateCustomerAsync(customer);
+                if (!check)
+                {
+                    return new MethodResult<string>.Failure("Fail while update customer", StatusCodes.Status500InternalServerError);
+                }
+                return new MethodResult<string>.Success("Update avatar successfully");
+            });
     }
 }

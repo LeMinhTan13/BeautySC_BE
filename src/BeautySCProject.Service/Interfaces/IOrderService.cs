@@ -17,7 +17,7 @@ namespace BeautySCProject.Service.Interfaces
         Task<bool> UpdateOrderAsync(Order order);
         Task<MethodResult<string>> CompleteOrderAsync(int orderId);
         Task<MethodResult<string>> CancelOrderAsync(int orderId);
-        Task<MethodResult<IEnumerable<OrderViewModel>>> GetOrderByCustomerAsync(int customerId, string status);
-        Task<MethodResult<IEnumerable<OrderViewModel>>> GetAllOrderAsync(string status);
+        Task<MethodResult<IEnumerable<OrderViewModel>>> GetOrderByCustomerAsync(int customerId, string? status);
+        Task<MethodResult<IEnumerable<OrderViewModel>>> GetAllOrderAsync(string? status);
     }
 }

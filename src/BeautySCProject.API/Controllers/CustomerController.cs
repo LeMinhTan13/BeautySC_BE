@@ -67,6 +67,19 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
-        
+
+        [HttpPatch("update-avatar")]
+        public async Task<IActionResult> UpdateAvatar(string image)
+        {
+            var email = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            if (email == null) return Unauthorized();
+
+            var result = await _customerService.UpdateAvatarAsync(email, image);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
+
     }
 }
