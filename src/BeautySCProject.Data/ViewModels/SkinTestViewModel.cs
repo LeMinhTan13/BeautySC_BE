@@ -36,5 +36,6 @@ namespace BeautySCProject.Data.ViewModels
     {
         public int SkinTestId { get; set; }
         public string SkinTestName { get; set; }
+        public bool Status { get; set; }
     }
 }

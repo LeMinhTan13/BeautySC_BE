@@ -14,5 +14,7 @@ namespace BeautySCProject.Service.Interfaces
         Task<Voucher> GetVoucherByIdAsync(int voucherId);
         Task<MethodResult<VoucherViewModel>> GetVoucherDetailByIdAsync(int voucherId);
         Task<MethodResult<IEnumerable<VoucherViewModel>>> GetAllVoucherAsync();
+        Task<MethodResult<String>> SetStatusVoucherEqualFalse(Voucher voucher);
+        Task<MethodResult<IEnumerable<VoucherViewModel>>> GetAllVoucherByCustomerIdAsync(int customerId);
     }
 }

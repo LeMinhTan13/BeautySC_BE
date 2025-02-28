@@ -31,7 +31,12 @@ namespace BeautySCProject.Service.Services
 
             return new MethodResult<IEnumerable<VoucherViewModel>>.Success(result);
         }
+        public async Task<MethodResult<IEnumerable<VoucherViewModel>>> GetAllVoucherByCustomerIdAsync(int customerId)
+        {
+            var result = await _voucherRepository.GetAllVoucherByCustomerIdAsync(customerId);
 
+            return new MethodResult<IEnumerable<VoucherViewModel>>.Success(result);
+        }
         public async Task<Voucher> GetVoucherByIdAsync(int voucherId)
         {
             return await _voucherRepository.GetVoucherByIdAsync(voucherId);
@@ -46,6 +51,17 @@ namespace BeautySCProject.Service.Services
                 return new MethodResult<VoucherViewModel>.Failure("Can't found Voucher!", StatusCodes.Status404NotFound);
             }
             return new MethodResult<VoucherViewModel>.Success(result);
+        }
+
+        public async Task<MethodResult<string>> SetStatusVoucherEqualFalse(Voucher voucher)
+        {
+            var result = await _voucherRepository.SetStatusVoucherEqualFalse(voucher);
+            
+            if (!result)
+            {
+                return new MethodResult<string>.Failure("Can't set status!", StatusCodes.Status404NotFound);
+            }
+            return new MethodResult<string>.Success("");
         }
     }
 }

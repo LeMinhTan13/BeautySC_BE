@@ -13,7 +13,7 @@ namespace BeautySCProject.Data.Mapper
     {
         public VoucherProfile()
         {
-            CreateMap<Voucher, VoucherViewModel>();
+            CreateMap<Voucher, VoucherViewModel>();     
         }
     }
 }

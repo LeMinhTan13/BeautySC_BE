@@ -38,7 +38,6 @@ namespace BeautySCProject.API.Controllers
         }
 
         [HttpGet("get-skin-test")]
-        [Authorize]
         public async Task<IActionResult> GetSkinTest(int skinTestId)
         {
             var result = await _skinTestService.GetSkinTestAsync(skinTestId);
