@@ -54,24 +54,7 @@ namespace BeautySCProject.Service.Services
                }
                return new MethodResult<AccessToken>.Success(accessToken);
            });
-        //public async Task<MethodResult<AccessToken>> AuthenticateAsync(Customer customer)
-        //{
-        //    AccessToken accessToken = _tokenGenerator.GenerateAccessToken(customer);
-        //    string refreshToken = _tokenGenerator.GenerateRefreshToken();
-
-        //    RefreshToken refreshTokenDTO = new()
-        //    {
-        //       Token = refreshToken,
-        //       AccountId = customer.AccountId,
-        //    };
-        //    var hasDeleted = await _refreshTokenRepository.DeleteAllByAccountIdAsync(customer.AccountId);
-        //    var created = await _refreshTokenRepository.CreateAsync(refreshTokenDTO);
-        //    if (!created || !hasDeleted)
-        //    {
-        //        return new MethodResult<AccessToken>.Failure("Internal server error. Failed to authenticate", 500);
-        //    }
-        //    return new MethodResult<AccessToken>.Success(accessToken);
-        //}
+  
         public async Task<MethodResult<AccessToken>> SigninAsync(LoginRequest request)
         {
             return await _customerService.GetAccountByEmailAsync(request.Email).Result.Bind(async account =>

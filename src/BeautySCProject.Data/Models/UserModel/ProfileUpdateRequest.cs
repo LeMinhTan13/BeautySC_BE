@@ -9,7 +9,7 @@ namespace BeautySCProject.Data.Models.CustomerModel
         [MaxLength(255)]
         public string? FullName { get; set; }
         public string? PhoneNumber { get; set; }
-
-        public DateOnly? Birthday { get; set; }      
+        public DateOnly? Birthday { get; set; } 
+        public string? Image { get; set; }
     } 
 }
