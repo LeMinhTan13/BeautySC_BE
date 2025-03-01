@@ -23,7 +23,12 @@ namespace BeautySCProject.Data.Mapper
 
             CreateMap<Product, ProductViewModel>()
                 .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Feedbacks.Any() ? src.Feedbacks.Select(x => x.Rating).Average() : 0))
-                .ForMember(dest => dest.ProductImage, opt => opt.MapFrom(src => src.ProductImages.Any() ? src.ProductImages.FirstOrDefault().Url : null));         
+                .ForMember(dest => dest.ProductImage, opt => opt.MapFrom(src => src.ProductImages.Any() ? src.ProductImages.FirstOrDefault().Url : null))
+                .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => new BrandViewModel
+                {
+                    BrandId = src.BrandId,
+                    BrandName = src.Brand.BrandName
+                }));         
             
             CreateMap<Product, ProductDetailViewModel>()               
                 .ForMember(dest => dest.ProductImages, opt => opt.MapFrom(src => src.ProductImages.Select(x => new ProductImageViewModel
