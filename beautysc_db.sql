@@ -568,7 +568,7 @@ INSERT INTO feedback (rating, `comment`, customer_id, product_id) VALUES
 INSERT INTO skin_test (skin_test_id, skin_test_name, status)
 VALUES (1, 'c',true);
 
-INSERT INTO skin_type_question (skin_type_question_id, description, skin_test_id,status)
+INSERT INTO skin_type_question (skin_type_question_id, description, skin_test_id,type)
 VALUES
 (1, 'Assess your skin moisturization needs ,Please check all that are true about how often you must use a moisturizer for your skin to feel hydrated. (Multiple answers are preferred.)', 1,true),
 (2, 'Assess your skin\'s sebum production.Please check all that are true about your facial skin. (Multiple answers are preferred.)', 1,true),
