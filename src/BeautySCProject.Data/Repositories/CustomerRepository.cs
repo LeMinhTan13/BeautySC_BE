@@ -31,7 +31,8 @@ namespace BeautySCProject.Data.Repositories
 			{
 				user.PhoneNumber = !string.IsNullOrEmpty(request.PhoneNumber) ? request.PhoneNumber : user.PhoneNumber;
 				user.FullName = !string.IsNullOrEmpty(request.FullName) ? request.FullName : user.FullName;
-				user.Birthday = request.Birthday.HasValue ? request.Birthday : user.Birthday;			
+                user.Image = !string.IsNullOrEmpty(request.Image) ? request.Image : user.Image;
+                user.Birthday = request.Birthday.HasValue ? request.Birthday : user.Birthday;			
 				return await UpdateCustomerAsync(user);
 			}
 			catch (Exception ex)
