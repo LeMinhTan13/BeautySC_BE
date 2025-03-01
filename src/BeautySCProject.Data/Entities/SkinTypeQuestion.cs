@@ -9,6 +9,8 @@ public partial class SkinTypeQuestion
 
     public string Description { get; set; } = null!;
 
+    public bool Type { get; set; }
+
     public int? SkinTestId { get; set; }
 
     public virtual SkinTest? SkinTest { get; set; }
