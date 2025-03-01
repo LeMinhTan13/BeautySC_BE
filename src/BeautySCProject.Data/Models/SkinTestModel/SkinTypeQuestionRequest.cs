@@ -11,6 +11,7 @@ namespace BeautySCProject.Data.Models.SkinTestModel
     {
         [Required]
         public string Description {  get; set; }
+        public bool Type { get; set; }
         public List<SkinTypeAnswerRequest> skinTypeAnswers { get; set; } = new List<SkinTypeAnswerRequest>();
     }
 }

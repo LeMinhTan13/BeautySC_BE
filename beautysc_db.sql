@@ -568,16 +568,16 @@ INSERT INTO feedback (rating, `comment`, customer_id, product_id) VALUES
 INSERT INTO skin_test (skin_test_id, skin_test_name, status)
 VALUES (1, 'c',true);
 
-INSERT INTO skin_type_question (skin_type_question_id, description, skin_test_id)
+INSERT INTO skin_type_question (skin_type_question_id, description, skin_test_id,status)
 VALUES
-(1, 'Assess your skin moisturization needs ,Please check all that are true about how often you must use a moisturizer for your skin to feel hydrated. (Multiple answers are preferred.)', 1),
-(2, 'Assess your skin\'s sebum production.Please check all that are true about your facial skin. (Multiple answers are preferred.)', 1),
-(3, 'Assess your skin\'s underlying inflammation.Check all the following that you have had in the last 4 weeks: (Multiple answers allowed)', 1),
-(14, 'Assessing Oil and Moisture Levels on Your Skin', 1),
-(15, 'How does your skin feel throughout the day?', 1),
-(4, 'Do you want to lighten dark spots on your skin?Do you want skin lighteners in your skin care products to treat hyper pigmentation? (Choose one answer)', 1),
-(5, 'Lifestyle habits Check all that apply to you. (Multiple answers allowed)', 1),
-(6, 'Suncare Habits.Check all that apply to you. (Multiple answers allowed)', 1);
+(1, 'Assess your skin moisturization needs ,Please check all that are true about how often you must use a moisturizer for your skin to feel hydrated. (Multiple answers are preferred.)', 1,true),
+(2, 'Assess your skin\'s sebum production.Please check all that are true about your facial skin. (Multiple answers are preferred.)', 1,true),
+(3, 'Assess your skin\'s underlying inflammation.Check all the following that you have had in the last 4 weeks: (Multiple answers allowed)', 1,true),
+(14, 'Assessing Oil and Moisture Levels on Your Skin', 1,true),
+(15, 'How does your skin feel throughout the day?', 1,false),
+(4, 'Do you want to lighten dark spots on your skin?Do you want skin lighteners in your skin care products to treat hyper pigmentation? (Choose one answer)', 1,false),
+(5, 'Lifestyle habits Check all that apply to you. (Multiple answers allowed)', 1,true),
+(6, 'Suncare Habits.Check all that apply to you. (Multiple answers allowed)', 1,true);
 
 INSERT INTO skin_type_answer (skin_type_answer_id, description, skin_type_question_id,skin_type_id)
 VALUES

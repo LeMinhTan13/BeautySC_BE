@@ -17,6 +17,7 @@ namespace BeautySCProject.Data.ViewModels
     public class SkinTypeQuestionViewModel
     {
         public int SkinTypeQuestionId { get; set; }
+        public bool Type { get; set; }
         public string? Description { get; set; }
         public List<SkinTypeAnswerViewModel> SkinTypeAnswers { get; set; } = new List<SkinTypeAnswerViewModel>();
     }
