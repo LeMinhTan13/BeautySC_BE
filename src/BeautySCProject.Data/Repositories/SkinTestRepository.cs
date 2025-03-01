@@ -116,7 +116,8 @@ namespace BeautySCProject.Data.Repositories
                 .Select(st => new SkinTestGetAllViewModel
                 {
                     SkinTestId = st.SkinTestId,
-                    SkinTestName = st.SkinTestName
+                    SkinTestName = st.SkinTestName,
+                    Status = st.Status
                 })
                 .ToListAsync();
         }
