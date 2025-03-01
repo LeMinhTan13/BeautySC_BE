@@ -81,7 +81,6 @@ public partial class BeautyscDbContext : DbContext
         return strConn;
     }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -625,6 +624,7 @@ public partial class BeautyscDbContext : DbContext
                 .HasColumnType("text")
                 .HasColumnName("description");
             entity.Property(e => e.SkinTestId).HasColumnName("skin_test_id");
+            entity.Property(e => e.Type).HasColumnName("type");
 
             entity.HasOne(d => d.SkinTest).WithMany(p => p.SkinTypeQuestions)
                 .HasForeignKey(d => d.SkinTestId)

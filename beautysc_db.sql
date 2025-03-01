@@ -18,6 +18,7 @@ CREATE TABLE skin_test (
 CREATE TABLE skin_type_question (
     skin_type_question_id INT AUTO_INCREMENT PRIMARY KEY,
     `description` TEXT NOT NULL,
+    `type` BOOLEAN NOT NULL,
     skin_test_id INT,
     FOREIGN KEY (skin_test_id) REFERENCES skin_test(skin_test_id)
 );
@@ -648,3 +649,4 @@ VALUES
 (1, 3, 'Zinc oxide and iron oxide are the active sunscreen ingredients in physical SPFs. These products also contain moisturizing ingredients, making them ideal for dry or flaky skin. They do not contain parabens, phthalates, or chemical ingredients.', 3),
 (2, 1, 'These face washes are ideal for sensitive skin, as they use anti-inflammatory ingredients to soothe and calm red, irritated skin. Smoothing cleansers contain only gentle ingredients that are safe to use with rosacea, eczema, hypersensitive, sensitive and post-procedure skin. These cleansers are the best choice for those struggling with red, flushed skin or when other cleansers cause burning or stinging.', 1),
 (2, 2, 'Soothing barrier repair moisturizers contain ceramides, fatty acids, and cholesterol to repair and strengthen your skin barrier, as well as anti-inflammatory ingredients to soothe and calm redness, stinging, and other signs of skin irritation. Soothing barrier repair moisturizers are best for dry and sensitive skin types and are safe for rosacea and eczema.', 2);
+
