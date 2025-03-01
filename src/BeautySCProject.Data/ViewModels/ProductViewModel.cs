@@ -23,5 +23,7 @@ namespace BeautySCProject.Data.ViewModels
         public float Rating { get; set; }
 
         public string ProductImage { get; set; }
+
+        public BrandViewModel Brand { get; set; }
     }
 }
