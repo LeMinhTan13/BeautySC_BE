@@ -10,6 +10,7 @@ namespace BeautySCProject.Data.Models.RoutineModel
 {
     public class RoutineViewModelAdmin
     {
+        public int RoutineId { get; set; }
         public string RoutineName { get; set; }
         public bool Status { get; set; }
         public SkinTypeViewModel SkinType { get; set; }
@@ -18,12 +19,14 @@ namespace BeautySCProject.Data.Models.RoutineModel
 
     public class RoutineDetailViewModelAdmin
     {
+        public int RoutineDetailId { get; set; }
         public string RoutineDetailName { get; set; }
         public List<RoutineStepViewModelAdmin> RoutineSteps { get; set; }
     }
 
     public class RoutineStepViewModelAdmin
     {
+        public int RoutineStepId { get; set; }
         public int Step { get; set; }
         public string Instruction { get; set; }
         public CategoryRoutineViewModelAdmin Category { get; set; }
