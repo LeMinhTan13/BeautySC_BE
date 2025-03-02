@@ -62,8 +62,7 @@ namespace BeautySCProject.Data.Repositories
             return await Entities
                                 .Include(x => x.OrderDetails)
                                     .ThenInclude(od => od.Product)
-                                .Where(x => x.CustomerId == customerId && 
-                                            x.Status != Constants.ORDER_STATUS_CANCEL &&
+                                .Where(x => x.CustomerId == customerId &&                                             
                                             (string.IsNullOrEmpty(status) || x.Status.ToLower() == status.ToLower()))
                                 .Select(x => new OrderViewModel
                                 {
