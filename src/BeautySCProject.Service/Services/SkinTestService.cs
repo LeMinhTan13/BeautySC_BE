@@ -105,6 +105,7 @@ namespace BeautySCProject.Service.Services
                             if (existingAnswer != null)
                             {
                                 existingAnswer.Description = skinTypeAnswer.Description;
+                                existingAnswer.SkinTypeId = skinTypeAnswer.SkinTypeId;
                             }
                             else
                             {
