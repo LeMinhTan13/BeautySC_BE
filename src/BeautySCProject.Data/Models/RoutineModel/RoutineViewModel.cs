@@ -59,7 +59,9 @@ namespace BeautySCProject.Domain.ViewModels
     public class RoutineGetAllViewModel
     {
         public int RoutineId { get; set; }
+        public bool Status { get; set; }
         public string RoutineName { get; set; } = null!;
+        public int SkinTypeId { get; set; }
         public string SkinTypeName { get; set; } = null!;
     }
 }

@@ -81,7 +81,9 @@ namespace BeautySCProject.Data.Repositories
                 {
                     RoutineId = r.RoutineId,
                     RoutineName = r.RoutineName,
-                    SkinTypeName = r.SkinType.SkinTypeName 
+                    SkinTypeName = r.SkinType.SkinTypeName,
+                    SkinTypeId = r.SkinType.SkinTypeId,
+                    Status = r.Status
                 })
                 .ToListAsync();
         }
@@ -102,6 +104,16 @@ namespace BeautySCProject.Data.Repositories
                             .ThenInclude(c => c.Products)
                                 .ThenInclude(p => p.ProductIngredients)
                                     .ThenInclude(pi => pi.Ingredient)
+            .FirstOrDefaultAsync();
+        }
+        public async Task<Routine> GetRoutinesByRoutineIdForAminAsync(int routineId)
+        {
+            return await Entities
+            .Where(r => r.RoutineId == routineId)
+            .Include(r => r.SkinType)
+            .Include(r => r.RoutineDetails)
+                .ThenInclude(rd => rd.RoutineSteps)
+                    .ThenInclude(rs => rs.Category)
             .FirstOrDefaultAsync();
         }
     }

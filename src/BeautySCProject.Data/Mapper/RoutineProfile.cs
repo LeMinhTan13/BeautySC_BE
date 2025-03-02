@@ -17,12 +17,17 @@ namespace BeautySCProject.Data.Mapper
         {
             CreateMap<Routine, RoutineViewModel>()
                 .ForMember(dest => dest.RoutineDetails, opt => opt.MapFrom(src => src.RoutineDetails));
+            CreateMap<Routine, RoutineViewModelAdmin>()
+                .ForMember(dest => dest.RoutineDetails, opt => opt.MapFrom(src => src.RoutineDetails));
 
             CreateMap<RoutineDetail, RoutineDetailViewModel>()
                 .ForMember(dest => dest.RoutineSteps, opt => opt.MapFrom(src => src.RoutineSteps));
-
+            CreateMap<RoutineDetail, RoutineDetailViewModelAdmin>()
+                .ForMember(dest => dest.RoutineSteps, opt => opt.MapFrom(src => src.RoutineSteps));
             CreateMap<RoutineStep, RoutineStepViewModel>();
+            CreateMap<RoutineStep, RoutineStepViewModelAdmin>();
             CreateMap<Category, CategoryRoutineViewModel>();
+            CreateMap<Category, CategoryRoutineViewModelAdmin>();
             CreateMap<RoutineCreateRequest, Routine>()
                 .ForMember(dest => dest.RoutineDetails, opt => opt.MapFrom(src => src.RoutineDetails));
 

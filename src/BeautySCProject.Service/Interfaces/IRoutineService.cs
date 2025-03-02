@@ -16,6 +16,7 @@ namespace BeautySCProject.Service.Interfaces
     {
         Task<MethodResult<RoutineViewModel>> GetRoutineAsync(int skinTypeId);
         Task<MethodResult<RoutineViewModel>> GetRoutineByRoutineIdAsync(int routineId);
+        Task<MethodResult<RoutineViewModelAdmin>> GetRoutineByRoutineIdForAdminAsync(int routineId);
         Task<MethodResult<string>> CreateRoutineAsync(RoutineCreateRequest request);
         Task<MethodResult<string>> UpdateRoutineAsync(RoutineUpdateRequest request);
         Task<MethodResult<IEnumerable<RoutineGetAllViewModel>>> GetAllRoutineAsync();

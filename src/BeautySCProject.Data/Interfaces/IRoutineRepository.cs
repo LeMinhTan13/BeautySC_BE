@@ -12,6 +12,7 @@ namespace BeautySCProject.Data.Interfaces
     {
         Task<Routine?> GetRoutinesBySkinTypeAsync(int skinTypeId);
         Task<Routine?> GetRoutinesByRoutineIdAsync(int routineId);
+        Task<Routine?> GetRoutinesByRoutineIdForAminAsync(int routineId);
         Task<bool> CreateRoutineAsync(Routine routine);
         /*Task<bool> DeleteRoutineAsync(int routineId);*/
         Task<bool> UpdateRoutineAsync(Routine routine);

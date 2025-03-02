@@ -119,5 +119,16 @@ namespace BeautySCProject.Service.Services
             }
             return new MethodResult<RoutineViewModel>.Success(mappedRoutine);
         }
+        public async Task<MethodResult<RoutineViewModelAdmin>> GetRoutineByRoutineIdForAdminAsync(int routineId)
+        {
+            var routine = await _routineRepository.GetRoutinesByRoutineIdForAminAsync(routineId);
+            var mappedRoutine = _mapper.Map<RoutineViewModelAdmin>(routine);
+            
+            if (mappedRoutine == null)
+            {
+                return new MethodResult<RoutineViewModelAdmin>.Failure("Can't found routine!", StatusCodes.Status404NotFound);
+            }
+            return new MethodResult<RoutineViewModelAdmin>.Success(mappedRoutine);
+        }
     }
 }
