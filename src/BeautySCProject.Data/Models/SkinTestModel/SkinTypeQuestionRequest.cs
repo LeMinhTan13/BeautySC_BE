@@ -12,7 +12,7 @@ namespace BeautySCProject.Data.Models.SkinTestModel
         [Required]
         public string Description {  get; set; }
         public bool Type { get; set; }
-        public List<SkinTypeAnswerRequest> skinTypeAnswers { get; set; } = new List<SkinTypeAnswerRequest>();
+        public List<SkinTypeAnswerRequest> SkinTypeAnswers { get; set; } = new List<SkinTypeAnswerRequest>();
     }
     public class SkinTypeQuestionUpdateRequest
     {
@@ -20,6 +20,6 @@ namespace BeautySCProject.Data.Models.SkinTestModel
         public int SkinTypeQuestionId { get; set; }
         public string Description { get; set; }
         public bool Type { get; set; }
-        public List<SkinTypeAnswerUpdateRequest> skinTypeAnswers { get; set; } = new List<SkinTypeAnswerUpdateRequest>();
+        public List<SkinTypeAnswerUpdateRequest> SkinTypeAnswers { get; set; } = new List<SkinTypeAnswerUpdateRequest>();
     }
 }

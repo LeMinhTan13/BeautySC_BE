@@ -14,23 +14,31 @@ namespace BeautySCProject.Data.Mapper
     {
         public SkinTestProfile()
         {
-            CreateMap<SkinTestCreateRequest, SkinTest>();
-            /*.ForMember(dest => dest.SkinTestName, opt => opt.MapFrom(src => src.SkinTestName))
+            CreateMap<SkinTestCreateRequest, SkinTest>()
+            .ForMember(dest => dest.SkinTestName, opt => opt.MapFrom(src => src.SkinTestName))
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
-            .ForMember(dest => dest.SkinTypeQuestions, opt => opt.MapFrom(src => src.SkinTypeQuestions));*/
-            // Ánh xạ SkinTestUpdateRequest -> SkinTest
+            .ForMember(dest => dest.SkinTypeQuestions, opt => opt.MapFrom(src => src.SkinTypeQuestions));
+
+            CreateMap<SkinTypeQuestionRequest, SkinTypeQuestion>()
+               .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+               .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type))
+               .ForMember(dest => dest.SkinTypeAnswers, opt => opt.MapFrom(src => src.SkinTypeAnswers));
+
+            
+            CreateMap<SkinTypeAnswerRequest, SkinTypeAnswer>()
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.SkinTypeId, opt => opt.MapFrom(src => src.SkinTypeId));
             CreateMap<SkinTestUpdateRequest, SkinTest>()
                 .ForMember(dest => dest.SkinTestId, opt => opt.MapFrom(src => src.SkinTestId))
                 .ForMember(dest => dest.SkinTestName, opt => opt.MapFrom(src => src.SkinTestName))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.SkinTypeQuestions, opt => opt.MapFrom(src => src.SkinTypeQuestions));
 
-            // Ánh xạ SkinTypeQuestionUpdateRequest -> SkinTypeQuestion
             CreateMap<SkinTypeQuestionUpdateRequest, SkinTypeQuestion>()
                 .ForMember(dest => dest.SkinTypeQuestionId, opt => opt.MapFrom(src => src.SkinTypeQuestionId))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type))
-                .ForMember(dest => dest.SkinTypeAnswers, opt => opt.MapFrom(src => src.skinTypeAnswers)); // Cẩn thận vì tên thuộc tính
+                .ForMember(dest => dest.SkinTypeAnswers, opt => opt.MapFrom(src => src.SkinTypeAnswers)); 
 
             // Ánh xạ SkinTypeAnswerUpdateRequest -> SkinTypeAnswer
             CreateMap<SkinTypeAnswerUpdateRequest, SkinTypeAnswer>()

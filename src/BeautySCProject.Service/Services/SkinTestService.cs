@@ -97,7 +97,7 @@ namespace BeautySCProject.Service.Services
                         existingQuestion.Description = skinTypeQuestion.Description;
                         existingQuestion.Type = skinTypeQuestion.Type;
 
-                        foreach (var skinTypeAnswer in skinTypeQuestion.skinTypeAnswers)
+                        foreach (var skinTypeAnswer in skinTypeQuestion.SkinTypeAnswers)
                         {
                             var existingAnswer = existingQuestion.SkinTypeAnswers
                                 .FirstOrDefault(a => a.SkinTypeAnswerId == skinTypeAnswer.SkinTypeAnswerId);
@@ -122,7 +122,7 @@ namespace BeautySCProject.Service.Services
                         {
                             Description = skinTypeQuestion.Description,
                             Type = skinTypeQuestion.Type,
-                            SkinTypeAnswers = skinTypeQuestion.skinTypeAnswers.Select(a => new SkinTypeAnswer
+                            SkinTypeAnswers = skinTypeQuestion.SkinTypeAnswers.Select(a => new SkinTypeAnswer
                             {
                                 SkinTypeId = a.SkinTypeId,
                                 Description = a.Description
