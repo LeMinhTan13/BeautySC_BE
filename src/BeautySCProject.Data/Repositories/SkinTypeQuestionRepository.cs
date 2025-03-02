@@ -20,11 +20,11 @@ namespace BeautySCProject.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<bool> CreateSkinTypeQuestionAsync(SkinTypeQuestion skinTypeQuestion)
+        public async Task<bool> CreateSkinTypeQuestionAsync(List<SkinTypeQuestion> skinTypeQuestions)
         {
             try
             {
-                await Entities.AddAsync(skinTypeQuestion);
+                await Entities.AddRangeAsync(skinTypeQuestions);
                 await _unitOfWork.SaveChangesAsync();
                 return true;
             }

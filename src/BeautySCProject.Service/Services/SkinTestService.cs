@@ -114,8 +114,54 @@ namespace BeautySCProject.Service.Services
             {
                 var skintestRe = request;
                 var skinTest = _mapper.Map<SkinTest>(request);
+                var existingSkinTest = await _skinTestRepository.GetSkinTestByIdAsync(skinTest.SkinTestId);
+                if (existingSkinTest == null)
+                {
+                    return new MethodResult<string>.Failure("Skin test not found", StatusCodes.Status404NotFound);
+                }
 
-                var checkUpSkinTest = await _skinTestRepository.UpdateSkinTestAsync(skinTest);
+                existingSkinTest.SkinTestName = skinTest.SkinTestName;
+                existingSkinTest.Status = skinTest.Status;
+
+                
+                foreach (var skinTypeQuestion in skinTest.SkinTypeQuestions)
+                {
+                    var existingQuestion = existingSkinTest.SkinTypeQuestions
+                        .FirstOrDefault(q => q.Description == skinTypeQuestion.Description);
+
+                    if (existingQuestion != null)
+                    {
+                        existingQuestion.Type = skinTypeQuestion.Type;
+                        foreach (var skinTypeAnswer in skinTypeQuestion.SkinTypeAnswers)
+                        {
+                            var existingAnswer = existingQuestion.SkinTypeAnswers
+                                .FirstOrDefault(a => a.SkinTypeId == skinTypeAnswer.SkinTypeId);
+
+                            if (existingAnswer != null)
+                            {
+                                // Cập nhật câu trả lời nếu đã tồn tại
+                                existingAnswer.Description = skinTypeAnswer.Description;
+                            }
+                            else
+                            {
+                                // Thêm câu trả lời mới nếu không tồn tại
+                                existingQuestion.SkinTypeAnswers.Add(new SkinTypeAnswer
+                                {
+                                    SkinTypeId = skinTypeAnswer.SkinTypeId,
+                                    Description = skinTypeAnswer.Description
+                                });
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        var newQuestion = _mapper.Map<SkinTypeQuestion>(skinTypeQuestion);
+                        existingSkinTest.SkinTypeQuestions.Add(newQuestion);
+
+                    }
+                }
+                var checkUpSkinTest = await _skinTestRepository.UpdateSkinTestAsync(existingSkinTest);
                 if (!checkUpSkinTest)
                 {
                     return new MethodResult<string>.Failure("Fail while update skin test!", StatusCodes.Status500InternalServerError);

@@ -12,5 +12,6 @@ namespace BeautySCProject.Service.Interfaces
     public interface ICategoryService
     {
         Task<MethodResult<IEnumerable<CategoryViewModel>>> GetCategoriesAsync();
+        Task<MethodResult<CategoryViewModel>> GetCategoryAsync(int categoryId);
     }
 }

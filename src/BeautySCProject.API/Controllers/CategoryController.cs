@@ -24,5 +24,14 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
+        [HttpGet("get-category-by-id")]
+        public async Task<IActionResult> GetCategory(int categoryId)
+        {
+            var result = await _categoryService.GetCategoryAsync(categoryId);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
     }
 }

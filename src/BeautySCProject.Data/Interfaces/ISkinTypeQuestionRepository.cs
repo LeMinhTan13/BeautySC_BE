@@ -9,7 +9,7 @@ namespace BeautySCProject.Data.Interfaces
 {
     public interface ISkinTypeQuestionRepository
     {
-        Task<bool> CreateSkinTypeQuestionAsync(SkinTypeQuestion skinTypeQuestion);
+        Task<bool> CreateSkinTypeQuestionAsync(List<SkinTypeQuestion> skinTypeQuestions);
         Task<IEnumerable<SkinTypeQuestion>> GetSkinTypeQuestionsBySkinTestIdAsync(int skinTestId);
         Task<bool> DeleteSkinTypeQuestionBySkinTestIdAsync(int skinTestId);
     }

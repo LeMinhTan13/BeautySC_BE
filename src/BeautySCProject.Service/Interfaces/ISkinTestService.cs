@@ -19,5 +19,6 @@ namespace BeautySCProject.Service.Interfaces
         Task<SkinTest> GetSkinTestByIdAsync (int skinTestId);
         Task<MethodResult<object>> DetermineSkinTypeAsync(int customerId, ListUserAnswerModel model);
         Task<MethodResult<IEnumerable<SkinTestGetAllViewModel>>> GetAllSkinTestAsync();
+
     }
 }

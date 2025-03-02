@@ -29,5 +29,11 @@ namespace BeautySCProject.Data.Repositories
         {
             return await Entities.ProjectTo<CategoryViewModel>(_mapper.ConfigurationProvider).ToListAsync();
         }
+        public async Task<Category> GetCategoryAsync(int categoryId)
+        {
+            var category = await Entities.FindAsync(categoryId);
+            await _unitOfWork.SaveChangesAsync();
+            return category;
+        }
     }
 }

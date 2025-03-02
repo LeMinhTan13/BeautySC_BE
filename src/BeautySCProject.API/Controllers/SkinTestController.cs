@@ -27,7 +27,6 @@ namespace BeautySCProject.API.Controllers
             );
         }
         [HttpPost("create-skin-test")]
-        [Authorize]
         public async Task<IActionResult> CreateSkinTest(SkinTestCreateRequest request)
         {
             var result = await _skinTestService.CreateSkinTestAsync(request);
@@ -48,7 +47,6 @@ namespace BeautySCProject.API.Controllers
         }
 
         [HttpPut("update-skin-test")]
-        [Authorize]
         public async Task<IActionResult> UpdateSkinTest(SkinTestUpdateRequest request)
         {
             var result = await _skinTestService.UpdateSkinTestAsync(request);

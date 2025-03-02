@@ -1,4 +1,5 @@
-﻿using BeautySCProject.Data.ViewModels;
+﻿using BeautySCProject.Data.Entities;
+using BeautySCProject.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace BeautySCProject.Data.Interfaces
     public interface ICategoryRepository
     {
         Task<IEnumerable<CategoryViewModel>> GetCategoriesAsync();
+        Task<Category> GetCategoryAsync(int categoryId);
     }
 }
