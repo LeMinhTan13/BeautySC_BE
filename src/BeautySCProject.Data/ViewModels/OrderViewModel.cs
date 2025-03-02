@@ -32,6 +32,8 @@ namespace BeautySCProject.Data.ViewModels
 
         public string ProductName { get; set; } = null!;
 
+        public string ProductImage { get; set; } = null!;
+
         public string Size { get; set; } = null!;
 
         public int Quantity { get; set; }
