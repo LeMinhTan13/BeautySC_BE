@@ -112,6 +112,7 @@ namespace BeautySCProject.Data.Repositories
                                             OrderDetailId = od.OrderDetailId,
                                             ProductId = od.ProductId,
                                             ProductName = od.Product.ProductName,
+                                            ProductImage = od.Product.ProductImages.Any() ? od.Product.ProductImages.FirstOrDefault().Url : "",
                                             Size = od.Product.Size,
                                             Quantity = od.Quantity,
                                             Price = od.Product.Price,
