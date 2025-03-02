@@ -43,41 +43,7 @@ namespace BeautySCProject.Service.Services
                 {
                     return new MethodResult<string>.Failure("Fail while create skin-test", StatusCodes.Status500InternalServerError);
                 }
-                /*if (request.SkinTypeQuestions.Any())
-                {
-                    foreach (var skinTypeQuestion in request.SkinTypeQuestions)
-                    {
-                        var skinTypeQuestionEntity = new SkinTypeQuestion
-                        {
-                            Description = skinTypeQuestion.Description,
-                            SkinTestId = skinTest.SkinTestId
-                        };
-
-                        var checkSkinTypeQuestion = await _skinTypeQuestionRepository.CreateSkinTypeQuestionAsync(skinTypeQuestionEntity);
-
-                        if (!checkSkinTypeQuestion)
-                        {
-                            return new MethodResult<string>.Failure("Fail while creating skin-type question",
-                                StatusCodes.Status500InternalServerError);
-                        }
-
-                        foreach (var answer in skinTypeQuestion.skinTypeAnswers)
-                        {
-                            var skinTypeAnswerEntity = new SkinTypeAnswer
-                            {
-                                Description = answer.Description,
-                                SkinTypeId = answer.SkinTypeId,
-                                SkinTypeQuestionId = skinTypeQuestionEntity.SkinTypeQuestionId
-                            };
-
-                            var checkSkinTypeAnswer = await _skinTypeAnswerRepository.CreateSkinTypeAnswerAsync(skinTypeAnswerEntity);
-                            if (!checkSkinTypeAnswer)
-                            {
-                                return new MethodResult<string>.Failure("Fail while creating skin-type answer", StatusCodes.Status500InternalServerError);
-                            }
-                        }
-                    }
-                }*/
+                
                 return new MethodResult<string>.Success("Create Skin Test succesfully");
             }
 
@@ -112,39 +78,36 @@ namespace BeautySCProject.Service.Services
         {
             try
             {
-                var skintestRe = request;
-                var skinTest = _mapper.Map<SkinTest>(request);
-                var existingSkinTest = await _skinTestRepository.GetSkinTestByIdAsync(skinTest.SkinTestId);
+                var existingSkinTest = await _skinTestRepository.GetSkinTestByIdAsync(request.SkinTestId);
                 if (existingSkinTest == null)
                 {
                     return new MethodResult<string>.Failure("Skin test not found", StatusCodes.Status404NotFound);
                 }
 
-                existingSkinTest.SkinTestName = skinTest.SkinTestName;
-                existingSkinTest.Status = skinTest.Status;
+                existingSkinTest.SkinTestName = request.SkinTestName;
+                existingSkinTest.Status = request.Status;
 
-                
-                foreach (var skinTypeQuestion in skinTest.SkinTypeQuestions)
+                foreach (var skinTypeQuestion in request.SkinTypeQuestions)
                 {
                     var existingQuestion = existingSkinTest.SkinTypeQuestions
-                        .FirstOrDefault(q => q.Description == skinTypeQuestion.Description);
+                        .FirstOrDefault(q => q.SkinTypeQuestionId == skinTypeQuestion.SkinTypeQuestionId);
 
                     if (existingQuestion != null)
                     {
+                        existingQuestion.Description = skinTypeQuestion.Description;
                         existingQuestion.Type = skinTypeQuestion.Type;
-                        foreach (var skinTypeAnswer in skinTypeQuestion.SkinTypeAnswers)
+
+                        foreach (var skinTypeAnswer in skinTypeQuestion.skinTypeAnswers)
                         {
                             var existingAnswer = existingQuestion.SkinTypeAnswers
-                                .FirstOrDefault(a => a.SkinTypeId == skinTypeAnswer.SkinTypeId);
+                                .FirstOrDefault(a => a.SkinTypeAnswerId == skinTypeAnswer.SkinTypeAnswerId);
 
                             if (existingAnswer != null)
                             {
-                                // Cập nhật câu trả lời nếu đã tồn tại
                                 existingAnswer.Description = skinTypeAnswer.Description;
                             }
                             else
                             {
-                                // Thêm câu trả lời mới nếu không tồn tại
                                 existingQuestion.SkinTypeAnswers.Add(new SkinTypeAnswer
                                 {
                                     SkinTypeId = skinTypeAnswer.SkinTypeId,
@@ -152,27 +115,37 @@ namespace BeautySCProject.Service.Services
                                 });
                             }
                         }
-
                     }
                     else
                     {
-                        var newQuestion = _mapper.Map<SkinTypeQuestion>(skinTypeQuestion);
+                        var newQuestion = new SkinTypeQuestion
+                        {
+                            Description = skinTypeQuestion.Description,
+                            Type = skinTypeQuestion.Type,
+                            SkinTypeAnswers = skinTypeQuestion.skinTypeAnswers.Select(a => new SkinTypeAnswer
+                            {
+                                SkinTypeId = a.SkinTypeId,
+                                Description = a.Description
+                            }).ToList()
+                        };
                         existingSkinTest.SkinTypeQuestions.Add(newQuestion);
-
                     }
                 }
-                var checkUpSkinTest = await _skinTestRepository.UpdateSkinTestAsync(existingSkinTest);
-                if (!checkUpSkinTest)
+
+                var updateResult = await _skinTestRepository.UpdateSkinTestAsync(existingSkinTest);
+                if (!updateResult)
                 {
                     return new MethodResult<string>.Failure("Fail while update skin test!", StatusCodes.Status500InternalServerError);
                 }
+
                 return new MethodResult<string>.Success("Skin test updated successfully");
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return new MethodResult<string>.Failure($"Error: {ex.Message}", StatusCodes.Status500InternalServerError);
             }
         }
+
 
         //xác định loại da 
         public async Task<MethodResult<object>> DetermineSkinTypeAsync(int customerId,ListUserAnswerModel model)

@@ -16,6 +16,6 @@ namespace BeautySCProject.Data.Models.SkinTestModel
 
         public bool Status { get; set; }
 
-        public List<SkinTypeQuestionRequest> SkinTypeQuestions { get; set; } = new List<SkinTypeQuestionRequest>();
+        public List<SkinTypeQuestionUpdateRequest> SkinTypeQuestions { get; set; } = new List<SkinTypeQuestionUpdateRequest>();
     }
 }

@@ -12,4 +12,10 @@ namespace BeautySCProject.Data.Models.SkinTestModel
         public string Description {  get; set; }
         public int SkinTypeId { get; set; }
     }
+    public class SkinTypeAnswerUpdateRequest
+    {
+        public int SkinTypeAnswerId { get; set; }
+        public string Description { get; set; }
+        public int SkinTypeId { get; set; }
+    }
 }

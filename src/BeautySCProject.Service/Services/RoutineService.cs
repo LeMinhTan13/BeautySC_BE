@@ -76,21 +76,79 @@ namespace BeautySCProject.Service.Services
         {
             try
             {
-                var routineRe = request;
-                var routine = _mapper.Map<Routine>(request);
+                var existingRoutine = await _routineRepository.GetRoutinesByRoutineIdAsync(request.RoutineId);
+                if (existingRoutine == null)
+                {
+                    return new MethodResult<string>.Failure("Routine not found", StatusCodes.Status404NotFound);
+                }
 
-                var checkUpRoutine = await _routineRepository.UpdateRoutineAsync(routine);
+                existingRoutine.RoutineName = request.RoutineName;
+                existingRoutine.Status = request.Status;
+                existingRoutine.SkinTypeId = request.SkinTypeId;
+
+                //routineDetails
+                foreach (var routineDetail in request.RoutineDetails)
+                {
+                    var existingDetail = existingRoutine.RoutineDetails
+                        .FirstOrDefault(d => d.RoutineDetailId == routineDetail.RoutineDetailId);
+
+                    if (existingDetail != null)
+                    {
+                        existingDetail.RoutineDetailName = routineDetail.RoutineDetailName;
+
+                        // routineSteps
+                        foreach (var routineStep in routineDetail.RoutineSteps)
+                        {
+                            var existingStep = existingDetail.RoutineSteps
+                                .FirstOrDefault(s => s.RoutineStepId == routineStep.RoutineStepId);
+
+                            if (existingStep != null)
+                            {
+                                existingStep.Step = routineStep.Step;
+                                existingStep.Instruction = routineStep.Instruction;
+                                existingStep.CategoryId = routineStep.CategoryId;
+                            }
+                            else
+                            {
+                                existingDetail.RoutineSteps.Add(new RoutineStep
+                                {
+                                    Step = routineStep.Step,
+                                    Instruction = routineStep.Instruction,
+                                    CategoryId = routineStep.CategoryId
+                                });
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var newDetail = new RoutineDetail
+                        {
+                            RoutineDetailName = routineDetail.RoutineDetailName,
+                            RoutineSteps = routineDetail.RoutineSteps.Select(s => new RoutineStep
+                            {
+                                Step = s.Step,
+                                Instruction = s.Instruction,
+                                CategoryId = s.CategoryId
+                            }).ToList()
+                        };
+                        existingRoutine.RoutineDetails.Add(newDetail);
+                    }
+                }
+
+                var checkUpRoutine = await _routineRepository.UpdateRoutineAsync(existingRoutine);
                 if (!checkUpRoutine)
                 {
-                    return new MethodResult<string>.Failure("Fail while update routine!", StatusCodes.Status500InternalServerError);
+                    return new MethodResult<string>.Failure("Fail while updating routine!", StatusCodes.Status500InternalServerError);
                 }
-                return new MethodResult<string>.Success("routine updated successfully");
+
+                return new MethodResult<string>.Success("Routine updated successfully");
             }
             catch (Exception ex)
             {
                 return new MethodResult<string>.Failure($"Error: {ex.Message}", StatusCodes.Status500InternalServerError);
             }
         }
+
         public async Task<MethodResult<IEnumerable<RoutineGetAllViewModel>>> GetAllRoutineAsync()
         {
             var result = await _routineRepository.GetAllRoutineAsync();

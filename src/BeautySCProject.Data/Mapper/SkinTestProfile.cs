@@ -18,19 +18,23 @@ namespace BeautySCProject.Data.Mapper
             /*.ForMember(dest => dest.SkinTestName, opt => opt.MapFrom(src => src.SkinTestName))
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
             .ForMember(dest => dest.SkinTypeQuestions, opt => opt.MapFrom(src => src.SkinTypeQuestions));*/
+            // Ánh xạ SkinTestUpdateRequest -> SkinTest
             CreateMap<SkinTestUpdateRequest, SkinTest>()
                 .ForMember(dest => dest.SkinTestId, opt => opt.MapFrom(src => src.SkinTestId))
                 .ForMember(dest => dest.SkinTestName, opt => opt.MapFrom(src => src.SkinTestName))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.SkinTypeQuestions, opt => opt.MapFrom(src => src.SkinTypeQuestions));
 
-
-            CreateMap<SkinTypeQuestionRequest, SkinTypeQuestion>()
+            // Ánh xạ SkinTypeQuestionUpdateRequest -> SkinTypeQuestion
+            CreateMap<SkinTypeQuestionUpdateRequest, SkinTypeQuestion>()
+                .ForMember(dest => dest.SkinTypeQuestionId, opt => opt.MapFrom(src => src.SkinTypeQuestionId))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.SkinTypeAnswers, opt => opt.MapFrom(src => src.skinTypeAnswers));
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type))
+                .ForMember(dest => dest.SkinTypeAnswers, opt => opt.MapFrom(src => src.skinTypeAnswers)); // Cẩn thận vì tên thuộc tính
 
-
-            CreateMap<SkinTypeAnswerRequest, SkinTypeAnswer>()
+            // Ánh xạ SkinTypeAnswerUpdateRequest -> SkinTypeAnswer
+            CreateMap<SkinTypeAnswerUpdateRequest, SkinTypeAnswer>()
+                .ForMember(dest => dest.SkinTypeAnswerId, opt => opt.MapFrom(src => src.SkinTypeAnswerId))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.SkinTypeId, opt => opt.MapFrom(src => src.SkinTypeId));
 

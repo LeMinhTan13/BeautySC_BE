@@ -16,7 +16,15 @@ namespace BeautySCProject.Data.Models.RoutineModel
     }
     public class RoutineDetailUpdateRequest
     {
+        public int RoutineDetailId { get; set; }
         public string RoutineDetailName { get; set; }
-        public List<RoutineStepRequest> RoutineSteps { get; set; } = new List<RoutineStepRequest>();
+        public List<RoutineStepUpdateRequest> RoutineSteps { get; set; } = new List<RoutineStepUpdateRequest>();
+    }
+    public class RoutineStepUpdateRequest
+    {
+        public int RoutineStepId { get; set; }
+        public int Step { get; set; }
+        public string Instruction { get; set; }
+        public int CategoryId { get; set; }
     }
 }

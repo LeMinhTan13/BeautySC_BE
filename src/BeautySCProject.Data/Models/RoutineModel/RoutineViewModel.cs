@@ -7,6 +7,7 @@ namespace BeautySCProject.Domain.ViewModels
 {
     public class RoutineViewModel
     {
+        public int RoutineId { get; set; }
         public string RoutineName { get; set; }
         public bool Status { get; set; }
         public SkinTypeViewModel SkinType { get; set; }
@@ -16,12 +17,14 @@ namespace BeautySCProject.Domain.ViewModels
 
     public class RoutineDetailViewModel
     {
+        public int RoutineDetailId { get; set; }
         public string RoutineDetailName { get; set; }
         public List<RoutineStepViewModel> RoutineSteps { get; set; }
     }
 
     public class RoutineStepViewModel
     {
+        public int RoutineStepId { get; set; }
         public int Step { get; set; }
         public string Instruction { get; set; }
         public CategoryRoutineViewModel Category { get; set; }

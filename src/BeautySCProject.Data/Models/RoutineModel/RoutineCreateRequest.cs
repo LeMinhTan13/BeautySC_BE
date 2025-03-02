@@ -18,9 +18,9 @@ namespace BeautySCProject.Data.Models.RoutineModel
     public class RoutineDetailCreateRequest
     {
         public string RoutineDetailName { get; set; }
-        public List<RoutineStepRequest> RoutineSteps { get; set; } = new List<RoutineStepRequest>();
+        public List<RoutineStepCreateRequest> RoutineSteps { get; set; } = new List<RoutineStepCreateRequest>();
     }
-    public class RoutineStepRequest
+    public class RoutineStepCreateRequest
     {
         public int Step { get; set; }
         public string Instruction { get; set; }
