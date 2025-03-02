@@ -633,20 +633,57 @@ VALUES
 (50, 'None of the above', 6, 4);
 
 INSERT INTO `routine` (routine_id, routine_name, status, skin_type_id) VALUES
-(1, 'routine cho da Khô', 1, 5),
-(2, 'routine cho da hỗn hợp', 1, 2);
-INSERT INTO `routine_detail` (routine_id, routine_detail_name) VALUES
-(1,  'Morning'), -- Morning Routine for Dry Skin: Cleanser
-(1, 'Evening'), -- Morning Routine for Dry Skin: Moisturizer
-(2, 'Morning'), -- Morning Routine for Dry Skin: Sunscreen
-(2, 'Evening'); -- Morning Routine for Combination Skin: Cleanser
+(1, 'routine for dry skin', 1, 5),
+(2, 'routine for oily skin', 1, 1),
+(3, 'routine for combination skin', 1, 2),
+(4, 'routine for Sensitive skin', 1, 3),
+(5, 'routine for normal skin', 1, 4);
 
 
-INSERT INTO `routine_step` (routine_detail_id, category_id, instruction, step) 
-VALUES 
-(1, 1, 'These face washes are ideal for sensitive skin, as they use anti-inflammatory ingredients to soothe and calm red, irritated skin. Smoothing cleansers contain only gentle ingredients that are safe to use with rosacea, eczema, hypersensitive, sensitive and post-procedure skin. These cleansers are the best choice for those struggling with red, flushed skin or when other cleansers cause burning or stinging.', 1),
-(1, 2, 'Soothing barrier repair moisturizers contain ceramides, fatty acids, and cholesterol to repair and strengthen your skin barrier, as well as anti-inflammatory ingredients to soothe and calm redness, stinging, and other signs of skin irritation. Soothing barrier repair moisturizers are best for dry and sensitive skin types and are safe for rosacea and eczema.', 2),
-(1, 3, 'Zinc oxide and iron oxide are the active sunscreen ingredients in physical SPFs. These products also contain moisturizing ingredients, making them ideal for dry or flaky skin. They do not contain parabens, phthalates, or chemical ingredients.', 3),
-(2, 1, 'These face washes are ideal for sensitive skin, as they use anti-inflammatory ingredients to soothe and calm red, irritated skin. Smoothing cleansers contain only gentle ingredients that are safe to use with rosacea, eczema, hypersensitive, sensitive and post-procedure skin. These cleansers are the best choice for those struggling with red, flushed skin or when other cleansers cause burning or stinging.', 1),
-(2, 2, 'Soothing barrier repair moisturizers contain ceramides, fatty acids, and cholesterol to repair and strengthen your skin barrier, as well as anti-inflammatory ingredients to soothe and calm redness, stinging, and other signs of skin irritation. Soothing barrier repair moisturizers are best for dry and sensitive skin types and are safe for rosacea and eczema.', 2);
+INSERT INTO routine_detail (routine_detail_id, routine_detail_name, routine_id)
+VALUES
+(1, 'Morning', 1),
+(2, 'Evening', 1),
+(3, 'Morning', 2),
+(4, 'Evening', 2),
+(5, 'Morning', 3),
+(6, 'Evening', 3),
+(7, 'Morning', 4),
+(8, 'Evening', 4),
+(9, 'Morning', 5),
+(10, 'Evening', 5);
+
+
+
+INSERT INTO `routine_step` (routine_step_id, routine_detail_id, category_id, step, instruction)
+VALUES
+(1, 1, 1, 1, 'These face washes are ideal for sensitive skin, as they use anti-inflammatory ingredients to soothe and calm red, irritated skin. Smoothing cleansers contain only gentle ingredients that are safe to use with rosacea, eczema, hypersensitive, sensitive and post-procedure skin. These cleansers are the best choice for those struggling with red, flushed skin or when other cleansers cause burning or stinging.'),
+(2, 1, 2, 2, 'Soothing barrier repair moisturizers contain ceramides, fatty acids, and cholesterol to repair and strengthen your skin barrier, as well as anti-inflammatory ingredients to soothe and calm redness, stinging, and other signs of skin irritation. Soothing barrier repair moisturizers are best for dry and sensitive skin types and are safe for rosacea and eczema.'),
+(3, 1, 3, 3, 'Zinc oxide and iron oxide are the active sunscreen ingredients in physical SPFs. These products also contain moisturizing ingredients, making them ideal for dry or flaky skin. They do not contain parabens, phthalates, or chemical ingredients.'),
+(4, 2, 1, 1, 'These face washes are ideal for sensitive skin, as they use anti-inflammatory ingredients to soothe and calm red, irritated skin. Smoothing cleansers contain only gentle ingredients that are safe to use with rosacea, eczema, hypersensitive, sensitive and post-procedure skin. These cleansers are the best choice for those struggling with red, flushed skin or when other cleansers cause burning or stinging.'),
+(5, 2, 2, 2, 'Soothing barrier repair moisturizers contain ceramides, fatty acids, and cholesterol to repair and strengthen your skin barrier, as well as anti-inflammatory ingredients to soothe and calm redness, stinging, and other signs of skin irritation. Soothing barrier repair moisturizers are best for dry and sensitive skin types and are safe for rosacea and eczema.'),
+(6, 3, 1, 1, 'When choosing a cleanser for oily skin, prioritize gel or foaming cleansers with ingredients such as Salicylic Acid (BHA), Niacinamide, clay or green tea to deeply cleanse, control oil and prevent acne. Avoid products containing drying alcohol, strong fragrances or SLS because they can irritate and make the skin produce more oil. Wash your face twice a day, gently massage for 30-60 seconds and use cold water to tighten pores. After washing your face, continue with toner and moisturizer to maintain skin balance.'),
+(7, 3, 2, 2, 'These lightweight moisturizers are best suited for slightly oily or combination skin because they provide light moisture to the skin without clogging pores.'),
+(8, 4, 1, 1, 'When choosing a cleanser for oily skin, prioritize gel or foaming cleansers with ingredients such as Salicylic Acid (BHA), Niacinamide, clay or green tea to deeply cleanse, control oil and prevent acne. Avoid products containing drying alcohol, strong fragrances or SLS because they can irritate and make the skin produce more oil. Wash your face twice a day, gently massage for 30-60 seconds and use cold water to tighten pores. After washing your face, continue with toner and moisturizer to maintain skin balance.'),
+(9, 4, 2, 2, 'These lightweight moisturizers are best suited for slightly oily or combination skin because they provide light moisture to the skin without clogging pores.'),
+(10, 5, 1, 1, 'These face washes help balance oil production and deeply cleanse while avoiding over-drying. Ideal for combination skin, these cleansers cleanse without stripping moisture'),
+(11, 5, 2, 2, 'Lightweight moisturizers with ingredients like hyaluronic acid are perfect for combination skin. They provide hydration without excess oil or heaviness.'),
+(12, 5, 3, 3, 'Serums with antioxidants like Vitamin C or Niacinamide help brighten the skin and reduce the appearance of dark spots or uneven skin tone.'),
+(13, 6, 1, 1, 'These face washes help balance oil production and deeply cleanse while avoiding over-drying. Ideal for combination skin, these cleansers cleanse without stripping moisture'),
+(14, 6, 2, 2, 'Lightweight moisturizers with ingredients like hyaluronic acid are perfect for combination skin. They provide hydration without excess oil or heaviness.'),
+(15, 6, 3, 3, 'Serums with antioxidants like Vitamin C or Niacinamide help brighten the skin and reduce the appearance of dark spots or uneven skin tone.'),
+(16, 7, 1, 1, 'Gentle cleansers with calming ingredients like aloe or chamomile are ideal for sensitive skin. They help soothe irritation while keeping the skin hydrated.'),
+(17, 7, 2, 2, 'For sensitive skin, opt for moisturizers with calming agents like ceramides or calendula. These ingredients help restore the skin\'s barrier and prevent further irritation.'),
+(18, 7, 5, 3, 'Sunscreen with SPF 30+ provides protection against harmful UV rays, helping prevent sun damage and premature aging. Ideal for daily use on all skin types.'),
+(19, 8, 1, 1, 'Gel-based cleansers with anti-inflammatory properties are best for sensitive skin prone to redness. These products help calm irritation and cleanse without harsh chemicals.'),
+(20, 8, 2, 2, 'Moisturizers for sensitive skin should be rich in ingredients like glycerin or vitamin E to keep the skin soft and well-moisturized without causing breakouts.'),
+(21, 8, 3, 3, 'Serums with Vitamin C help brighten the skin and reduce the appearance of dark spots. They also boost collagen production to improve skin texture.'),
+(22, 9, 1, 1, 'A gentle face wash is suitable for normal skin, as it maintains the skin\'s natural balance without stripping it of necessary oils.'),
+(23, 9, 2, 2, 'Moisturizers for normal skin should offer balanced hydration, helping to keep the skin plump and soft throughout the day.'),
+(24, 9, 4, 3, 'These face washes help balance oil production and deeply cleanse while avoiding over-drying. Ideal for combination skin, these cleansers cleanse without stripping moisture.'),
+(25, 9, 5, 4, 'Sunscreens with SPF 50+ offer high protection against UV rays, reducing the risk of sunburn and skin aging. They are essential for prolonged outdoor exposure.'),
+(26, 10, 1, 1, 'Cleansers with mild surfactants are effective for normal skin. They cleanse without causing dryness or irritation.'),
+(27, 10, 2, 2, 'Non-greasy moisturizers that hydrate but don’t leave a heavy residue are great for normal skin. They help maintain healthy, balanced skin.'),
+(28, 10, 3, 3, 'Serums with peptides help improve skin elasticity and reduce the appearance of sagging. They are ideal for mature or combination skin types.'),
+(29, 10, 4, 4, 'Exfoliating masks with clay or charcoal help absorb excess oils and impurities from the skin. They are perfect for oily or acne-prone skin.');
 
