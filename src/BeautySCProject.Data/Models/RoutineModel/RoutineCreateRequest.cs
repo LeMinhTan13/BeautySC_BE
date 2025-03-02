@@ -11,6 +11,7 @@ namespace BeautySCProject.Data.Models.RoutineModel
     {
         public string RoutineName { get; set; } = null!;
         public int SkinTypeId { get; set; }
+        public bool Status { get; set; }
         public List<RoutineDetailCreateRequest> RoutineDetails { get; set; } = new List<RoutineDetailCreateRequest>();
 
     }
