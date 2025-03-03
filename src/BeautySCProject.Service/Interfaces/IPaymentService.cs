@@ -1,6 +1,7 @@
 ﻿using BeautySCProject.Common.Helpers;
 using BeautySCProject.Data.Entities;
 using BeautySCProject.Data.Models.VnPayModel;
+using BeautySCProject.Data.ViewModels;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,6 @@ namespace BeautySCProject.Service.Interfaces
         Task<MethodResult<string>> CreatePaymentAsync(string email, int orderId, HttpContext httpContext);
         Task<MethodResult<string>> ProcessResponseAsync(VnPaymentResponseModel response);
         string GetRedirectUrl();
+        Task<MethodResult<IEnumerable<PaymentMethodViewModel>>> GetAllPaymentMethodAsync();
     }
 }

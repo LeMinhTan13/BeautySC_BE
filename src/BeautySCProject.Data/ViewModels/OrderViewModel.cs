@@ -17,6 +17,8 @@ namespace BeautySCProject.Data.ViewModels
 
         public decimal TotalAmount { get; set; }
 
+        public string PaymentMethodName { get; set; }
+
         public string Status { get; set; } = null!;
 
         public DateTime? CreatedDate { get; set; }

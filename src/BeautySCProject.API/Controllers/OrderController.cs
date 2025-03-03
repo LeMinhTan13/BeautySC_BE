@@ -1,4 +1,5 @@
 ﻿using BeautySCProject.Common.Helpers;
+using BeautySCProject.Data.Models.OrderDetailModel;
 using BeautySCProject.Data.Models.OrderModel;
 using BeautySCProject.Data.Models.ShippingAddressModel;
 using BeautySCProject.Service.Interfaces;
@@ -24,6 +25,50 @@ namespace BeautySCProject.API.Controllers
         {
             var customerId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
             var result = await _orderService.CreateOrderAsync(customerId, voucherId, request);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
+
+        [HttpPatch("deny-order")]
+        [Authorize(Roles = Constants.USER_ROLE_STAFF)]
+        public async Task<IActionResult> DenyOrder(int orderId)
+        {
+            var result = await _orderService.DenyOrderAsync(orderId);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
+
+        [HttpPatch("confirm-order")]
+        [Authorize(Roles = Constants.USER_ROLE_STAFF)]
+        public async Task<IActionResult> ConfirmOrder(int orderId)
+        {
+            var result = await _orderService.ConfirmOrderAsync(orderId);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
+
+        [HttpPatch("shipping-order")]
+        [Authorize(Roles = Constants.USER_ROLE_STAFF)]
+        public async Task<IActionResult> ShippingOrder(int orderId)
+        {
+            var result = await _orderService.ShippingOrderAsync(orderId);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
+
+        [HttpPatch("return-order")]
+        [Authorize(Roles = Constants.USER_ROLE_STAFF)]
+        public async Task<IActionResult> ReturnOrder(int orderId)
+        {
+            var result = await _orderService.ReturnOrderAsync(orderId);
             return result.Match(
                 (l, c) => Problem(detail: l, statusCode: c),
                 Ok
@@ -69,6 +114,16 @@ namespace BeautySCProject.API.Controllers
         public async Task<IActionResult> GetAllOrder(string? status)
         {
             var result = await _orderService.GetAllOrderAsync(status);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
+
+        [HttpGet("get_shipping_price")]
+        public async Task<IActionResult> GetShippingPrice(bool inRegion, List<OrderDetailCreateRequest> request)
+        {
+            var result = await _orderService.GetShippingPriceAsync(inRegion, request);
             return result.Match(
                 (l, c) => Problem(detail: l, statusCode: c),
                 Ok

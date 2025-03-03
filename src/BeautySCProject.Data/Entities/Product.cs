@@ -15,6 +15,8 @@ public partial class Product
 
     public decimal Price { get; set; }
 
+    public float Weight { get; set; }
+
     public int Quantity { get; set; }
 
     public decimal Discount { get; set; }

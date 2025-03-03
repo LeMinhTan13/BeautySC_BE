@@ -35,6 +35,8 @@ public partial class BeautyscDbContext : DbContext
 
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
+    public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
+
     public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<ProductFunction> ProductFunctions { get; set; }
@@ -54,6 +56,8 @@ public partial class BeautyscDbContext : DbContext
     public virtual DbSet<RoutineStep> RoutineSteps { get; set; }
 
     public virtual DbSet<ShippingAddress> ShippingAddresses { get; set; }
+
+    public virtual DbSet<ShippingPriceTable> ShippingPriceTables { get; set; }
 
     public virtual DbSet<SkinTest> SkinTests { get; set; }
 
@@ -80,6 +84,7 @@ public partial class BeautyscDbContext : DbContext
 
         return strConn;
     }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -235,6 +240,8 @@ public partial class BeautyscDbContext : DbContext
 
             entity.HasIndex(e => e.CustomerId, "customer_id");
 
+            entity.HasIndex(e => e.PaymentMethodId, "payment_method_id");
+
             entity.HasIndex(e => e.VoucherId, "voucher_id");
 
             entity.Property(e => e.OrderId).HasColumnName("order_id");
@@ -245,11 +252,18 @@ public partial class BeautyscDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("created_date");
             entity.Property(e => e.CustomerId).HasColumnName("customer_id");
+            entity.Property(e => e.OrderCode)
+                .HasMaxLength(100)
+                .HasColumnName("order_code");
+            entity.Property(e => e.PaymentMethodId).HasColumnName("payment_method_id");
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(10)
                 .HasColumnName("phone_number");
+            entity.Property(e => e.ShippingPrice)
+                .HasPrecision(10, 2)
+                .HasColumnName("shipping_price");
             entity.Property(e => e.Status)
-                .HasColumnType("enum('InCart','Pending','Shipping','Complete','Cancel')")
+                .HasColumnType("enum('Pending','Confirmed','Shipping','Complete','Cancel','Returned','Denied')")
                 .HasColumnName("status");
             entity.Property(e => e.TotalAmount)
                 .HasPrecision(10, 2)
@@ -260,6 +274,11 @@ public partial class BeautyscDbContext : DbContext
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("order_ibfk_1");
+
+            entity.HasOne(d => d.PaymentMethod).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.PaymentMethodId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("order_ibfk_3");
 
             entity.HasOne(d => d.Voucher).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.VoucherId)
@@ -293,6 +312,18 @@ public partial class BeautyscDbContext : DbContext
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("order_detail_ibfk_1");
+        });
+
+        modelBuilder.Entity<PaymentMethod>(entity =>
+        {
+            entity.HasKey(e => e.PaymentMethodId).HasName("PRIMARY");
+
+            entity.ToTable("payment_method");
+
+            entity.Property(e => e.PaymentMethodId).HasColumnName("payment_method_id");
+            entity.Property(e => e.PaymentMethodName)
+                .HasMaxLength(255)
+                .HasColumnName("payment_method_name");
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -333,6 +364,7 @@ public partial class BeautyscDbContext : DbContext
             entity.Property(e => e.Summary)
                 .HasColumnType("text")
                 .HasColumnName("summary");
+            entity.Property(e => e.Weight).HasColumnName("weight");
 
             entity.HasOne(d => d.Brand).WithMany(p => p.Products)
                 .HasForeignKey(d => d.BrandId)
@@ -555,6 +587,29 @@ public partial class BeautyscDbContext : DbContext
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("shipping_address_ibfk_1");
+        });
+
+        modelBuilder.Entity<ShippingPriceTable>(entity =>
+        {
+            entity.HasKey(e => e.ShippingPriceTableId).HasName("PRIMARY");
+
+            entity.ToTable("shipping_price_table");
+
+            entity.Property(e => e.ShippingPriceTableId).HasColumnName("shipping_price_table_id");
+            entity.Property(e => e.FromWeight).HasColumnName("from_weight");
+            entity.Property(e => e.InRegion)
+                .HasPrecision(10, 2)
+                .HasColumnName("in_region");
+            entity.Property(e => e.OutRegion)
+                .HasPrecision(10, 2)
+                .HasColumnName("out_region");
+            entity.Property(e => e.Pir)
+                .HasPrecision(10, 2)
+                .HasColumnName("pir");
+            entity.Property(e => e.Por)
+                .HasPrecision(10, 2)
+                .HasColumnName("por");
+            entity.Property(e => e.ToWeight).HasColumnName("to_weight");
         });
 
         modelBuilder.Entity<SkinTest>(entity =>
