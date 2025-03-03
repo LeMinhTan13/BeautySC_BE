@@ -1,8 +1,11 @@
 ﻿using BeautySCProject.Common.Helpers;
 using BeautySCProject.Data;
 using BeautySCProject.Data.Entities;
+using BeautySCProject.Data.Interfaces;
 using BeautySCProject.Data.Models.Configurations;
 using BeautySCProject.Data.Models.VnPayModel;
+using BeautySCProject.Data.Repositories;
+using BeautySCProject.Data.ViewModels;
 using BeautySCProject.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +22,7 @@ namespace BeautySCProject.Service.Services
     public class PaymentService : IPaymentService
     {
         private readonly ITransactionService _transactionService;
+        private readonly IOrderRepository _orderRepository;
         private readonly IOrderService _orderService;
         private readonly VnPayConfig _config;
         private readonly ICustomerService _userService;
@@ -26,11 +30,13 @@ namespace BeautySCProject.Service.Services
 
         public PaymentService(ITransactionService transactionService,
             IOptions<VnPayConfig> options,
+            IOrderRepository orderRepository,
             IOrderService orderService,
             ICustomerService userService,
             IUnitOfWork uow)
         {
             _transactionService = transactionService;
+            _orderRepository = orderRepository;
             _orderService = orderService;
             _config = options.Value;
             _userService = userService;
@@ -118,7 +124,7 @@ namespace BeautySCProject.Service.Services
                     return new MethodResult<string>.Failure("Payment fail", 400);
                 }
 
-                order.Status = Constants.ORDER_STATUS_SHIPPING;
+                order.Status = Constants.ORDER_STATUS_CONFIRMED;
                 var check = await _orderService.UpdateOrderAsync(order);
                 if (!check)
                 {
@@ -179,6 +185,12 @@ namespace BeautySCProject.Service.Services
         public string GetRedirectUrl()
         {
             return _config.RedirectUrl;
+        }
+
+        public async Task<MethodResult<IEnumerable<PaymentMethodViewModel>>> GetAllPaymentMethodAsync()
+        {
+            var result = await _orderRepository.GetAllPaymentMethodAsync();
+            return new MethodResult<IEnumerable<PaymentMethodViewModel>>.Success(result);
         }
     }
 }

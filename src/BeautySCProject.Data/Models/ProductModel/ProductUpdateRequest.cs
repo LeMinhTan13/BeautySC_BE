@@ -15,6 +15,7 @@ namespace BeautySCProject.Data.Models.ProductModel
         public string Size { get; set; } = null!;
 
         public decimal Price { get; set; }
+        public float Weight { get; set; }
 
         public int Quantity { get; set; }
 

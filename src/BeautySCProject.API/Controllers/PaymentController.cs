@@ -29,6 +29,7 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
+
         [HttpGet("paymentCallBack")]
         public async Task<ActionResult> PaymentCallBack()
         {
@@ -45,6 +46,16 @@ namespace BeautySCProject.API.Controllers
             }
 
             return Redirect($"{redirectUrl}/cart?status=success");
+        }
+
+        [HttpGet("payment-methods")]
+        public async Task<ActionResult> GetPaymentMethod()
+        {            
+            var result = await _paymentService.GetAllPaymentMethodAsync();
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
         }
     }
 }

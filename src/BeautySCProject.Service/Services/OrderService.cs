@@ -3,6 +3,7 @@ using BeautySCProject.Common.Helpers;
 using BeautySCProject.Data;
 using BeautySCProject.Data.Entities;
 using BeautySCProject.Data.Interfaces;
+using BeautySCProject.Data.Models.OrderDetailModel;
 using BeautySCProject.Data.Models.OrderModel;
 using BeautySCProject.Data.Models.ProductModel;
 using BeautySCProject.Data.Repositories;
@@ -44,7 +45,7 @@ namespace BeautySCProject.Service.Services
             try
             {
                 var order = _mapper.Map<Order>(request);
-                order.CustomerId = customerId;
+                order.CustomerId = customerId;                
 
                 foreach (var item in order.OrderDetails)
                 {
@@ -64,8 +65,11 @@ namespace BeautySCProject.Service.Services
                     }
 
                     item.Price = product.Price * (1 - product.Discount / 100);
-                    order.TotalAmount += item.Price;
+                    order.TotalAmount += item.Price * item.Quantity;
                 }
+
+                order.ShippingPrice = await _orderRepository.GetShippingPriceAsync(request.InRegion, request.OrderDetailRequests);
+                order.TotalAmount += order.ShippingPrice;
 
                 if (voucherId.HasValue)
                 {
@@ -127,13 +131,86 @@ namespace BeautySCProject.Service.Services
             return await _orderRepository.UpdateOrderAsync(order);
         }
 
-        public async Task<MethodResult<string>> CompleteOrderAsync(int orderId)
+        public async Task<MethodResult<string>> DenyOrderAsync(int orderId)
+        {
+            var order = await _orderRepository.GetOrderByIdAsync(orderId);
+            if (order == null)
+            {
+                return new MethodResult<string>.Failure("Order not found", StatusCodes.Status404NotFound);
+            }
+            
+            foreach (var orderDetail in order.OrderDetails)
+            {
+                var product = await _productService.GetProductByIdAsync(orderDetail.ProductId);
+                product.Quantity += orderDetail.Quantity;
+
+                var checkUpPro = await _productRepository.UpdateProductAsync(product);
+                if (!checkUpPro)
+                {
+                    return new MethodResult<string>.Failure($"Fail while update product", StatusCodes.Status500InternalServerError);
+                }
+            }
+
+            order.Status = Constants.ORDER_STATUS_DENIED;
+
+            var checkUpOrd = await _orderRepository.UpdateOrderAsync(order);
+            if (!checkUpOrd)
+            {
+                return new MethodResult<string>.Failure("Fail while update order", StatusCodes.Status500InternalServerError);
+            }
+
+            return new MethodResult<string>.Success("Deny order successfully");
+        }
+
+        public async Task<MethodResult<string>> ConfirmOrderAsync(int orderId)
         {
             var order = await _orderRepository.GetOrderByIdAsync(orderId);
             if (order == null)
             {
                 return new MethodResult<string>.Failure("Order not found", StatusCodes.Status404NotFound);
             }            
+
+            order.Status = Constants.ORDER_STATUS_CONFIRMED;
+
+            var checkUpOrd = await _orderRepository.UpdateOrderAsync(order);
+            if (!checkUpOrd)
+            {
+                return new MethodResult<string>.Failure("Fail while update order", StatusCodes.Status500InternalServerError);
+            }
+
+            return new MethodResult<string>.Success("Confirm order successfully");
+        }
+
+        public async Task<MethodResult<string>> ShippingOrderAsync(int orderId)
+        {
+            var order = await _orderRepository.GetOrderByIdAsync(orderId);
+            if (order == null)
+            {
+                return new MethodResult<string>.Failure("Order not found", StatusCodes.Status404NotFound);
+            }
+            if (order.Status != Constants.ORDER_STATUS_CONFIRMED)
+            {
+                return new MethodResult<string>.Failure($"Status order is {order.Status}", StatusCodes.Status400BadRequest);
+            }
+
+            order.Status = Constants.ORDER_STATUS_SHIPPING;
+
+            var checkUpOrd = await _orderRepository.UpdateOrderAsync(order);
+            if (!checkUpOrd)
+            {
+                return new MethodResult<string>.Failure("Fail while update order", StatusCodes.Status500InternalServerError);
+            }
+
+            return new MethodResult<string>.Success("Shipping order successfully");
+        }
+
+        public async Task<MethodResult<string>> CompleteOrderAsync(int orderId)
+        {
+            var order = await _orderRepository.GetOrderByIdAsync(orderId);
+            if (order == null)
+            {
+                return new MethodResult<string>.Failure("Order not found", StatusCodes.Status404NotFound);
+            }
             if (order.Status != Constants.ORDER_STATUS_SHIPPING)
             {
                 return new MethodResult<string>.Failure($"Status order is {order.Status}", StatusCodes.Status400BadRequest);
@@ -148,6 +225,41 @@ namespace BeautySCProject.Service.Services
             }
 
             return new MethodResult<string>.Success("Complete order successfully");
+        }
+
+        public async Task<MethodResult<string>> ReturnOrderAsync(int orderId)
+        {
+            var order = await _orderRepository.GetOrderByIdAsync(orderId);
+            if (order == null)
+            {
+                return new MethodResult<string>.Failure("Order not found", StatusCodes.Status404NotFound);
+            }            
+            if (order.Status != Constants.ORDER_STATUS_SHIPPING)
+            {
+                return new MethodResult<string>.Failure($"Status order is {order.Status}", StatusCodes.Status400BadRequest);
+            }
+
+            foreach (var orderDetail in order.OrderDetails)
+            {
+                var product = await _productService.GetProductByIdAsync(orderDetail.ProductId);
+                product.Quantity += orderDetail.Quantity;
+
+                var checkUpPro = await _productRepository.UpdateProductAsync(product);
+                if (!checkUpPro)
+                {
+                    return new MethodResult<string>.Failure($"Fail while update product", StatusCodes.Status500InternalServerError);
+                }
+            }
+
+            order.Status = Constants.ORDER_STATUS_RETURNED;
+
+            var checkUpOrd = await _orderRepository.UpdateOrderAsync(order);
+            if (!checkUpOrd)
+            {
+                return new MethodResult<string>.Failure("Fail while update order", StatusCodes.Status500InternalServerError);
+            }
+
+            return new MethodResult<string>.Success("Return order successfully");
         }
 
         public async Task<MethodResult<string>> CancelOrderAsync(int orderId)
@@ -191,6 +303,12 @@ namespace BeautySCProject.Service.Services
         {
             var result = await _orderRepository.GetAllOrderAsync(status);
             return new MethodResult<IEnumerable<OrderViewModel>>.Success(result);
+        }
+
+        public async Task<MethodResult<string>> GetShippingPriceAsync(bool inRegion, List<OrderDetailCreateRequest> request)
+        {
+            var result = await _orderRepository.GetShippingPriceAsync(inRegion, request);
+            return new MethodResult<string>.Success(result.ToString());
         }
     }
 }

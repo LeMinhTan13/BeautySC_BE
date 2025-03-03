@@ -12,10 +12,13 @@ namespace BeautySCProject.Data.Models.OrderModel
     public class OrderCreateRequest
     {
         [Required]
+        public int PaymentMethodId { get; set; }
+        [Required]
+        public bool InRegion { get; set; }
+        [Required]
         public string Address { get; set; }
         [Required]
-        public string PhoneNumber { get; set; }
-
+        public string PhoneNumber { get; set; }     
         public List<OrderDetailCreateRequest> OrderDetailRequests { get; set; }
         
     }

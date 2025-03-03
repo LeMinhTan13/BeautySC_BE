@@ -110,6 +110,7 @@ CREATE TABLE product (
     summary TEXT,
     size VARCHAR(10) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
+    weight FLOAT NOT NULL,
 	quantity INT NOT NULL,
     discount DECIMAL(4,2) DEFAULT 0 NOT NULL,
     created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -175,17 +176,36 @@ CREATE TABLE voucher (
     `status` BOOLEAN NOT NULL DEFAULT 1
 );
 
+CREATE TABLE payment_method (
+	payment_method_id INT AUTO_INCREMENT PRIMARY KEY,
+    payment_method_name VARCHAR(255) NOT NULL   
+);
+
+CREATE TABLE shipping_price_table (
+	shipping_price_table_id INT AUTO_INCREMENT PRIMARY KEY,
+    from_weight FLOAT NOT NULL,
+    to_weight FLOAT,
+    in_region DECIMAL(10,2) NOT NULL,
+    out_region DECIMAL(10,2) NOT NULL,
+    pir DECIMAL(10,2),
+    por DECIMAL(10,2)
+);
+
 CREATE TABLE `order` (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_code VARCHAR(100), 
     total_amount DECIMAL(10,2),
     address VARCHAR(150), 
     phone_number VARCHAR(10),
-    `status` ENUM('InCart', 'Pending', 'Shipping', 'Complete', 'Cancel') NOT NULL,
+    `status` ENUM('Pending', 'Confirmed', 'Shipping', 'Complete', 'Cancel', 'Returned', 'Denied') NOT NULL,
     created_date DATETIME,    
+    shipping_price DECIMAL(10,2) NOT NULL, 
     customer_id INT NOT NULL,
     voucher_id INT,
+    payment_method_id INT NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES `customer`(customer_id),
-    FOREIGN KEY (voucher_id) REFERENCES `voucher`(voucher_id)
+    FOREIGN KEY (voucher_id) REFERENCES `voucher`(voucher_id),
+    FOREIGN KEY (payment_method_id) REFERENCES `payment_method`(payment_method_id)
 );
 
 CREATE TABLE order_detail (
@@ -285,24 +305,25 @@ INSERT INTO ingredient (ingredient_name) VALUES
 ('Allantoin'),
 ('Kojic Acid');
 
-INSERT INTO product (product_name, summary, size, price, quantity, discount, is_recommended, brand_id, category_id, created_date) VALUES
-('Product 1', 'Product 1', '100ml', 100000, 100, 0, true, 1, 1, '2024-01-01 10:00:00'),
-('Product 2', 'Product 2', '100ml', 200000, 300, 0.2, true, 1, 1, '2024-01-01 10:00:00'),
-('Product 3', 'Product 3', '50ml', 150000, 50, 0.1, true, 2, 2, '2023-01-01 10:00:00'),
-('Product 4', 'Product 4', '75ml', 120000, 80, 0.15, false, 3, 3, '2023-02-15 14:30:00'),
-('Product 5', 'Product 5', '100ml', 180000, 60, 0.2, true, 4, 4, '2023-03-10 09:45:00'),
-('Product 6', 'Product 6', '30ml', 90000, 100, 0.05, false, 5, 5, '2023-04-05 16:20:00'),
-('Product 7', 'Product 7', '50ml', 110000, 70, 0.1, true, 6, 1, '2023-05-20 11:10:00'),
-('Product 8', 'Product 8', '60ml', 130000, 90, 0.25, false, 7, 2, '2023-06-12 13:50:00'),
-('Product 9', 'Product 9', '100ml', 200000, 40, 0.3, true, 8, 3, '2023-07-08 08:30:00'),
-('Product 10', 'Product 10', '50ml', 95000, 120, 0.1, false, 9, 4, '2023-08-25 17:00:00'),
-('Product 11', 'Product 11', '75ml', 140000, 60, 0.2, true, 10, 5, '2023-09-14 12:15:00'),
-('Product 12', 'Product 12', '100ml', 160000, 80, 0.15, false, 1, 1, '2023-10-30 10:45:00'),
-('Product 13', 'Product 13', '50ml', 105000, 100, 0.1, true, 2, 2, '2023-11-22 14:00:00'),
-('Product 14', 'Product 14', '60ml', 125000, 70, 0.25, false, 3, 3, '2023-12-18 09:30:00'),
-('Product 15', 'Product 15', '100ml', 190000, 50, 0.3, true, 4, 4, '2024-01-05 16:45:00'),
-('Product 16', 'Product 16', '30ml', 85000, 90, 0.05, false, 5, 5, '2024-02-10 11:20:00'),
-('Product 17', 'Product 17', '50ml', 115000, 60, 0.1, true, 6, 1, '2024-03-15 13:10:00');
+INSERT INTO product (product_name, summary, size, price, quantity, discount, is_recommended, brand_id, category_id, created_date, weight) VALUES
+('Product 1', 'Product 1', '100ml', 100000, 100, 0, true, 1, 1, '2024-01-01 10:00:00', 0.1),
+('Product 2', 'Product 2', '100ml', 200000, 300, 0.2, true, 1, 1, '2024-01-01 10:00:00', 0.2),
+('Product 3', 'Product 3', '50ml', 150000, 50, 0.1, true, 2, 2, '2023-01-01 10:00:00', 0.15),
+('Product 4', 'Product 4', '75ml', 120000, 80, 0.15, false, 3, 3, '2023-02-15 14:30:00', 0.12),
+('Product 5', 'Product 5', '100ml', 180000, 60, 0.2, true, 4, 4, '2023-03-10 09:45:00', 0.18),
+('Product 6', 'Product 6', '30ml', 90000, 100, 0.05, false, 5, 5, '2023-04-05 16:20:00', 0.09),
+('Product 7', 'Product 7', '50ml', 110000, 70, 0.1, true, 6, 1, '2023-05-20 11:10:00', 0.11),
+('Product 8', 'Product 8', '60ml', 130000, 90, 0.25, false, 7, 2, '2023-06-12 13:50:00', 0.13),
+('Product 9', 'Product 9', '100ml', 200000, 40, 0.3, true, 8, 3, '2023-07-08 08:30:00', 0.2),
+('Product 10', 'Product 10', '50ml', 95000, 120, 0.1, false, 9, 4, '2023-08-25 17:00:00', 0.095),
+('Product 11', 'Product 11', '75ml', 140000, 60, 0.2, true, 10, 5, '2023-09-14 12:15:00', 0.14),
+('Product 12', 'Product 12', '100ml', 160000, 80, 0.15, false, 1, 1, '2023-10-30 10:45:00', 0.16),
+('Product 13', 'Product 13', '50ml', 105000, 100, 0.1, true, 2, 2, '2023-11-22 14:00:00', 0.105),
+('Product 14', 'Product 14', '60ml', 125000, 70, 0.25, false, 3, 3, '2023-12-18 09:30:00', 0.125),
+('Product 15', 'Product 15', '100ml', 190000, 50, 0.3, true, 4, 4, '2024-01-05 16:45:00', 0.19),
+('Product 16', 'Product 16', '30ml', 85000, 90, 0.05, false, 5, 5, '2024-02-10 11:20:00', 0.085),
+('Product 17', 'Product 17', '50ml', 115000, 60, 0.1, true, 6, 1, '2024-03-15 13:10:00', 0.115);
+
 
 INSERT INTO product_image (url, product_id) VALUES 
 ('https://mint07.com/wp-content/uploads/2015/10/sua-rua-mat-Simple-Kind-To-Skin-Refreshing-Facial-Wash-Gel-review-1.jpg', 1),
@@ -400,29 +421,39 @@ INSERT INTO voucher (voucher_name, voucher_code, `description`, discount_amount,
 ('New Year Sale', 'NEWYEAR2025', 'New Year Celebration Discount', 30000.00, '2025-01-01 00:00:00', '2025-01-05 23:59:59', 120000.00, 1),
 ('Clearance Sale', 'CLEARANCE10', 'Discount on clearance items', 10000.00, '2025-03-01 00:00:00', '2025-03-15 23:59:59', NULL, 1);
 
+INSERT INTO payment_method (payment_method_name) VALUES
+('Payment when delivered (COD)'),      -- Cash on Delivery
+('Payment by card (VNPAY)');    -- VNPay Payment Gateway
+
+INSERT INTO shipping_price_table (from_weight, to_weight, in_region, out_region, pir, por) VALUES
+(0, 3, 22000, 22000, null, null),
+(3, 5, 25000, 29000, null, null),
+(5, null, 25000, 29000, 4000, 4000);
 
 -- Thêm 20 đơn hàng
-INSERT INTO `order` (customer_id, `status`, created_date, total_amount) VALUES
-(1, 'Complete', '2023-01-05 10:00:00', 360000),   -- Order 1
-(2, 'Complete', '2023-02-10 14:30:00', 585000),  -- Order 2
-(3, 'Complete', '2023-03-15 09:45:00', 684000),   -- Order 3
-(1, 'Complete', '2023-04-20 16:20:00', 315000),  -- Order 4
-(2, 'Complete', '2023-05-25 11:10:00', 630000),  -- Order 5
-(3, 'Complete', '2023-06-30 13:50:00', 342000),   -- Order 6
-(1, 'Complete', '2023-07-05 08:30:00', 472500),  -- Order 7
-(2, 'Complete', '2023-08-10 17:00:00', 532000),  -- Order 8
-(3, 'Complete', '2023-09-15 12:15:00', 435000),   -- Order 9
-(1, 'Complete', '2023-10-20 10:45:00', 540000),  -- Order 10
-(2, 'Complete', '2023-11-25 14:00:00', 408000),  -- Order 11
-(3, 'Complete', '2023-12-30 09:30:00', 472500),   -- Order 12
-(1, 'Complete', '2024-01-05 16:45:00', 532000),  -- Order 13
-(2, 'Complete', '2024-02-10 11:20:00', 435000),  -- Order 14
-(3, 'Complete', '2024-03-15 13:10:00', 540000),   -- Order 15
-(1, 'Complete', '2024-04-20 10:00:00', 408000),  -- Order 16
-(2, 'Complete', '2024-05-25 14:30:00', 472500),  -- Order 17
-(3, 'Complete', '2024-06-30 09:45:00', 532000),   -- Order 18
-(1, 'Complete', '2024-07-05 16:20:00', 435000),  -- Order 19
-(2, 'Complete', '2024-08-10 11:10:00', 540000);  -- Order 20
+INSERT INTO `order` (order_code, customer_id, `status`, created_date, total_amount, shipping_price, payment_method_id) VALUES
+('OD202301051', 1, 'Complete', '2023-01-05 10:00:00', 360000, 0, 2),   -- Order 1
+('OD202302102', 2, 'Complete', '2023-02-10 14:30:00', 585000, 0, 2),  -- Order 2
+('OD202303153', 3, 'Complete', '2023-03-15 09:45:00', 684000, 0, 2),   -- Order 3
+('OD202304204', 1, 'Complete', '2023-04-20 16:20:00', 315000, 0, 2),  -- Order 4
+('OD202305255', 2, 'Complete', '2023-05-25 11:10:00', 630000, 0, 2),  -- Order 5
+('OD202306306', 3, 'Complete', '2023-06-30 13:50:00', 342000, 0, 2),   -- Order 6
+('OD202307057', 1, 'Complete', '2023-07-05 08:30:00', 472500, 0, 2),  -- Order 7
+('OD202308108', 2, 'Complete', '2023-08-10 17:00:00', 532000, 0, 2),  -- Order 8
+('OD202309159', 3, 'Complete', '2023-09-15 12:15:00', 435000, 0, 2),   -- Order 9
+('OD2023102010', 1, 'Complete', '2023-10-20 10:45:00', 540000, 0, 2),  -- Order 10
+('OD2023112511', 2, 'Complete', '2023-11-25 14:00:00', 408000, 0, 2),  -- Order 11
+('OD2023123012', 3, 'Complete', '2023-12-30 09:30:00', 472500, 0, 2),   -- Order 12
+('OD2024010513', 1, 'Complete', '2024-01-05 16:45:00', 532000, 0, 2),  -- Order 13
+('OD2024021014', 2, 'Complete', '2024-02-10 11:20:00', 435000, 0, 2),  -- Order 14
+('OD2024031515', 3, 'Complete', '2024-03-15 13:10:00', 540000, 0, 2),   -- Order 15
+('OD2024042016', 1, 'Complete', '2024-04-20 10:00:00', 408000, 0, 2),  -- Order 16
+('OD2024052517', 2, 'Complete', '2024-05-25 14:30:00', 472500, 0, 2),  -- Order 17
+('OD2024063018', 3, 'Complete', '2024-06-30 09:45:00', 532000, 0, 2),   -- Order 18
+('OD2024070519', 1, 'Complete', '2024-07-05 16:20:00', 435000, 0, 2),  -- Order 19
+('OD2024081020', 2, 'Complete', '2024-08-10 11:10:00', 540000, 0, 2);  -- Order 20
+
+
 
 -- Thêm order_detail (đã tính toán sẵn giá sau khi áp dụng discount)
 INSERT INTO order_detail (price, quantity, product_id, order_id) VALUES

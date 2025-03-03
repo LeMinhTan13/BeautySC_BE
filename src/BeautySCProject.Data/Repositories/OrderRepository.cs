@@ -1,6 +1,9 @@
-﻿using BeautySCProject.Common.Helpers;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using BeautySCProject.Common.Helpers;
 using BeautySCProject.Data.Entities;
 using BeautySCProject.Data.Interfaces;
+using BeautySCProject.Data.Models.OrderDetailModel;
 using BeautySCProject.Data.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,10 +19,13 @@ namespace BeautySCProject.Data.Repositories
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly BeautyscDbContext _dbContext;
-        public OrderRepository(IUnitOfWork unitOfWork, BeautyscDbContext dbContext) : base(dbContext)
+        private readonly IMapper _mapper;
+
+        public OrderRepository(IUnitOfWork unitOfWork, BeautyscDbContext dbContext, IMapper mapper) : base(dbContext)
         {
             _unitOfWork = unitOfWork;
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<bool> CreateOneAsync(Order order)
@@ -62,6 +68,7 @@ namespace BeautySCProject.Data.Repositories
             return await Entities
                                 .Include(x => x.OrderDetails)
                                     .ThenInclude(od => od.Product)
+                                .Include(x => x.PaymentMethod)
                                 .Where(x => x.CustomerId == customerId &&                                             
                                             (string.IsNullOrEmpty(status) || x.Status.ToLower() == status.ToLower()))
                                 .Select(x => new OrderViewModel
@@ -71,6 +78,7 @@ namespace BeautySCProject.Data.Repositories
                                     PhoneNumber = x.PhoneNumber,
                                     CreatedDate = x.CreatedDate,
                                     TotalAmount = (decimal)x.TotalAmount,
+                                    PaymentMethodName = x.PaymentMethod.PaymentMethodName,
                                     Status = x.Status,
                                     Details = x.OrderDetails
                                         //.Where(od => od.Product != null)
@@ -126,6 +134,46 @@ namespace BeautySCProject.Data.Repositories
         {
             return await Entities.AnyAsync(x => x.CustomerId == customerId && x.VoucherId == voucherId);
                                 
+        }
+
+        public async Task<IEnumerable<PaymentMethodViewModel>> GetAllPaymentMethodAsync()
+        {
+            return await _dbContext.PaymentMethods.ProjectTo<PaymentMethodViewModel>(_mapper.ConfigurationProvider).ToListAsync();
+        }
+
+        public async Task<decimal> GetShippingPriceAsync(bool inRegion, List<OrderDetailCreateRequest> request)
+        {
+            float weight = 0;
+            foreach (var item in request)
+            {
+                var product = await _dbContext.Products.FirstOrDefaultAsync(x => x.ProductId == item.ProductId);
+                weight += product.Weight * item.Quantity;
+            }
+
+            var priceEnoughWeight = await _dbContext.ShippingPriceTables.FirstOrDefaultAsync(x => x.FromWeight < weight && x.ToWeight > weight);
+            if (priceEnoughWeight != null)
+            {
+                if (inRegion)
+                {
+                    return priceEnoughWeight.InRegion;
+                }
+                else
+                {
+                    return priceEnoughWeight.OutRegion;
+                }
+            }
+            else
+            {
+                var priceOverWeight = await _dbContext.ShippingPriceTables.OrderByDescending(x => x.FromWeight).FirstOrDefaultAsync();
+                if (inRegion)
+                {
+                    return priceOverWeight.InRegion + (decimal) (Math.Ceiling(weight - priceOverWeight.FromWeight) * (double)priceOverWeight.Pir);
+                }
+                else
+                {
+                    return priceOverWeight.OutRegion + (decimal)(Math.Ceiling(weight - priceOverWeight.FromWeight) * (double)priceOverWeight.Por);
+                }
+            }
         }
     }
 }
