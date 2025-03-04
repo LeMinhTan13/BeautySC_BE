@@ -11,8 +11,8 @@ namespace BeautySCProject.Data.Interfaces
     public interface ISkinTypeRepository
     {
         Task<SkinType?> GetSkinTypeByIdAsync(int skinTypeId);
-      /*  Task<bool> CreateSkinTypeAsync(SkinType skinType);
-        Task<bool> UpdateSkinTypeAsync(SkinType skinType);*/
+        Task<bool> CreateSkinTypeAsync(SkinType skinType);
+        Task<bool> UpdateSkinTypeAsync(SkinType skinType);
         Task<IEnumerable<SkinTypeViewModel>> GetAllSkinTypeAsync();
     }
 

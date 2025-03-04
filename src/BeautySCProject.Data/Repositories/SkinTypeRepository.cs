@@ -24,10 +24,20 @@ namespace BeautySCProject.Data.Repositories
             _mapper = mapper;
         }
 
-       /* public async Task<bool> CreateSkinTypeAsync(SkinType skinType)
+        public async Task<bool> CreateSkinTypeAsync(SkinType skinType)
         {
-            throw new NotImplementedException();
-        }*/
+            try
+            {
+                Entities.Add(skinType);
+                await _unitOfWork.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
 
         public async Task<IEnumerable<SkinTypeViewModel>> GetAllSkinTypeAsync()
         {
@@ -47,9 +57,19 @@ namespace BeautySCProject.Data.Repositories
             return skinType;
         }
 
-        /*public Task<bool> UpdateSkinTypeAsync(SkinType skinType)
+        public async Task<bool> UpdateSkinTypeAsync(SkinType skinType)
         {
-            throw new NotImplementedException();
-        }*/
+            try
+            {
+                Entities.Update(skinType);
+                await _unitOfWork.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
     }
 }

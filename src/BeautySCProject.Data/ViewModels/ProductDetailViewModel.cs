@@ -36,7 +36,7 @@ namespace BeautySCProject.Data.ViewModels
 
         public List<IngredientViewModel> Ingredients { get; set; }
 
-        public List<FeedbackViewModel> Feedbacks { get; set; }
+        public List<FeedbackProductViewModel> Feedbacks { get; set; }
     }
   
     public class ProductImageViewModel
@@ -70,7 +70,7 @@ namespace BeautySCProject.Data.ViewModels
 
         public string IngredientName { get; set; }
     }
-    public class FeedbackViewModel
+    public class FeedbackProductViewModel
     {
         public int FeedbackId { get; set; }
 

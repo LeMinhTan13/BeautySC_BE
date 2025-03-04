@@ -61,7 +61,7 @@ namespace BeautySCProject.Data.Mapper
                      IngredientId = x.IngredientId,
                      IngredientName = x.Ingredient.IngredientName,
                  })))
-                .ForMember(dest => dest.Feedbacks, opt => opt.MapFrom(src => src.Feedbacks.Select(x => new FeedbackViewModel
+                .ForMember(dest => dest.Feedbacks, opt => opt.MapFrom(src => src.Feedbacks.Select(x => new FeedbackProductViewModel
                 {
                     FeedbackId = x.FeedbackId,
                     Rating = x.Rating,

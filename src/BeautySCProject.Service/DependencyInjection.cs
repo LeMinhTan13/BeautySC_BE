@@ -37,6 +37,7 @@ namespace BeautySCProject.Service
             service.AddTransient<ISkinTypeQuestionService, SkinTypeQuestionService>();
             service.AddTransient<ISkinTestService, SkinTestService>();
             service.AddTransient<ISkinTypeService, SkinTypeService>();
+            service.AddTransient<IFeedbackService, FeedbackService>();
             return service;
         }
     }

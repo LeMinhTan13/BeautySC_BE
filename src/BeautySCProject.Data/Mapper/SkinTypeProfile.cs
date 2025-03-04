@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BeautySCProject.Data.Entities;
+using BeautySCProject.Data.Models.SkinTypeModel;
 using BeautySCProject.Data.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace BeautySCProject.Data.Mapper
         public SkinTypeProfile()
         {
             CreateMap<SkinType, SkinTypeViewModel>();
+            CreateMap<SkinType, SkinTypeUpdateRequestModel>();
         }
         
     }

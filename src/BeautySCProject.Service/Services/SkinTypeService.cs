@@ -12,6 +12,8 @@ using BeautySCProject.Domain.ViewModels;
 using Microsoft.AspNetCore.Http;
 using BeautySCProject.Data.Repositories;
 using BeautySCProject.Data.ViewModels;
+using BeautySCProject.Data.Models.SkinTypeModel;
+using BeautySCProject.Data.Entities;
 
 namespace BeautySCProject.Service.Services
 {
@@ -27,10 +29,16 @@ namespace BeautySCProject.Service.Services
             _mapper = mapper;
         }
 
-        /*public Task<MethodResult<string>> CreateSkinTypeAsync(SkinTypeViewModel request)
+        public async Task<MethodResult<string>> CreateSkinTypeAsync(SkinTypeCreateRequestModel request)
         {
-            throw new NotImplementedException();
-        }*/
+            var skinType = _mapper.Map<SkinType>(request);
+            var checkCreateSkinType = await _skinTypeRepository.CreateSkinTypeAsync(skinType);
+            if (!checkCreateSkinType)
+            {
+                return new MethodResult<string>.Failure("Can't create Skin Type!", StatusCodes.Status500InternalServerError);
+            }
+            return new MethodResult<string>.Success("Create successfully!");
+        }
 
         public async Task<MethodResult<IEnumerable<SkinTypeViewModel>>> GetAllSkinTypeAsync()
         {
@@ -49,10 +57,22 @@ namespace BeautySCProject.Service.Services
             return new MethodResult<SkinTypeViewModel>.Success(result);
         }
 
-       /* public Task<MethodResult<string>> UpdateRoutineAsync(SkinTypeViewModel request)
+        public async Task<MethodResult<string>> UpdateSkinTypeAsync(SkinTypeUpdateRequestModel request)
         {
-            throw new NotImplementedException();
-        }*/
+            var skintype = await _skinTypeRepository.GetSkinTypeByIdAsync(request.SkinTypeId);
+            if (skintype == null)
+            {
+                return new MethodResult<string>.Failure("Can't found Skin Type!", StatusCodes.Status404NotFound);
+            }
+            skintype.Priority = request.Priority;
+            skintype.SkinTypeName = request.SkinTypeName;
+            var checkUpdateSkinType = await _skinTypeRepository.UpdateSkinTypeAsync(skintype);
+            if(!checkUpdateSkinType)
+            {
+                return new MethodResult<string>.Failure("Can't update Skin Type!", StatusCodes.Status500InternalServerError);
+            }
+            return new MethodResult<string>.Success("Update successfully!");
+        }
 
        
     }
