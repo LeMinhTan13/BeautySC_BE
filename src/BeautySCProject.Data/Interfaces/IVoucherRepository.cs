@@ -15,5 +15,7 @@ namespace BeautySCProject.Data.Interfaces
         Task<IEnumerable<VoucherViewModel>> GetAllVoucherAsync();
         Task<bool> SetStatusVoucherEqualFalse(Voucher voucher);
         Task<IEnumerable<VoucherViewModel>> GetAllVoucherByCustomerIdAsync(int customerId);
+        Task<bool> CreateVoucherAsync(Voucher voucher);
+        Task<bool> UpdateVoucherAsync(Voucher voucher);
     }
 }

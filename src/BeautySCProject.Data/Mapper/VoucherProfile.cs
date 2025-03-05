@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BeautySCProject.Data.Entities;
+using BeautySCProject.Data.Models.VoucherModel;
 using BeautySCProject.Data.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,9 @@ namespace BeautySCProject.Data.Mapper
         public VoucherProfile()
         {
             CreateMap<Voucher, VoucherViewModel>();     
+            CreateMap<VoucherViewModel, Voucher>();
+            CreateMap<VoucherCreateRequestModel, Voucher>();
+            CreateMap<VoucherUpdateRequestModel, Voucher>();
         }
     }
 }

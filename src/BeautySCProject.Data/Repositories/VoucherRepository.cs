@@ -69,6 +69,18 @@ namespace BeautySCProject.Data.Repositories
             })
             .ToListAsync();
         }
+        public async Task<bool> CreateVoucherAsync(Voucher voucher)
+        {
+            await Entities.AddAsync(voucher);
+            await _uow.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> UpdateVoucherAsync(Voucher voucher)
+        {
+            Entities.Update(voucher);
+            await _uow.SaveChangesAsync();
+            return true;
+        }
         public async Task<bool> SetStatusVoucherEqualFalse(Voucher voucher)
         {
             var existingVoucher = await Entities.FindAsync(voucher.VoucherId);

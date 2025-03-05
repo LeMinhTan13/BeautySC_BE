@@ -12,6 +12,7 @@ using BeautySCProject.Common.Helpers;
 using BeautySCProject.Data.ViewModels;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
+using BeautySCProject.Data.Models.VoucherModel;
 
 namespace BeautySCProject.Service.Services
 {
@@ -23,6 +24,17 @@ namespace BeautySCProject.Service.Services
         {
             _voucherRepository = voucherRepository;
             _mapper = mapper;
+        }
+
+        public async Task<MethodResult<Voucher>> CreateVoucherAsync(VoucherCreateRequestModel request)
+        {
+            var voucher = _mapper.Map<Voucher>(request);
+            var checkCreate = await _voucherRepository.CreateVoucherAsync(voucher);
+            if(!checkCreate)
+            {
+                return new MethodResult<Voucher>.Failure("Can't create voucher", StatusCodes.Status500InternalServerError);
+            }
+            return new MethodResult<Voucher>.Success(voucher);
         }
 
         public async Task<MethodResult<IEnumerable<VoucherViewModel>>> GetAllVoucherAsync()
@@ -62,6 +74,28 @@ namespace BeautySCProject.Service.Services
                 return new MethodResult<string>.Failure("Can't set status!", StatusCodes.Status404NotFound);
             }
             return new MethodResult<string>.Success("");
+        }
+
+        public async Task<MethodResult<string>> UpdateVoucherAsync(VoucherUpdateRequestModel request)
+        {
+            var voucher = await _voucherRepository.GetVoucherByIdAsync(request.VoucherId);
+            if (voucher == null)
+            {
+                return new MethodResult<string>.Failure("Can't found voucher!", StatusCodes.Status404NotFound);
+            }
+            voucher.StartDate = request.StartDate;
+            voucher.EndDate = request.EndDate;
+            voucher.Description = request.Description;
+            voucher.DiscountAmount = request.DiscountAmount;
+            voucher.MinimumPurchase = request.MinimumPurchase;
+            voucher.VoucherName = request.VoucherName;
+            voucher.VoucherCode = request.VoucherCode;
+            voucher.Status = request.Status;
+            var result = await _voucherRepository.UpdateVoucherAsync(voucher);
+            if (!result) {
+                return new MethodResult<string>.Failure("Can't update voucher!", StatusCodes.Status500InternalServerError);
+            }
+            return new MethodResult<string>.Success("Update successfully");
         }
     }
 }

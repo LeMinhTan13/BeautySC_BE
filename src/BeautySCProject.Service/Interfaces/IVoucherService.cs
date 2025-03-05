@@ -1,5 +1,6 @@
 ﻿using BeautySCProject.Common.Helpers;
 using BeautySCProject.Data.Entities;
+using BeautySCProject.Data.Models.VoucherModel;
 using BeautySCProject.Data.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,7 @@ namespace BeautySCProject.Service.Interfaces
         Task<MethodResult<IEnumerable<VoucherViewModel>>> GetAllVoucherAsync();
         Task<MethodResult<String>> SetStatusVoucherEqualFalse(Voucher voucher);
         Task<MethodResult<IEnumerable<VoucherViewModel>>> GetAllVoucherByCustomerIdAsync(int customerId);
+        Task<MethodResult<Voucher>> CreateVoucherAsync(VoucherCreateRequestModel request);
+        Task<MethodResult<string>> UpdateVoucherAsync(VoucherUpdateRequestModel request);
     }
 }

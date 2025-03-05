@@ -1,4 +1,5 @@
 ﻿using BeautySCProject.Common.Helpers;
+using BeautySCProject.Data.Models.VoucherModel;
 using BeautySCProject.Service.Interfaces;
 using BeautySCProject.Service.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -52,6 +53,25 @@ namespace BeautySCProject.API.Controllers
             {
                 return StatusCode(500, $"Lỗi controller: {ex.Message}");
             }
+        }
+        [HttpPut("Update-voucher")]
+        [Authorize]
+        public async Task<IActionResult> Update(VoucherUpdateRequestModel request)
+        {
+            var result = await _voucherService.UpdateVoucherAsync(request);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
+        [HttpPost("Create-voucher")]
+        public async Task<IActionResult> Create(VoucherCreateRequestModel request)
+        {
+            var result = await _voucherService.CreateVoucherAsync(request);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
         }
     }
 }
