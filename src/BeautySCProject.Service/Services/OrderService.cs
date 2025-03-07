@@ -104,7 +104,14 @@ namespace BeautySCProject.Service.Services
                 {
                     return new MethodResult<CreateOrderViewModel>.Failure("Fail while create order", StatusCodes.Status500InternalServerError);
                 }
-               
+
+                order.OrderCode = $"ORD{DateTime.Now.ToString("yyyyMMdd")}{order.OrderId}";
+                var checkUpOrd = await _orderRepository.UpdateOrderAsync(order);
+                if (!checkUpOrd)
+                {
+                    return new MethodResult<CreateOrderViewModel>.Failure("Fail while update order", StatusCodes.Status500InternalServerError);
+                }
+
                 await _uow.CommitTransactionAsync();
 
                 var result = new CreateOrderViewModel

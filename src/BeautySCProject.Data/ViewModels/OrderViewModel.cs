@@ -11,6 +11,8 @@ namespace BeautySCProject.Data.ViewModels
     {
         public int OrderId { get; set; }
 
+        public string OrderCode { get; set; } = null!;
+
         public string FullName { get; set; } = null!;
 
         public string Address { get; set; } = null!;

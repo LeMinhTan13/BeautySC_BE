@@ -74,6 +74,7 @@ namespace BeautySCProject.Data.Repositories
                                 .Select(x => new OrderViewModel
                                 {
                                     OrderId = x.OrderId,
+                                    OrderCode = x.OrderCode,
                                     FullName = x.FullName,
                                     Address = x.Address,
                                     PhoneNumber = x.PhoneNumber,
@@ -108,6 +109,7 @@ namespace BeautySCProject.Data.Repositories
                                 .Select(x => new OrderViewModel
                                 {
                                     OrderId = x.OrderId,
+                                    OrderCode = x.OrderCode,
                                     FullName = x.FullName,
                                     Address = x.Address,
                                     PhoneNumber = x.PhoneNumber,
