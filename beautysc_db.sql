@@ -195,8 +195,9 @@ CREATE TABLE `order` (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     order_code VARCHAR(100), 
     total_amount DECIMAL(10,2),
-    address VARCHAR(150), 
-    phone_number VARCHAR(10),
+    full_name VARCHAR(255) NOT NULL,
+    address VARCHAR(150) NOT NULL, 
+    phone_number VARCHAR(10) NOT NULL,
     `status` ENUM('Pending', 'Confirmed', 'Shipping', 'Complete', 'Cancel', 'Returned', 'Denied') NOT NULL,
     created_date DATETIME,    
     shipping_price DECIMAL(10,2) NOT NULL, 
@@ -431,27 +432,28 @@ INSERT INTO shipping_price_table (from_weight, to_weight, in_region, out_region,
 (5, null, 25000, 29000, 4000, 4000);
 
 -- Thêm 20 đơn hàng
-INSERT INTO `order` (order_code, customer_id, `status`, created_date, total_amount, shipping_price, payment_method_id) VALUES
-('OD202301051', 1, 'Complete', '2023-01-05 10:00:00', 360000, 0, 2),   -- Order 1
-('OD202302102', 2, 'Complete', '2023-02-10 14:30:00', 585000, 0, 2),  -- Order 2
-('OD202303153', 3, 'Complete', '2023-03-15 09:45:00', 684000, 0, 2),   -- Order 3
-('OD202304204', 1, 'Complete', '2023-04-20 16:20:00', 315000, 0, 2),  -- Order 4
-('OD202305255', 2, 'Complete', '2023-05-25 11:10:00', 630000, 0, 2),  -- Order 5
-('OD202306306', 3, 'Complete', '2023-06-30 13:50:00', 342000, 0, 2),   -- Order 6
-('OD202307057', 1, 'Complete', '2023-07-05 08:30:00', 472500, 0, 2),  -- Order 7
-('OD202308108', 2, 'Complete', '2023-08-10 17:00:00', 532000, 0, 2),  -- Order 8
-('OD202309159', 3, 'Complete', '2023-09-15 12:15:00', 435000, 0, 2),   -- Order 9
-('OD2023102010', 1, 'Complete', '2023-10-20 10:45:00', 540000, 0, 2),  -- Order 10
-('OD2023112511', 2, 'Complete', '2023-11-25 14:00:00', 408000, 0, 2),  -- Order 11
-('OD2023123012', 3, 'Complete', '2023-12-30 09:30:00', 472500, 0, 2),   -- Order 12
-('OD2024010513', 1, 'Complete', '2024-01-05 16:45:00', 532000, 0, 2),  -- Order 13
-('OD2024021014', 2, 'Complete', '2024-02-10 11:20:00', 435000, 0, 2),  -- Order 14
-('OD2024031515', 3, 'Complete', '2024-03-15 13:10:00', 540000, 0, 2),   -- Order 15
-('OD2024042016', 1, 'Complete', '2024-04-20 10:00:00', 408000, 0, 2),  -- Order 16
-('OD2024052517', 2, 'Complete', '2024-05-25 14:30:00', 472500, 0, 2),  -- Order 17
-('OD2024063018', 3, 'Complete', '2024-06-30 09:45:00', 532000, 0, 2),   -- Order 18
-('OD2024070519', 1, 'Complete', '2024-07-05 16:20:00', 435000, 0, 2),  -- Order 19
-('OD2024081020', 2, 'Complete', '2024-08-10 11:10:00', 540000, 0, 2);  -- Order 20
+INSERT INTO `order` (order_code, customer_id, `status`, created_date, total_amount, shipping_price, payment_method_id, full_name, address, phone_number) VALUES
+('OD202301051', 1, 'Complete', '2023-01-05 10:00:00', 360000, 0, 2, 'Nguyen Van A', '123 Main St', '0123456789'),   -- Order 1
+('OD202302102', 2, 'Complete', '2023-02-10 14:30:00', 585000, 0, 2, 'Tran Thi B', '456 Elm St', '0987654321'),  -- Order 2
+('OD202303153', 3, 'Complete', '2023-03-15 09:45:00', 684000, 0, 2, 'Le Van C', '789 Oak St', '0912345678'),   -- Order 3
+('OD202304204', 1, 'Complete', '2023-04-20 16:20:00', 315000, 0, 2, 'Nguyen Van A', '123 Main St', '0123456789'),  -- Order 4
+('OD202305255', 2, 'Complete', '2023-05-25 11:10:00', 630000, 0, 2, 'Tran Thi B', '456 Elm St', '0987654321'),  -- Order 5
+('OD202306306', 3, 'Complete', '2023-06-30 13:50:00', 342000, 0, 2, 'Le Van C', '789 Oak St', '0912345678'),   -- Order 6
+('OD202307057', 1, 'Complete', '2023-07-05 08:30:00', 472500, 0, 2, 'Nguyen Van A', '123 Main St', '0123456789'),  -- Order 7
+('OD202308108', 2, 'Complete', '2023-08-10 17:00:00', 532000, 0, 2, 'Tran Thi B', '456 Elm St', '0987654321'),  -- Order 8
+('OD202309159', 3, 'Complete', '2023-09-15 12:15:00', 435000, 0, 2, 'Le Van C', '789 Oak St', '0912345678'),   -- Order 9
+('OD2023102010', 1, 'Complete', '2023-10-20 10:45:00', 540000, 0, 2, 'Nguyen Van A', '123 Main St', '0123456789'),  -- Order 10
+('OD2023112511', 2, 'Complete', '2023-11-25 14:00:00', 408000, 0, 2, 'Tran Thi B', '456 Elm St', '0987654321'),  -- Order 11
+('OD2023123012', 3, 'Complete', '2023-12-30 09:30:00', 472500, 0, 2, 'Le Van C', '789 Oak St', '0912345678'),   -- Order 12
+('OD2024010513', 1, 'Complete', '2024-01-05 16:45:00', 532000, 0, 2, 'Nguyen Van A', '123 Main St', '0123456789'),  -- Order 13
+('OD2024021014', 2, 'Complete', '2024-02-10 11:20:00', 435000, 0, 2, 'Tran Thi B', '456 Elm St', '0987654321'),  -- Order 14
+('OD2024031515', 3, 'Complete', '2024-03-15 13:10:00', 540000, 0, 2, 'Le Van C', '789 Oak St', '0912345678'),   -- Order 15
+('OD2024042016', 1, 'Complete', '2024-04-20 10:00:00', 408000, 0, 2, 'Nguyen Van A', '123 Main St', '0123456789'),  -- Order 16
+('OD2024052517', 2, 'Complete', '2024-05-25 14:30:00', 472500, 0, 2, 'Tran Thi B', '456 Elm St', '0987654321'),  -- Order 17
+('OD2024063018', 3, 'Complete', '2024-06-30 09:45:00', 532000, 0, 2, 'Le Van C', '789 Oak St', '0912345678'),   -- Order 18
+('OD2024070519', 1, 'Complete', '2024-07-05 16:20:00', 435000, 0, 2, 'Nguyen Van A', '123 Main St', '0123456789'),  -- Order 19
+('OD2024081020', 2, 'Complete', '2024-08-10 11:10:00', 540000, 0, 2, 'Tran Thi B', '456 Elm St', '0987654321');  -- Order 20
+
 
 
 

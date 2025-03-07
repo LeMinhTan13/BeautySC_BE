@@ -120,7 +120,7 @@ namespace BeautySCProject.API.Controllers
             );
         }
 
-        [HttpGet("get_shipping_price")]
+        [HttpPost("get_shipping_price")]
         public async Task<IActionResult> GetShippingPrice(bool inRegion, List<OrderDetailCreateRequest> request)
         {
             var result = await _orderService.GetShippingPriceAsync(inRegion, request);

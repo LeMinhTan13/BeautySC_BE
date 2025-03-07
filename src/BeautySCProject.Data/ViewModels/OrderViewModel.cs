@@ -9,7 +9,9 @@ namespace BeautySCProject.Data.ViewModels
 {
     public class OrderViewModel
     {
-        public int OrderId { get; set; }       
+        public int OrderId { get; set; }
+
+        public string FullName { get; set; } = null!;
 
         public string Address { get; set; } = null!;
 
