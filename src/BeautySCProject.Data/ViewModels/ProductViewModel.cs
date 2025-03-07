@@ -25,5 +25,7 @@ namespace BeautySCProject.Data.ViewModels
         public string ProductImage { get; set; }
 
         public BrandViewModel Brand { get; set; }
+        public CategoryViewModel Category { get; set; }
+        public List<SkinTypeViewModel> SkinTypes { get; set; }
     }
 }

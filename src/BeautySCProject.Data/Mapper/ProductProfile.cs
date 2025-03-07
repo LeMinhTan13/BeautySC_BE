@@ -28,7 +28,17 @@ namespace BeautySCProject.Data.Mapper
                 {
                     BrandId = src.BrandId,
                     BrandName = src.Brand.BrandName
-                }));         
+                }))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => new CategoryViewModel
+                {
+                    CategoryId = src.CategoryId,
+                    CategoryName = src.Category.CategoryName
+                }))
+                .ForMember(dest => dest.SkinTypes, opt => opt.MapFrom(src => src.ProductSkinTypes.Select(x => new SkinTypeViewModel
+                {
+                    SkinTypeId = x.SkinTypeId,
+                    SkinTypeName = x.SkinType.SkinTypeName,
+                })));         
             
             CreateMap<Product, ProductDetailViewModel>()               
                 .ForMember(dest => dest.ProductImages, opt => opt.MapFrom(src => src.ProductImages.Select(x => new ProductImageViewModel
