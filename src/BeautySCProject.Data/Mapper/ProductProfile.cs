@@ -38,6 +38,16 @@ namespace BeautySCProject.Data.Mapper
                 {
                     SkinTypeId = x.SkinTypeId,
                     SkinTypeName = x.SkinType.SkinTypeName,
+                })))
+                .ForMember(dest => dest.Functions, opt => opt.MapFrom(src => src.ProductFunctions.Select(x => new FunctionViewModel
+                {
+                    FunctionId = x.FunctionId,
+                    FunctionName = x.Function.FunctionName,
+                })))
+                .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src => src.ProductIngredients.Select(x => new IngredientViewModel
+                {
+                    IngredientId = x.IngredientId,
+                    IngredientName = x.Ingredient.IngredientName,
                 })));         
             
             CreateMap<Product, ProductDetailViewModel>()               
