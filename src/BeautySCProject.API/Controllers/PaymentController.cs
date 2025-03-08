@@ -42,10 +42,10 @@ namespace BeautySCProject.API.Controllers
 
             if (result is MethodResult<string>.Failure rs)
             {
-                return Redirect($"{redirectUrl}/cart?status=fail");
+                return Redirect($"{redirectUrl}/checkout?status=fail");
             }
 
-            return Redirect($"{redirectUrl}/cart?status=success");
+            return Redirect($"{redirectUrl}/checkout?status=success");
         }
 
         [HttpGet("payment-methods")]

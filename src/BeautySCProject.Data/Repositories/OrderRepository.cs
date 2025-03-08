@@ -134,6 +134,39 @@ namespace BeautySCProject.Data.Repositories
                                 .ToListAsync();
         }
 
+        public async Task<OrderViewModel> GetOrderByOrderIdAsync(int orderId)
+        {
+            return await Entities
+                                .Include(x => x.OrderDetails)
+                                    .ThenInclude(od => od.Product)
+                                .Select(x => new OrderViewModel
+                                {
+                                    OrderId = x.OrderId,
+                                    OrderCode = x.OrderCode,
+                                    FullName = x.FullName,
+                                    Address = x.Address,
+                                    PhoneNumber = x.PhoneNumber,
+                                    CreatedDate = x.CreatedDate,
+                                    TotalAmount = (decimal)x.TotalAmount,
+                                    Status = x.Status,
+                                    Details = x.OrderDetails
+                                        .Where(od => od.Product != null)
+                                        .Select(od => new OrderDetailViewModel
+                                        {
+                                            OrderDetailId = od.OrderDetailId,
+                                            ProductId = od.ProductId,
+                                            ProductName = od.Product.ProductName,
+                                            ProductImage = od.Product.ProductImages.Any() ? od.Product.ProductImages.FirstOrDefault().Url : "",
+                                            Size = od.Product.Size,
+                                            Quantity = od.Quantity,
+                                            Price = od.Product.Price,
+                                            Discount = od.Product.Discount
+                                        })
+                                        .ToList()
+                                })
+                                .FirstOrDefaultAsync(x => x.OrderId == orderId);
+        }
+
         public async Task<bool> CheckUsedVoucherAsync(int customerId, int voucherId)
         {
             return await Entities.AnyAsync(x => x.CustomerId == customerId && x.VoucherId == voucherId);

@@ -317,5 +317,11 @@ namespace BeautySCProject.Service.Services
             var result = await _orderRepository.GetShippingPriceAsync(inRegion, request);
             return new MethodResult<string>.Success(result.ToString());
         }
+
+        public async Task<MethodResult<OrderViewModel>> GetOrderByOrderIdAsync(int orderId)
+        {
+            var result = await _orderRepository.GetOrderByOrderIdAsync(orderId);
+            return new MethodResult<OrderViewModel>.Success(result);
+        }
     }
 }

@@ -120,6 +120,16 @@ namespace BeautySCProject.API.Controllers
             );
         }
 
+        [HttpGet("get_order_by_id")]
+        public async Task<IActionResult> GetOrderById(int orderId)
+        {
+            var result = await _orderService.GetOrderByOrderIdAsync(orderId);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
+
         [HttpPost("get_shipping_price")]
         public async Task<IActionResult> GetShippingPrice(bool inRegion, List<OrderDetailCreateRequest> request)
         {
