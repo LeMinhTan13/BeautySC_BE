@@ -22,6 +22,41 @@ namespace BeautySCProject.Data.Mapper
                 .ForMember(dest => dest.TotalAmount, opt => opt.MapFrom(src => 0))
                 .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => DateTime.Now));          
             CreateMap<PaymentMethod, PaymentMethodViewModel>();
+            CreateMap<Order, OrderViewModel>()
+                .ForMember(dest => dest.PaymentMethodName, opt => opt.MapFrom(src => src.PaymentMethod.PaymentMethodName))
+                .ForMember(dest => dest.Voucher, opt => opt.MapFrom(src => src.VoucherId == null ? null : new VoucherViewModel
+                {
+                    VoucherId = (int) src.VoucherId,
+                    VoucherName = src.Voucher.VoucherName,
+                    VoucherCode =src.Voucher.VoucherCode,
+                    Description = src.Voucher.Description,
+                    DiscountAmount = src.Voucher.DiscountAmount,
+                    StartDate = src.Voucher.StartDate,
+                    EndDate = src.Voucher.EndDate,
+                    MinimumPurchase = src.Voucher.MinimumPurchase,
+                    Status = src.Voucher.Status
+                }))
+                .ForMember(dest => dest.Details, opt => opt.MapFrom(src => src.OrderDetails.Where(x => x.OrderId == src.OrderId).Select(od => new OrderDetailViewModel
+                {
+                    OrderDetailId = od.OrderDetailId,
+                    ProductId = od.ProductId,
+                    ProductName = od.Product.ProductName,
+                    ProductImage = od.Product.ProductImages.Any() ? od.Product.ProductImages.FirstOrDefault().Url : "",
+                    Size = od.Product.Size,
+                    Quantity = od.Quantity,
+                    Price = od.Product.Price,
+                    Discount = od.Product.Discount,
+                    Category = new CategoryViewModel
+                    {
+                        CategoryId = od.Product.CategoryId,
+                        CategoryName = od.Product.Category.CategoryName
+                    },
+                    SkinTypes = od.Product.ProductSkinTypes.Select(pst => new SkinTypeViewModel
+                    {
+                        SkinTypeId = pst.SkinTypeId,
+                        SkinTypeName = pst.SkinType.SkinTypeName
+                    }).ToList()
+                }).ToList()));
         }
     }
 }

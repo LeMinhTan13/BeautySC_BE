@@ -16,6 +16,8 @@ namespace BeautySCProject.Data.Models.OrderModel
         [Required]
         public bool InRegion { get; set; }
         [Required]
+        public string FullName { get; set; }
+        [Required]
         public string Address { get; set; }
         [Required]
         public string PhoneNumber { get; set; }     

@@ -252,6 +252,9 @@ public partial class BeautyscDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("created_date");
             entity.Property(e => e.CustomerId).HasColumnName("customer_id");
+            entity.Property(e => e.FullName)
+                .HasMaxLength(255)
+                .HasColumnName("full_name");
             entity.Property(e => e.OrderCode)
                 .HasMaxLength(100)
                 .HasColumnName("order_code");

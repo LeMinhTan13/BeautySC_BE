@@ -19,6 +19,10 @@ namespace BeautySCProject.Data.Interfaces
         Task<bool> CheckUsedVoucherAsync(int customerId, int voucherId);
         Task<IEnumerable<PaymentMethodViewModel>> GetAllPaymentMethodAsync();
         Task<decimal> GetShippingPriceAsync(bool inRegion, List<OrderDetailCreateRequest> request);
+
         Task<decimal?> GetAllRevenueAsync();
+
+        Task<OrderViewModel> GetOrderByOrderIdAsync(int orderId);
+
     }
 }
