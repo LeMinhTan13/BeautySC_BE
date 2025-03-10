@@ -19,6 +19,10 @@ namespace BeautySCProject.Data.ViewModels
 
         public string PhoneNumber { get; set; } = null!;
 
+        public VoucherViewModel Voucher { get; set; }
+
+        public decimal ShippingPrice { get; set; }
+
         public decimal TotalAmount { get; set; }
 
         public string PaymentMethodName { get; set; }
@@ -47,5 +51,9 @@ namespace BeautySCProject.Data.ViewModels
         public decimal Price { get; set; }
 
         public decimal Discount { get; set; }
+
+        public CategoryViewModel Category { get; set; }
+
+        public List<SkinTypeViewModel> SkinTypes { get; set; }
     }
 }

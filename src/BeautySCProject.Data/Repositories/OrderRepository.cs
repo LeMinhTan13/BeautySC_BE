@@ -66,104 +66,23 @@ namespace BeautySCProject.Data.Repositories
         public async Task<IEnumerable<OrderViewModel>> GetOrderByCustomerAsync(int customerId, string? status)
         {
             return await Entities
-                                .Include(x => x.OrderDetails)
-                                    .ThenInclude(od => od.Product)
-                                .Include(x => x.PaymentMethod)
                                 .Where(x => x.CustomerId == customerId &&                                             
                                             (string.IsNullOrEmpty(status) || x.Status.ToLower() == status.ToLower()))
-                                .Select(x => new OrderViewModel
-                                {
-                                    OrderId = x.OrderId,
-                                    OrderCode = x.OrderCode,
-                                    FullName = x.FullName,
-                                    Address = x.Address,
-                                    PhoneNumber = x.PhoneNumber,
-                                    CreatedDate = x.CreatedDate,
-                                    TotalAmount = (decimal)x.TotalAmount,
-                                    PaymentMethodName = x.PaymentMethod.PaymentMethodName,
-                                    Status = x.Status,
-                                    Details = x.OrderDetails
-                                        //.Where(od => od.Product != null)
-                                        .Select(od => new OrderDetailViewModel
-                                        {
-                                            OrderDetailId = od.OrderDetailId,
-                                            ProductId = od.ProductId,
-                                            ProductName = od.Product.ProductName,
-                                            ProductImage = od.Product.ProductImages.Any() ? od.Product.ProductImages.FirstOrDefault().Url : "",
-                                            Size = od.Product.Size,
-                                            Quantity = od.Quantity,
-                                            Price = od.Product.Price,
-                                            Discount = od.Product.Discount
-                                        })
-                                        .ToList()
-                                })
+                                .ProjectTo<OrderViewModel>(_mapper.ConfigurationProvider)
                                 .ToListAsync();
         }
 
         public async Task<IEnumerable<OrderViewModel>> GetAllOrderAsync(string? status)
         {
             return await Entities
-                                .Include(x => x.OrderDetails)
-                                    .ThenInclude(od => od.Product)
                                 .Where(x => string.IsNullOrEmpty(status) || x.Status.ToLower() == status.ToLower())
-                                .Select(x => new OrderViewModel
-                                {
-                                    OrderId = x.OrderId,
-                                    OrderCode = x.OrderCode,
-                                    FullName = x.FullName,
-                                    Address = x.Address,
-                                    PhoneNumber = x.PhoneNumber,
-                                    CreatedDate = x.CreatedDate,
-                                    TotalAmount = (decimal)x.TotalAmount,
-                                    Status = x.Status,
-                                    Details = x.OrderDetails
-                                        .Where(od => od.Product != null)
-                                        .Select(od => new OrderDetailViewModel
-                                        {
-                                            OrderDetailId = od.OrderDetailId,
-                                            ProductId = od.ProductId,
-                                            ProductName = od.Product.ProductName,
-                                            ProductImage = od.Product.ProductImages.Any() ? od.Product.ProductImages.FirstOrDefault().Url : "",
-                                            Size = od.Product.Size,
-                                            Quantity = od.Quantity,
-                                            Price = od.Product.Price,
-                                            Discount = od.Product.Discount
-                                        })
-                                        .ToList()
-                                })
+                                .ProjectTo<OrderViewModel>(_mapper.ConfigurationProvider)
                                 .ToListAsync();
         }
 
         public async Task<OrderViewModel> GetOrderByOrderIdAsync(int orderId)
         {
-            return await Entities
-                                .Include(x => x.OrderDetails)
-                                    .ThenInclude(od => od.Product)
-                                .Select(x => new OrderViewModel
-                                {
-                                    OrderId = x.OrderId,
-                                    OrderCode = x.OrderCode,
-                                    FullName = x.FullName,
-                                    Address = x.Address,
-                                    PhoneNumber = x.PhoneNumber,
-                                    CreatedDate = x.CreatedDate,
-                                    TotalAmount = (decimal)x.TotalAmount,
-                                    Status = x.Status,
-                                    Details = x.OrderDetails
-                                        .Where(od => od.Product != null)
-                                        .Select(od => new OrderDetailViewModel
-                                        {
-                                            OrderDetailId = od.OrderDetailId,
-                                            ProductId = od.ProductId,
-                                            ProductName = od.Product.ProductName,
-                                            ProductImage = od.Product.ProductImages.Any() ? od.Product.ProductImages.FirstOrDefault().Url : "",
-                                            Size = od.Product.Size,
-                                            Quantity = od.Quantity,
-                                            Price = od.Product.Price,
-                                            Discount = od.Product.Discount
-                                        })
-                                        .ToList()
-                                })
+            return await Entities.ProjectTo<OrderViewModel>(_mapper.ConfigurationProvider)
                                 .FirstOrDefaultAsync(x => x.OrderId == orderId);
         }
 

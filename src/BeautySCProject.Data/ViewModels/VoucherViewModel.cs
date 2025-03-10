@@ -25,7 +25,5 @@ namespace BeautySCProject.Data.ViewModels
         public bool? Status { get; set; }
 
         public decimal? MinimumPurchase { get; set; }
-
-
     }
 }
