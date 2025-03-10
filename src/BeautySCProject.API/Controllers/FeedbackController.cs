@@ -82,5 +82,14 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
+        [HttpGet("get-number-of-feedback-by-productId")]
+        public async Task<IActionResult> GetNumberOfFeedback(int productId)
+        {
+            var result = await _feedbackService.GetNumberOfFeedbackAsync(productId);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
     }
 }

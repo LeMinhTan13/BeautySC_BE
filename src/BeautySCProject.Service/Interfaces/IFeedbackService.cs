@@ -19,5 +19,6 @@ namespace BeautySCProject.Service.Interfaces
         Task<MethodResult<IEnumerable<FeedbackViewModel>>> GetFeedbackByProductIdAsync( int productId);
         Task<MethodResult<FeedbackViewModel>> GetFeedbackByFeedbackAsync(int feedback);
         
+        Task<MethodResult<string>> GetNumberOfFeedbackAsync(int productId);
     }
 }

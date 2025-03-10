@@ -2,6 +2,7 @@
 using BeautySCProject.Common.Helpers;
 using BeautySCProject.Data.Entities;
 using BeautySCProject.Data.Interfaces;
+using BeautySCProject.Data.Models.Category;
 using BeautySCProject.Data.ViewModels;
 using BeautySCProject.Service.Interfaces;
 using System;
@@ -32,6 +33,12 @@ namespace BeautySCProject.Service.Services
             var cate = await _categoryRepository.GetCategoryAsync(categoryId);
             var result = _mapper.Map<CategoryViewModel>(cate);
             return new MethodResult<CategoryViewModel>.Success(result);
+        }
+        public async Task<MethodResult<CategoryCountProductModel>> CountProductAsync(int categoryId)
+        {
+            var cate = await _categoryRepository.CountProductAsync(categoryId);
+            var result = _mapper.Map<CategoryCountProductModel>(cate);
+            return new MethodResult<CategoryCountProductModel>.Success(result);
         }
     }
 }

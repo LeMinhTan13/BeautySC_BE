@@ -129,5 +129,15 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
+        
+        [HttpGet("get-all-revenue")]
+        public async Task<IActionResult> GetAllRevenue()
+        {
+            var result = await _orderService.GetAllRevenueAsync();
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
     }
 }

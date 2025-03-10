@@ -91,6 +91,11 @@ namespace BeautySCProject.Service.Services
 
 
         }
+        public async Task<MethodResult<string>> GetNumberOfFeedbackAsync(int productId)
+        {
+            var result = await _feedbackRepository.GetNumberOfFeedbackAsync(productId);
+            return new MethodResult<string>.Success(result.ToString());
+        }   
 
     }
 }

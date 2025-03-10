@@ -221,5 +221,14 @@ namespace BeautySCProject.Service.Services
                 }
                 return new MethodResult<string>.Success("Update avatar successfully");
             });
+        public async Task<MethodResult<string>> GetNumberCustomerAsync()
+        {
+            var numberCustomer = await _customerRepository.GetNumberCustomerAsync();
+            if (numberCustomer != null)
+            {
+                return new MethodResult<string>.Success(numberCustomer.ToString());
+            }
+            return new MethodResult<string>.Failure("Fail to get number customer", StatusCodes.Status500InternalServerError);
+        }
     }
 }

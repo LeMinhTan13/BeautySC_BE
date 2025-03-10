@@ -81,5 +81,14 @@ namespace BeautySCProject.API.Controllers
             );
         }
 
+        [HttpGet("get-number-customer")]
+        public async Task<IActionResult> GetNumberCustomer()
+        {
+            var result = await _customerService.GetNumberCustomerAsync();
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
     }
 }

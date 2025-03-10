@@ -1,5 +1,6 @@
 ﻿using BeautySCProject.Common.Helpers;
 using BeautySCProject.Data.Entities;
+using BeautySCProject.Data.Models.Category;
 using BeautySCProject.Data.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace BeautySCProject.Service.Interfaces
     {
         Task<MethodResult<IEnumerable<CategoryViewModel>>> GetCategoriesAsync();
         Task<MethodResult<CategoryViewModel>> GetCategoryAsync(int categoryId);
+        Task<MethodResult<CategoryCountProductModel>> CountProductAsync(int categoryId);
     }
 }

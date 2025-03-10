@@ -175,5 +175,9 @@ namespace BeautySCProject.Data.Repositories
                 }
             }
         }
+        public async Task<decimal?> GetAllRevenueAsync()
+        {
+            return await Entities.SumAsync(x => x.TotalAmount);
+        }
     }
 }

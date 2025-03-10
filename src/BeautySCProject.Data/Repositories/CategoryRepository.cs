@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using BeautySCProject.Data.Entities;
 using BeautySCProject.Data.Interfaces;
+using BeautySCProject.Data.Models.Category;
 using BeautySCProject.Data.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -34,6 +35,17 @@ namespace BeautySCProject.Data.Repositories
             var category = await Entities.FindAsync(categoryId);
             await _unitOfWork.SaveChangesAsync();
             return category;
+        }
+        public async Task<CategoryCountProductModel> CountProductAsync(int categoryId)
+        {
+            var result = await Entities.Where(x => x.CategoryId == categoryId)
+                .Select(x => new CategoryCountProductModel
+                {
+                    CategoryId = x.CategoryId,
+                    CategoryName = x.CategoryName,
+                    ProductCount = x.Products.Count
+                }).FirstOrDefaultAsync();
+            return result;
         }
     }
 }

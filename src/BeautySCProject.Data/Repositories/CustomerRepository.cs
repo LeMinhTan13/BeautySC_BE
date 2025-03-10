@@ -102,5 +102,9 @@ namespace BeautySCProject.Data.Repositories
         {
             return await _dbContext.Accounts.Include(x => x.Customer).FirstOrDefaultAsync(user => user.Email == email);
         }
+		public async Task<int> GetNumberCustomerAsync()
+		{
+			return await Entities.CountAsync();
+		}
     }
 }

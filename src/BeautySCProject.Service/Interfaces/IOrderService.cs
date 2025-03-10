@@ -25,5 +25,7 @@ namespace BeautySCProject.Service.Interfaces
         Task<MethodResult<IEnumerable<OrderViewModel>>> GetOrderByCustomerAsync(int customerId, string? status);
         Task<MethodResult<IEnumerable<OrderViewModel>>> GetAllOrderAsync(string? status);
         Task<MethodResult<string>> GetShippingPriceAsync(bool inRegion, List<OrderDetailCreateRequest> request);
+        Task<MethodResult<string>> GetAllRevenueAsync();
+
     }
 }

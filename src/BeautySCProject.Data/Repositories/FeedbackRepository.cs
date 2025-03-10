@@ -85,5 +85,9 @@ namespace BeautySCProject.Data.Repositories
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
+        public async Task<int> GetNumberOfFeedbackAsync(int productId)
+        {
+            return await Entities.CountAsync(x => x.ProductId == productId);
+        }
     }
 }

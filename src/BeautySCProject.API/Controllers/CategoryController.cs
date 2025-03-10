@@ -33,5 +33,15 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
+
+        [HttpGet("get-number-product-by-category-id")]
+        public async Task<IActionResult> CountProduct(int categoryId)
+        {
+            var result = await _categoryService.CountProductAsync(categoryId);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
     }
 }

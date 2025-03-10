@@ -20,5 +20,6 @@ namespace BeautySCProject.Data.Interfaces
 		Task<Customer?> GetCustomerByIdAsync(int id);
         Task<bool> UpdateProfileAsync(Customer user, ProfileUpdateRequest request);
         Task<Account> GetAccountByEmailAsync(string email);
+        Task<int> GetNumberCustomerAsync();
     }
 }
