@@ -36,7 +36,8 @@ namespace BeautySCProject.Data.Repositories
                                .Distinct()
                                .ToListAsync();
             var availableVouchers = await Entities
-                                .Where(v => !usedVoucherIds.Contains(v.VoucherId) && v.Status == true)
+                                .Where(v => !usedVoucherIds.Contains(v.VoucherId) && v.Status == true
+                                                    && v.StartDate <= DateTime.Now && v.EndDate >= DateTime.Now)
                                 .Select(st => new VoucherViewModel
                                 {
                                     VoucherId = st.VoucherId,
