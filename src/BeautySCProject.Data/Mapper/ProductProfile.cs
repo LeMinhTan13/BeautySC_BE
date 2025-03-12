@@ -81,12 +81,21 @@ namespace BeautySCProject.Data.Mapper
                      IngredientId = x.IngredientId,
                      IngredientName = x.Ingredient.IngredientName,
                  })))
-                .ForMember(dest => dest.Feedbacks, opt => opt.MapFrom(src => src.Feedbacks.Select(x => new FeedbackProductViewModel
+                .ForMember(dest => dest.Feedbacks, opt => opt.MapFrom(src => src.Feedbacks.Select(x => new FeedbackViewModel
                 {
                     FeedbackId = x.FeedbackId,
                     Rating = x.Rating,
                     Comment = x.Comment,
-                    CreatedDate = x.CreatedDate
+                    CreatedDate = x.CreatedDate,
+                    ProductId = x.ProductId,
+                    Status = x.Status,
+                    Customer = new CustomerFeedbackViewModel
+                    {
+                        AccountId = x.Customer.AccountId,
+                        CustomerId = x.CustomerId,
+                        FullName = x.Customer.FullName,
+                        Image = x.Customer.Image
+                    }
                 })));
         }
     }
