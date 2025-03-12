@@ -64,7 +64,7 @@ namespace BeautySCProject.Service.Services
                         return new MethodResult<CreateOrderViewModel>.Failure($"Fail while update product", StatusCodes.Status500InternalServerError);
                     }
 
-                    item.Price = product.Price * (1 - product.Discount / 100);
+                    item.Price = product.Price * (1 - product.Discount);
                     order.TotalAmount += item.Price * item.Quantity;
                 }
 
