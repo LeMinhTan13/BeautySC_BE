@@ -14,7 +14,7 @@ WORKDIR /src
 COPY ["BeautySCProject.API/BeautySCProject.API.csproj", "BeautySCProject.API/"]
 COPY ["BeautySCProject.Service/BeautySCProject.Service.csproj", "BeautySCProject.Service/"]
 COPY ["BeautySCProject.Data/BeautySCProject.Data.csproj", "BeautySCProject.Data/"]
-COPY ["BeautySCProject.Common/BeautySCProject.Common.csproj", "BeautySCProject.Common/"]
+COPY ["src/BeautySCProject.Common/BeautySCProject.Common.csproj", "BeautySCProject.Common/"]
 RUN dotnet restore "./BeautySCProject.API/BeautySCProject.API.csproj"
 COPY . .
 WORKDIR "/src/BeautySCProject.API"
