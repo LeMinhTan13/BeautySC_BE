@@ -101,6 +101,15 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
+        [HttpGet("get-number-of-products")]
+        public async Task<IActionResult> CountProductInSystem()
+        {
+            var result = await _productService.GetNumberOfProductAsync();
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
     }
 }
 

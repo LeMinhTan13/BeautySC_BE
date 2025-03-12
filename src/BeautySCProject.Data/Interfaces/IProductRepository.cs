@@ -20,5 +20,6 @@ namespace BeautySCProject.Data.Interfaces
         Task<ProductDetailViewModel?> GetProductDetailAsync(int productId);
         Task<IEnumerable<ProductViewModel?>> GetNewProductAsync();
         Task<IEnumerable<ProductViewModel?>> GetBestSellerProductAsync();
+        Task<int> GetNumberOfProductAsync();
     }
 }

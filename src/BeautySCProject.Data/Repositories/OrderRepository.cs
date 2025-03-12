@@ -135,5 +135,9 @@ namespace BeautySCProject.Data.Repositories
         {
             return await Entities.SumAsync(x => x.TotalAmount);
         }
+        public async Task<int> GetNumberOfOrderAsync()
+        {
+            return await Entities.CountAsync();
+        }
     }
 }

@@ -356,5 +356,10 @@ namespace BeautySCProject.Service.Services
             }
             return new MethodResult<IEnumerable<ProductViewModel>>.Success(result);
         }
+        public async Task<MethodResult<string>> GetNumberOfProductAsync()
+        {
+            var result = await _productRepository.GetNumberOfProductAsync();
+            return new MethodResult<string>.Success(result.ToString());
+        }
     }
 }

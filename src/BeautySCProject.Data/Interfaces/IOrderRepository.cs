@@ -21,6 +21,6 @@ namespace BeautySCProject.Data.Interfaces
         Task<decimal> GetShippingPriceAsync(bool inRegion, List<OrderDetailCreateRequest> request);
         Task<decimal?> GetAllRevenueAsync();
         Task<OrderViewModel> GetOrderByOrderIdAsync(int orderId);
-
+        Task<int> GetNumberOfOrderAsync();
     }
 }

@@ -181,5 +181,9 @@ namespace BeautySCProject.Data.Repositories
                                  .ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider)
                                  .ToListAsync();
         }
+        public async Task<int> GetNumberOfProductAsync()
+        {
+            return await Entities.CountAsync();
+        }
     }
 }

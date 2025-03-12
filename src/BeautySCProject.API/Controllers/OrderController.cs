@@ -149,5 +149,15 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
+
+        [HttpGet("get-number-orders")]
+        public async Task<IActionResult> GetNumberOfOrders()
+        {
+            var result = await _orderService.GetNumberOfOrderAsync();
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
     }
 }
