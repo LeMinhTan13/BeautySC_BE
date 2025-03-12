@@ -11,9 +11,9 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["BeautySCProject.API/BeautySCProject.API.csproj", "BeautySCProject.API/"]
-COPY ["BeautySCProject.Service/BeautySCProject.Service.csproj", "BeautySCProject.Service/"]
-COPY ["BeautySCProject.Data/BeautySCProject.Data.csproj", "BeautySCProject.Data/"]
+COPY ["src/BeautySCProject.API/BeautySCProject.API.csproj", "BeautySCProject.API/"]
+COPY ["src/BeautySCProject.Service/BeautySCProject.Service.csproj", "BeautySCProject.Service/"]
+COPY ["src/BeautySCProject.Data/BeautySCProject.Data.csproj", "BeautySCProject.Data/"]
 COPY ["src/BeautySCProject.Common/BeautySCProject.Common.csproj", "BeautySCProject.Common/"]
 RUN dotnet restore "./BeautySCProject.API/BeautySCProject.API.csproj"
 COPY . .
