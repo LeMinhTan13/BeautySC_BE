@@ -91,7 +91,7 @@ app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "BeautySCProject.API v1");
 });
-S
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
