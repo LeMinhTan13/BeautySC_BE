@@ -23,6 +23,7 @@ jobs:
 
       - name: Build
         run: dotnet build --configuration Release
+        working-directory: src/BeautySCProject.API
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
