@@ -36,7 +36,7 @@ namespace BeautySCProject.Data.ViewModels
 
         public List<IngredientViewModel> Ingredients { get; set; }
 
-        public List<FeedbackProductViewModel> Feedbacks { get; set; }
+        public List<FeedbackViewModel> Feedbacks { get; set; }
     }
   
     public class ProductImageViewModel
@@ -69,13 +69,5 @@ namespace BeautySCProject.Data.ViewModels
         public int IngredientId { get; set; }
 
         public string IngredientName { get; set; }
-    }
-    public class FeedbackProductViewModel
-    {
-        public int FeedbackId { get; set; }
-
-        public float Rating { get; set; }
-        public string Comment { get; set; }
-        public DateTime CreatedDate { get; set;  }
     }
 }
