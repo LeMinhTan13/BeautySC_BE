@@ -16,7 +16,7 @@ COPY ["src/BeautySCProject.Service/BeautySCProject.Service.csproj", "BeautySCPro
 COPY ["src/BeautySCProject.Data/BeautySCProject.Data.csproj", "BeautySCProject.Data/"]
 COPY ["src/BeautySCProject.Common/BeautySCProject.Common.csproj", "BeautySCProject.Common/"]
 RUN dotnet restore "./BeautySCProject.API/BeautySCProject.API.csproj"
-COPY . .
+COPY ./src .
 WORKDIR "/src/BeautySCProject.API"
 RUN dotnet build "./BeautySCProject.API.csproj" -c Release -o /app/build
 
