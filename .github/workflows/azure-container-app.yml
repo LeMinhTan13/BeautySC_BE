@@ -50,17 +50,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Assign AcrPull role to Container App
-        run: |
-          principalId=$(az containerapp identity show \
-            --name ${{ env.CONTAINER_APP_NAME }} \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
-            --query "principalId" -o tsv)
-          az role assignment create \
-            --assignee $principalId \
-            --scope $(az acr show --name ${{ env.AZURE_CONTAINER_REGISTRY }} --query "id" -o tsv) \
-            --role AcrPull
-
       - name: Deploy to Azure Container App
         uses: azure/container-apps-deploy-action@v1
         with:
