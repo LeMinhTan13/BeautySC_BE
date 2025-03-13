@@ -69,5 +69,7 @@ namespace BeautySCProject.Data.ViewModels
         public int IngredientId { get; set; }
 
         public string IngredientName { get; set; }
+
+        public decimal? Concentration { get; set; }
     }
 }

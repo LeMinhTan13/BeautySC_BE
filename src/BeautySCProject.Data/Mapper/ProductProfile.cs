@@ -48,6 +48,7 @@ namespace BeautySCProject.Data.Mapper
                 {
                     IngredientId = x.IngredientId,
                     IngredientName = x.Ingredient.IngredientName,
+                    Concentration = x.Concentration
                 })));         
             
             CreateMap<Product, ProductDetailViewModel>()               
@@ -80,7 +81,8 @@ namespace BeautySCProject.Data.Mapper
                  {
                      IngredientId = x.IngredientId,
                      IngredientName = x.Ingredient.IngredientName,
-                 })))
+                     Concentration = x.Concentration
+                })))
                 .ForMember(dest => dest.Feedbacks, opt => opt.MapFrom(src => src.Feedbacks.Select(x => new FeedbackViewModel
                 {
                     FeedbackId = x.FeedbackId,
