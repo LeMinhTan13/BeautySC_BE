@@ -1,7 +1,7 @@
 name: Build and Deploy to Azure Container Apps
 
 env:
-  AZURE_CONTAINER_REGISTRY: BeautyscRegistry  # set this to the name of your Azure Web App
+  AZURE_CONTAINER_REGISTRY: beautyscregistry #BeautyscRegistry  # set this to the name of your Azure Web App
   CONTAINER_APP_NAME: beautysc-api
   RESOURCE_GROUP: api-app
   
