@@ -10,5 +10,6 @@ namespace BeautySCProject.Data.ViewModels
     {
         public int SkinTypeId { get; set; }
         public string SkinTypeName { get; set; }
+        public int Priority { get; set; }
     }
 }

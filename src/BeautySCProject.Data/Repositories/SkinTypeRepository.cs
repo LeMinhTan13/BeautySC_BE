@@ -45,7 +45,8 @@ namespace BeautySCProject.Data.Repositories
             .Select(st => new SkinTypeViewModel
             {
                 SkinTypeId = st.SkinTypeId,
-                SkinTypeName = st.SkinTypeName
+                SkinTypeName = st.SkinTypeName,
+                Priority = st.Priority
             })
             .ToListAsync();
         }
