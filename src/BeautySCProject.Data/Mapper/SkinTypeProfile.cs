@@ -16,6 +16,8 @@ namespace BeautySCProject.Data.Mapper
         {
             CreateMap<SkinType, SkinTypeViewModel>();
             CreateMap<SkinType, SkinTypeUpdateRequestModel>();
+            CreateMap<SkinType, SkinTypeCreateRequestModel>();
+            CreateMap<SkinTypeCreateRequestModel, SkinType >();
         }
         
     }
