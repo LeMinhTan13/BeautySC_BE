@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace BeautySCProject.Data.Entities;
@@ -18,6 +17,10 @@ public partial class BeautyscDbContext : DbContext
     }
 
     public virtual DbSet<Account> Accounts { get; set; }
+
+    public virtual DbSet<Blog> Blogs { get; set; }
+
+    public virtual DbSet<BlogDetail> BlogDetails { get; set; }
 
     public virtual DbSet<Brand> Brands { get; set; }
 
@@ -95,6 +98,60 @@ public partial class BeautyscDbContext : DbContext
                 .HasColumnName("role");
         });
 
+        modelBuilder.Entity<Blog>(entity =>
+        {
+            entity.HasKey(e => e.BlogId).HasName("PRIMARY");
+
+            entity.ToTable("blog");
+
+            entity.HasIndex(e => e.AccountId, "account_id");
+
+            entity.Property(e => e.BlogId).HasColumnName("blog_id");
+            entity.Property(e => e.AccountId).HasColumnName("account_id");
+            entity.Property(e => e.BlogImage)
+                .HasMaxLength(255)
+                .HasColumnName("blog_image");
+            entity.Property(e => e.BlogTitle)
+                .HasMaxLength(255)
+                .HasColumnName("blog_title");
+            entity.Property(e => e.CreatedDate)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime")
+                .HasColumnName("created_date");
+            entity.Property(e => e.Status).HasColumnName("status");
+
+            entity.HasOne(d => d.Account).WithMany(p => p.Blogs)
+                .HasForeignKey(d => d.AccountId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("blog_ibfk_1");
+        });
+
+        modelBuilder.Entity<BlogDetail>(entity =>
+        {
+            entity.HasKey(e => e.BlogDetailId).HasName("PRIMARY");
+
+            entity.ToTable("blog_detail");
+
+            entity.HasIndex(e => e.BlogId, "blog_id");
+
+            entity.Property(e => e.BlogDetailId).HasColumnName("blog_detail_id");
+            entity.Property(e => e.BlogDetailImage)
+                .HasMaxLength(255)
+                .HasColumnName("blog_detail_image");
+            entity.Property(e => e.BlogDetailTitle)
+                .HasMaxLength(255)
+                .HasColumnName("blog_detail_title");
+            entity.Property(e => e.BlogId).HasColumnName("blog_id");
+            entity.Property(e => e.Description)
+                .HasColumnType("text")
+                .HasColumnName("description");
+
+            entity.HasOne(d => d.Blog).WithMany(p => p.BlogDetails)
+                .HasForeignKey(d => d.BlogId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("blog_detail_ibfk_1");
+        });
+
         modelBuilder.Entity<Brand>(entity =>
         {
             entity.HasKey(e => e.BrandId).HasName("PRIMARY");
@@ -102,6 +159,9 @@ public partial class BeautyscDbContext : DbContext
             entity.ToTable("brand");
 
             entity.Property(e => e.BrandId).HasColumnName("brand_id");
+            entity.Property(e => e.BrandImage)
+                .HasMaxLength(255)
+                .HasColumnName("brand_image");
             entity.Property(e => e.BrandName)
                 .HasMaxLength(255)
                 .HasColumnName("brand_name");
@@ -474,7 +534,7 @@ public partial class BeautyscDbContext : DbContext
             entity.Property(e => e.RefreshTokenId).HasColumnName("refresh_token_id");
             entity.Property(e => e.AccountId).HasColumnName("account_id");
             entity.Property(e => e.Token)
-                .HasMaxLength(255)
+                .HasMaxLength(1024)
                 .HasColumnName("token");
 
             entity.HasOne(d => d.Account).WithMany(p => p.RefreshTokens)

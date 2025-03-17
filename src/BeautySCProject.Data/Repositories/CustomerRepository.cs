@@ -7,6 +7,8 @@ using BeautySCProject.Data.Interfaces;
 using BeautySCProject.Data.Models.AuthenticationModel;
 using BeautySCProject.Data.Models.CustomerModel;
 using System.Linq.Expressions;
+using BeautySCProject.Data.ViewModels;
+using AutoMapper.QueryableExtensions;
 
 
 
@@ -106,5 +108,10 @@ namespace BeautySCProject.Data.Repositories
 		{
 			return await Entities.CountAsync();
 		}
+
+		public async Task<IEnumerable<CustomerViewModel>> GetCustomersAsync()
+		{
+            return await Entities.ProjectTo<CustomerViewModel>(_mapper.ConfigurationProvider).ToListAsync();
+        }
     }
 }

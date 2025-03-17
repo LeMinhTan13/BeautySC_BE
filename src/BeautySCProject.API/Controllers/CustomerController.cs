@@ -4,6 +4,7 @@ using BeautySCProject.API.Controllers;
 using BeautySCProject.Data.Models.CustomerModel;
 using BeautySCProject.Service.Interfaces;
 using System.Security.Claims;
+using BeautySCProject.Common.Helpers;
 
 namespace BeautySCProject.API.Controllers
 {
@@ -85,6 +86,17 @@ namespace BeautySCProject.API.Controllers
         public async Task<IActionResult> GetNumberCustomer()
         {
             var result = await _customerService.GetNumberCustomerAsync();
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
+
+        [HttpGet("customers")]
+        [Authorize(Roles = Constants.USER_ROLE_MANAGER)]
+        public async Task<IActionResult> GetCustomers()
+        {
+            var result = await _customerService.GetCustomersAsync();
             return result.Match(
                 (l, c) => Problem(detail: l, statusCode: c),
                 Ok

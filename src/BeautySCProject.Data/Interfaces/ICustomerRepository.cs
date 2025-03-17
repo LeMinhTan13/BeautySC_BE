@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BeautySCProject.Data.Models.AuthenticationModel;
 using BeautySCProject.Data.Entities;
 using BeautySCProject.Data.Models.CustomerModel;
+using BeautySCProject.Data.ViewModels;
 
 namespace BeautySCProject.Data.Interfaces
 {
@@ -21,5 +22,6 @@ namespace BeautySCProject.Data.Interfaces
         Task<bool> UpdateProfileAsync(Customer user, ProfileUpdateRequest request);
         Task<Account> GetAccountByEmailAsync(string email);
         Task<int> GetNumberCustomerAsync();
+        Task<IEnumerable<CustomerViewModel>> GetCustomersAsync();
     }
 }

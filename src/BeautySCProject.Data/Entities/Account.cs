@@ -13,6 +13,8 @@ public partial class Account
 
     public string Role { get; set; } = null!;
 
+    public virtual ICollection<Blog> Blogs { get; set; } = new List<Blog>();
+
     public virtual Customer? Customer { get; set; }
 
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();

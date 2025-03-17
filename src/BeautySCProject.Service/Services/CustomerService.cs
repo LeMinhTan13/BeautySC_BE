@@ -230,5 +230,11 @@ namespace BeautySCProject.Service.Services
             }
             return new MethodResult<string>.Failure("Fail to get number customer", StatusCodes.Status500InternalServerError);
         }
+
+        public async Task<MethodResult<IEnumerable<CustomerViewModel>>> GetCustomersAsync()            
+        {
+            var result = await _customerRepository.GetCustomersAsync();
+            return new MethodResult<IEnumerable<CustomerViewModel>>.Success(result);
+        }
     }
 }
