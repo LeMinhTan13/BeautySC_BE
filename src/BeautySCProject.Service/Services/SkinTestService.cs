@@ -65,6 +65,17 @@ namespace BeautySCProject.Service.Services
             return new MethodResult<SkinTestViewModel>.Success(result);
             
         }
+        public async Task<MethodResult<SkinTestViewModel>> GetActiveSkinTestAsync()
+        {
+            var skintest = await _skinTestRepository.GetActiveSkinTestAsync();
+            var result = _mapper.Map<SkinTestViewModel>(skintest);
+            if (result == null)
+            {
+                return new MethodResult<SkinTestViewModel>.Failure("Skin test not found", StatusCodes.Status404NotFound);
+            }
+            return new MethodResult<SkinTestViewModel>.Success(result);
+
+        }
         public async Task<SkinTest> GetSkinTestByIdAsync(int skinTestId)
         {
             return await _skinTestRepository.GetSkinTestByIdAsync(skinTestId);

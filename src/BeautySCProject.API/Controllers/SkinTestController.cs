@@ -45,6 +45,15 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
+        [HttpGet("get-active-skin-test")]
+        public async Task<IActionResult> GetActiveSkinTest()
+        {
+            var result = await _skinTestService.GetActiveSkinTestAsync();
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
 
         [HttpPut("update-skin-test")]
         public async Task<IActionResult> UpdateSkinTest(SkinTestUpdateRequest request)

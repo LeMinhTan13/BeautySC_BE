@@ -49,6 +49,14 @@ namespace BeautySCProject.Data.Repositories
         {
             try
             {
+                if (routine.Status == true)
+                {
+                    var routines = await Entities.Where(x => x.Status == true).ToListAsync();
+                    foreach (var item in routines)
+                    {
+                        item.Status = false;
+                    }
+                }
                 Entities.Add(routine);
                 await _unitOfWork.SaveChangesAsync();
                 return true;
@@ -63,6 +71,14 @@ namespace BeautySCProject.Data.Repositories
         {
             try
             {
+                if (routine.Status == true)
+                {
+                    var routines = await Entities.Where(x => x.Status == true).ToListAsync();
+                    foreach (var item in routines)
+                    {
+                        item.Status = false;
+                    }
+                }
                 Entities.Update(routine);
                 await _unitOfWork.SaveChangesAsync();
                 return true;

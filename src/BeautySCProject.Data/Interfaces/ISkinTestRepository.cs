@@ -12,7 +12,7 @@ namespace BeautySCProject.Data.Interfaces
     {
         Task<bool> CreateSkinTestAsync(SkinTest skinTest);
         Task<SkinTestViewModel> GetSkinTestAsync(int skinTestId);
-
+        Task<SkinTest> GetActiveSkinTestAsync();
         Task<bool> UpdateSkinTestAsync(SkinTest skinTest);
         Task<SkinTest> GetSkinTestByIdAsync(int skinTestId);
 

@@ -28,6 +28,14 @@ namespace BeautySCProject.Data.Repositories
         {
             try
             {
+                if (skinTest.Status == true)
+                {
+                    var skinTests = await Entities.Where(x => x.Status == true).ToListAsync();
+                    foreach (var item in skinTests)
+                    {
+                        item.Status = false;
+                    }
+                }
                 Entities.Add(skinTest);
                 await _unitOfWork.SaveChangesAsync();
                 return true;
@@ -53,11 +61,24 @@ namespace BeautySCProject.Data.Repositories
             var skinTestMap = _mapper.Map<SkinTest>(skinTest);// xài profile mà chưa hiểu lắm nên xài này luôn
             return skinTestMap;
         }
-
+        public async Task<SkinTest> GetActiveSkinTestAsync()
+        {
+            var skinTest = await Entities.Include(x => x.SkinTypeQuestions).ThenInclude(x => x.SkinTypeAnswers)
+                .FirstOrDefaultAsync(x => x.Status == true);
+            return skinTest;
+        }
         public async Task<bool> UpdateSkinTestAsync(SkinTest skinTest)
         {
             try
             { 
+                if(skinTest.Status == true)
+                {
+                    var skinTests = await Entities.Where(x => x.Status == true).ToListAsync();
+                    foreach (var item in skinTests)
+                    {
+                        item.Status = false;
+                    }
+                }
                 Entities.Update(skinTest);
                 await _unitOfWork.SaveChangesAsync();   
                 return true;
