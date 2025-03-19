@@ -51,6 +51,7 @@ namespace BeautySCProject.Domain.ViewModels
         public decimal Price { get; set; }
 
         public decimal Discount { get; set; }
+        public bool IsRecommended { get; set; }
         public List<IngredientViewModel> Ingredients { get; set; }
         public List<ProductSkinTypeRoutineViewModel> ProductSkinTypes   { get; set; }
 
