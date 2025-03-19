@@ -63,6 +63,7 @@ namespace BeautySCProject.Service.Services
         {
             List<Claim> claims =
             [
+                new Claim(ClaimTypes.Sid, account.AccountId.ToString()),
                 new Claim(ClaimTypes.Email, account.Email),
                 new Claim(ClaimTypes.Role, account.Role)
             ];

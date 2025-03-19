@@ -11,7 +11,7 @@ namespace BeautySCProject.Data.Mapper
 {
     public class BrandProfile : Profile
     {
-        public BrandProfile()
+        public BrandProfile()   
         {
             CreateMap<Brand, BrandViewModel>();
         }

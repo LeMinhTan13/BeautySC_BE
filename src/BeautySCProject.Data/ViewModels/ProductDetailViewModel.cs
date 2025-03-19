@@ -45,12 +45,14 @@ namespace BeautySCProject.Data.ViewModels
 
         public string ProductImage { get; set; }
     }
-    
+        
     public class BrandViewModel
     {
         public int BrandId { get; set; }
 
         public string BrandName { get; set; }
+
+        public string BrandImage { get; set; }
     }
     public class CategoryViewModel
     {

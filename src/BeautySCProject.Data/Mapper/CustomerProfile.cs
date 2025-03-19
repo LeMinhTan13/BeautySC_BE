@@ -24,6 +24,13 @@ namespace BeautySCProject.Data.Mapper
                     SkinTypeId = (int) src.SkinTypeId,
                     SkinTypeName = src.SkinType.SkinTypeName
                 }));
+            CreateMap<Customer, CustomerViewModel>()
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Account.Email))
+                .ForMember(dest => dest.SkinType, opt => opt.MapFrom(src => src.SkinTypeId == null ? null : new SkinTypeViewModel
+                {
+                    SkinTypeId = (int)src.SkinTypeId,
+                    SkinTypeName = src.SkinType.SkinTypeName
+                }));
         }
     }
 }

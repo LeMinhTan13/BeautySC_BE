@@ -27,7 +27,8 @@ namespace BeautySCProject.Data.Mapper
                 .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => new BrandViewModel
                 {
                     BrandId = src.BrandId,
-                    BrandName = src.Brand.BrandName
+                    BrandName = src.Brand.BrandName,
+                    BrandImage = src.Brand.BrandImage
                 }))
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => new CategoryViewModel
                 {
@@ -65,7 +66,8 @@ namespace BeautySCProject.Data.Mapper
                 .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => new BrandViewModel
                 {
                     BrandId = src.BrandId,
-                    BrandName = src.Brand.BrandName
+                    BrandName = src.Brand.BrandName,
+                    BrandImage = src.Brand.BrandImage
                 }))
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => new CategoryViewModel
                 {
