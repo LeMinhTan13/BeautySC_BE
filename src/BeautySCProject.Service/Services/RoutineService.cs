@@ -53,6 +53,17 @@ namespace BeautySCProject.Service.Services
         {
             var routine = await _routineRepository.GetRoutinesBySkinTypeAsync(skinTypeId);
             var mappedRoutine = _mapper.Map<RoutineViewModel>(routine);
+
+            foreach (var routineDetail in mappedRoutine.RoutineDetails)
+            {
+                foreach (var routineStep in routineDetail.RoutineSteps)
+                {
+                    routineStep.Category.Products = routineStep.Category.Products
+                        .Where(p => p.ProductSkinTypes.Any(pst => pst.SkinTypeId == skinTypeId) && p.IsRecommended)
+                        .ToList();
+                }
+            }
+
             foreach (var routineDetail in mappedRoutine.RoutineDetails)// lọc 6 sản phẩm daàu tiên
             {
                 foreach (var routineStep in routineDetail.RoutineSteps)

@@ -41,6 +41,11 @@ namespace BeautySCProject.Data.Repositories
                             .ThenInclude(c => c.Products)
                                 .ThenInclude(p => p.ProductIngredients)
                                     .ThenInclude(pi => pi.Ingredient)
+                .Include(r => r.RoutineDetails)
+                    .ThenInclude(rd => rd.RoutineSteps)
+                        .ThenInclude(rs => rs.Category)
+                            .ThenInclude(c => c.Products)
+                                .ThenInclude(p => p.ProductSkinTypes)
                 .FirstOrDefaultAsync();
 
             return routine;
