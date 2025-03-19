@@ -42,9 +42,17 @@ namespace BeautySCProject.Data.Mapper
             CreateMap<RoutineStep, RoutineStepUpdateRequest>();
             CreateMap<RoutineStep, RoutineStepCreateRequest>();
             CreateMap<Product, ProductRoutineViewModel>()
-                    .ForMember(dest => dest.ProductImages,
-                        opt => opt.MapFrom(src => src.ProductImages))
+                    .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
+                    .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.ProductName))
+                    .ForMember(dest => dest.Summary, opt => opt.MapFrom(src => src.Summary))
+                    .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+                    .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                    .ForMember(dest => dest.Discount, opt => opt.MapFrom(src => src.Discount))
+                    .ForMember(dest => dest.ProductImages, opt => opt.MapFrom(src => src.ProductImages))
+                    .ForMember(dest => dest.ProductSkinTypes, opt => opt.MapFrom(src => src.ProductSkinTypes)) // Đúng kiểu dữ liệu
                     .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src => src.ProductIngredients.Select(pi => pi.Ingredient)));
+
+            CreateMap<ProductSkinType, ProductSkinTypeRoutineViewModel>();
             CreateMap<ProductIngredient, IngredientViewModel>()
                     .ForMember(dest => dest.IngredientId, opt => opt.MapFrom(src => src.Ingredient.IngredientId))
                     .ForMember(dest => dest.IngredientName, opt => opt.MapFrom(src => src.Ingredient.IngredientName));

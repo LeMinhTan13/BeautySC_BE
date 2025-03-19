@@ -52,6 +52,7 @@ namespace BeautySCProject.Domain.ViewModels
 
         public decimal Discount { get; set; }
         public List<IngredientViewModel> Ingredients { get; set; }
+        public List<ProductSkinTypeRoutineViewModel> ProductSkinTypes   { get; set; }
 
         public List<ProductImageRoutineViewModel> ProductImages { get; set; } = new List<ProductImageRoutineViewModel>();
     }
@@ -66,5 +67,10 @@ namespace BeautySCProject.Domain.ViewModels
         public string RoutineName { get; set; } = null!;
         public int SkinTypeId { get; set; }
         public string SkinTypeName { get; set; } = null!;
+    }
+    public class ProductSkinTypeRoutineViewModel
+    {
+        public int ProductId { get; set; }
+        public int SkinTypeId { get; set; }
     }
 }
