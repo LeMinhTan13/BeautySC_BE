@@ -133,7 +133,9 @@ namespace BeautySCProject.Data.Repositories
         }
         public async Task<decimal?> GetAllRevenueAsync()
         {
-            return await Entities.SumAsync(x => x.TotalAmount);
+            return await Entities
+                .Where(x => x.Status == Constants.ORDER_STATUS_COMPLETE)
+                .SumAsync(x => x.TotalAmount);
         }
         public async Task<int> GetNumberOfOrderAsync()
         {
