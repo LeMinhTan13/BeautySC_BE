@@ -22,5 +22,6 @@ namespace BeautySCProject.Data.Interfaces
         Task<decimal?> GetAllRevenueAsync();
         Task<OrderViewModel> GetOrderByOrderIdAsync(int orderId);
         Task<int> GetNumberOfOrderAsync();
+        Task<int> GetNumberOfCompleteOrderAsync();
     }
 }

@@ -29,5 +29,6 @@ namespace BeautySCProject.Service.Interfaces
         Task<MethodResult<OrderViewModel>> GetOrderByOrderIdAsync(int orderId);
         Task<MethodResult<string>> GetNumberOfOrderAsync();
 
+        Task<MethodResult<string>> GetNumberOfCompleteOrderAsync();
     }
 }

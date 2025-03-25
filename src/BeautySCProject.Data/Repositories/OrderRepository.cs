@@ -141,5 +141,9 @@ namespace BeautySCProject.Data.Repositories
         {
             return await Entities.CountAsync();
         }
+        public async Task<int> GetNumberOfCompleteOrderAsync()
+        {
+            return await Entities.CountAsync(x => x.Status == Constants.ORDER_STATUS_COMPLETE);
+        }
     }
 }
