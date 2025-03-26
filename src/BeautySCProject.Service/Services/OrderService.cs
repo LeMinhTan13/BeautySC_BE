@@ -340,5 +340,20 @@ namespace BeautySCProject.Service.Services
             var result = await _orderRepository.GetNumberOfCompleteOrderAsync();
             return new MethodResult<string>.Success(result.ToString());
         }
+        public async Task<MethodResult<RevenueViewModel>> GetRevenueByDayMonYearAsync(int day,int month, int year)
+        {
+            var result = await _orderRepository.GetRevenueByDayMonYearAsync(day,month,year);
+            return new MethodResult<RevenueViewModel>.Success(result);
+        }
+        public async Task<MethodResult<IEnumerable<RevenueViewModel>>> GetRevenueByYearAsync(int startYear, int endYear)
+        {
+            var result = await _orderRepository.GetRevenueByYearAsync(startYear, endYear);
+            return new MethodResult<IEnumerable<RevenueViewModel>>.Success(result);
+        }
+        public async Task<MethodResult<IEnumerable<RevenueViewModel>>> GetRevenueByMonYearAsync(int month, int year)
+        {
+            var result = await _orderRepository.GetRevenueByMonYearAsync(month, year);
+            return new MethodResult<IEnumerable<RevenueViewModel>>.Success(result);
+        }
     }
 }

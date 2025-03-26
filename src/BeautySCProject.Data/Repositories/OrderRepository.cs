@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -145,5 +146,62 @@ namespace BeautySCProject.Data.Repositories
         {
             return await Entities.CountAsync(x => x.Status == Constants.ORDER_STATUS_COMPLETE);
         }
+        public async Task<RevenueViewModel> GetRevenueByDayMonYearAsync(int day, int month, int year)
+        {
+            var startDate = new DateTime(year, month, day);
+            var endDate = startDate.AddDays(1);
+
+            var revenue = await Entities
+                .Where(x => x.Status == Constants.ORDER_STATUS_COMPLETE && x.CreatedDate >= startDate && x.CreatedDate < endDate)
+                .SumAsync(x => (x.TotalAmount ?? 0) - x.ShippingPrice);
+            return new RevenueViewModel
+            {
+                Date = DateOnly.FromDateTime(startDate), 
+                Revenue = revenue
+            };
+        }
+        
+        public async Task<IEnumerable<RevenueViewModel>> GetRevenueByYearAsync(int startYear, int endYear)
+        {
+            var startDate = new DateTime(startYear, 1, 1);
+            var endDate = new DateTime(endYear, 12, 31, 23, 59, 59);
+            // tại vì lấy theo năm nhưng hiển thị doanh thu theo tháng
+            var revenueByMonth = Entities
+                .Where(x => x.Status == "Complete" && x.CreatedDate >= startDate && x.CreatedDate <= endDate)
+                .AsEnumerable() 
+                .GroupBy(x => new { x.CreatedDate.Value.Year, x.CreatedDate.Value.Month })
+                .Select(g => new RevenueViewModel
+                {
+                    Date = new DateOnly(g.Key.Year, g.Key.Month, 1),
+                    Revenue = g.Sum(x => (x.TotalAmount ?? 0m) - x.ShippingPrice)
+                })
+                .OrderBy(x => x.Date)
+                .ToList(); 
+
+            return await Task.FromResult(revenueByMonth);
+        }
+
+        public async Task<IEnumerable<RevenueViewModel>> GetRevenueByMonYearAsync(int month, int year)
+        {
+            var startDate = new DateTime(year, month, 1);
+            var endDate = startDate.AddMonths(1).AddSeconds(-1); 
+
+            var revenueByDay = Entities
+                .Where(x => x.Status == "Complete" && x.CreatedDate >= startDate && x.CreatedDate <= endDate)
+                .AsEnumerable() 
+                .GroupBy(x => x.CreatedDate.Value.Day)
+                .Select(g => new RevenueViewModel
+                {
+                    Date = new DateOnly(year, month, g.Key), // Ngày cụ thể
+                    Revenue = g.Sum(x => (x.TotalAmount ?? 0m) - x.ShippingPrice)
+                })
+                .OrderBy(x => x.Date)
+                .ToList(); 
+
+            return await Task.FromResult(revenueByDay);
+        }
+
+
+
     }
 }

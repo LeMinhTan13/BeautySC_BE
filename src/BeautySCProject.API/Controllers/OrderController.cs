@@ -139,7 +139,7 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
-        
+
         [HttpGet("get-all-revenue")]
         public async Task<IActionResult> GetAllRevenue()
         {
@@ -168,5 +168,35 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
+
+        [HttpGet("get-revenue-by-day-mon-year")]
+        public async Task<IActionResult> GetRevenueByDayMonYear(int day, int month, int year)
+        {
+            var result = await _orderService.GetRevenueByDayMonYearAsync(day, month, year);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
+
+        [HttpGet("get-all-revuenue-by-year")]
+        public async Task<IActionResult> GetRevenueByYear(int startYear, int endYear)
+        {
+            var result = await _orderService.GetRevenueByYearAsync(startYear, endYear);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
+        [HttpGet("get-revenue-by-month-year")]
+        public async Task<IActionResult> GetRevenueByMonthYear(int month, int year)
+        {
+            var result = await _orderService.GetRevenueByMonYearAsync( month, year);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
+
     }
 }

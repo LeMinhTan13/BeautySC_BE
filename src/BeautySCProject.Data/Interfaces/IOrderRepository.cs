@@ -23,5 +23,8 @@ namespace BeautySCProject.Data.Interfaces
         Task<OrderViewModel> GetOrderByOrderIdAsync(int orderId);
         Task<int> GetNumberOfOrderAsync();
         Task<int> GetNumberOfCompleteOrderAsync();
+        Task<RevenueViewModel> GetRevenueByDayMonYearAsync(int day, int month, int year);
+        Task<IEnumerable<RevenueViewModel>> GetRevenueByYearAsync(int startYear, int endYear);
+        Task<IEnumerable<RevenueViewModel>> GetRevenueByMonYearAsync(int month, int year);
     }
 }

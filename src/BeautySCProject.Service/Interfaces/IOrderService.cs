@@ -30,5 +30,8 @@ namespace BeautySCProject.Service.Interfaces
         Task<MethodResult<string>> GetNumberOfOrderAsync();
 
         Task<MethodResult<string>> GetNumberOfCompleteOrderAsync();
+        Task<MethodResult<RevenueViewModel>> GetRevenueByDayMonYearAsync(int day,int month,int year);
+        Task<MethodResult<IEnumerable<RevenueViewModel>>> GetRevenueByYearAsync(int startYear, int endYear);
+        Task<MethodResult<IEnumerable<RevenueViewModel>>> GetRevenueByMonYearAsync(int month, int year);
     }
 }
