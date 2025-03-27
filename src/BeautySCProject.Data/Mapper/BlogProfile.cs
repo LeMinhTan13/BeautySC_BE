@@ -16,6 +16,7 @@ namespace BeautySCProject.Data.Mapper
         {            
             CreateMap<Blog, BlogViewModel>();
             CreateMap<Blog, BlogDetailViewModel>();
+            CreateMap<BlogDetail, Content>();
 
             CreateMap<BlogCreateRequest, Blog>();
             CreateMap<BlogDetailCreateRequest, BlogDetail>();
