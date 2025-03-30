@@ -18,6 +18,8 @@ namespace BeautySCProject.Data.ViewModels
 
         public string Size { get; set; }
 
+        public float Weight { get; set; }
+
         public decimal Price { get; set; }
 
         public decimal Discount { get; set; }

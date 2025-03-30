@@ -73,7 +73,7 @@ namespace BeautySCProject.Service.Services
         public async Task<MethodResult<string>> SendAccountVerificationEmailAsync(Customer user)
         {
             var token = _tokenGenerator.GenerateEmailVerificationToken(user.Account.Email);
-            var link = $"https://localhost:7105/api/Authentication/verify-email?token={token}";
+            var link = $"https://beautysc-api.purpleforest-f01817f2.southeastasia.azurecontainerapps.io/api/Authentication/verify-email?token={token}";
             var content = @$"Customer {user.FullName} Register";
             var des = "Click to confirm your account";
             var mail = new MailData
@@ -95,7 +95,7 @@ namespace BeautySCProject.Service.Services
         public async Task<MethodResult<string>> SendEmailUpdateVerificationAsync(Customer user, string newEmail)
         {
             var token = _tokenGenerator.GenerateEmailUpdateToken(user.Account.Email, newEmail);
-            var link = $"https://localhost:7105/api/Customer/verify-updated-email?token={token}";
+            var link = $"https://beautysc-api.purpleforest-f01817f2.southeastasia.azurecontainerapps.io/api/Customer/verify-updated-email?token={token}";
             var content = "Email Update Verification";
             var des = @$"Dear {user.FullName}, You have requested to update your email address. Please click the link below to verify your new email address:";
             var mail = new MailData
@@ -117,7 +117,7 @@ namespace BeautySCProject.Service.Services
         public async Task<MethodResult<string>> SendPasswordResetEmailAsync(Customer user)
         {
             var token = _tokenGenerator.GeneratePasswordResetToken(user.Account.Email);
-            var link = $"https://localhost:7105/api/Authentication/reset-password?token={token}";
+            var link = $"https://beautysc-api.purpleforest-f01817f2.southeastasia.azurecontainerapps.io/api/Authentication/reset-password?token={token}";
             var content = "Request Password Reset";
             var des = @$"Dear {user.FullName}, You have requested to reset your password. Please follow the link below to enter your new password:";
             var mail = new MailData
@@ -159,7 +159,7 @@ namespace BeautySCProject.Service.Services
         public async Task<MethodResult<string>> ResendVerificationEmailAsync(Customer user)
         {
             var token = _tokenGenerator.GenerateEmailVerificationToken(user.Account.Email);
-            var link = $"https://localhost:7105/api/Customer/verify-email/{token}";
+            var link = $"https://beautysc-api.purpleforest-f01817f2.southeastasia.azurecontainerapps.io/api/Customer/verify-email/{token}";
             var content = "Resending Verification link";
             var des = @$"Dear {user.FullName}, We received a request for another account verification email. Please follow the link below to verify your account:";
             var mail = new MailData
