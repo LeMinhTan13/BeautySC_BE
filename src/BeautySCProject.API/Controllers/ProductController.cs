@@ -19,7 +19,7 @@ namespace BeautySCProject.API.Controllers
         }
 
         [HttpPost("create-product")]
-        [Authorize(Roles = Constants.USER_ROLE_STAFF)]
+        [Authorize(Roles = Constants.USER_ROLE_MANAGER)]
         public async Task<IActionResult> CreateProduct(ProductCreateRequest request)
         {
             var result = await _productService.CreateProductAsync(request);
@@ -30,7 +30,7 @@ namespace BeautySCProject.API.Controllers
         }
 
         [HttpPut("update-product")]
-        [Authorize(Roles = Constants.USER_ROLE_STAFF)]
+        [Authorize(Roles = Constants.USER_ROLE_MANAGER)]
         public async Task<IActionResult> UpdateProduct(int productId, ProductUpdateRequest request)
         {
             var result = await _productService.UpdateProductAsync(productId, request);
@@ -41,7 +41,7 @@ namespace BeautySCProject.API.Controllers
         }
 
         [HttpPatch("active-product")]
-        [Authorize(Roles = Constants.USER_ROLE_STAFF)]
+        [Authorize(Roles = Constants.USER_ROLE_MANAGER)]
         public async Task<IActionResult> ActiveProduct(int productId)
         {
             var result = await _productService.ActiveProductAsync(productId);
@@ -52,7 +52,7 @@ namespace BeautySCProject.API.Controllers
         }
 
         [HttpPatch("inactive-product")]
-        [Authorize(Roles = Constants.USER_ROLE_STAFF)]
+        [Authorize(Roles = Constants.USER_ROLE_MANAGER)]
         public async Task<IActionResult> InactiveProduct(int productId)
         {
             var result = await _productService.InactiveProductAsync(productId);
