@@ -35,7 +35,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowNextApp", policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "http://swp-fe-beta.vercel.app")
+        policy.WithOrigins("http://localhost:3000", "https://swp-fe-beta.vercel.app")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
