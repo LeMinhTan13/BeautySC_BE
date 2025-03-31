@@ -27,7 +27,7 @@ namespace BeautySCProject.Data.Repositories
 
         public async Task<IEnumerable<BlogViewModel>> GetBlogsAsync()
         {
-            return await Entities.ProjectTo<BlogViewModel>(_mapper.ConfigurationProvider).ToListAsync();
+            return await Entities.OrderByDescending(x => x.BlogId).ProjectTo<BlogViewModel>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<BlogDetailViewModel> GetBlogDetailAsync(int blogId)
