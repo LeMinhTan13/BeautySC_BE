@@ -41,7 +41,7 @@ namespace BeautySCProject.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Constants.USER_ROLE_MANAGER)]
+        [Authorize(Roles = Constants.USER_ROLE_STAFF)]
         public async Task<IActionResult> CreateBlog(BlogCreateRequest request)
         {
             var accountId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
@@ -53,7 +53,7 @@ namespace BeautySCProject.API.Controllers
         }
 
         [HttpPut("blog/{id}")]
-        [Authorize(Roles = Constants.USER_ROLE_MANAGER)]
+        [Authorize(Roles = Constants.USER_ROLE_STAFF)]
         public async Task<IActionResult> UpdateBlog([FromRoute]int id, BlogUpdateRequest request)
         {
             var result = await _blogService.UpdateBlogAsync(id, request);

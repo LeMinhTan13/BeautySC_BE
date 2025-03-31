@@ -69,6 +69,7 @@ namespace BeautySCProject.Data.Repositories
             return await Entities
                                 .Where(x => x.CustomerId == customerId &&                                             
                                             (string.IsNullOrEmpty(status) || x.Status.ToLower() == status.ToLower()))
+                                .OrderByDescending(x => x.OrderId)
                                 .ProjectTo<OrderViewModel>(_mapper.ConfigurationProvider)
                                 .ToListAsync();
         }
@@ -77,6 +78,7 @@ namespace BeautySCProject.Data.Repositories
         {
             return await Entities
                                 .Where(x => string.IsNullOrEmpty(status) || x.Status.ToLower() == status.ToLower())
+                                .OrderByDescending(x => x.OrderId)
                                 .ProjectTo<OrderViewModel>(_mapper.ConfigurationProvider)
                                 .ToListAsync();
         }
