@@ -37,5 +37,8 @@ namespace BeautySCProject.Service.Interfaces
         Task<MethodResult<string>> UpdateAvatarAsync(string email, string image);
         Task<MethodResult<string>> GetNumberCustomerAsync();
         Task<MethodResult<IEnumerable<CustomerViewModel>>> GetCustomersAsync();
+        Task<MethodResult<string>> ActiveCustomerAsync(int userId);
+        Task<MethodResult<string>> DeactiveCustomerAsync(int userId);
+
     }
 }

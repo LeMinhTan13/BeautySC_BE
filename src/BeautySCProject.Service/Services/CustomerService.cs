@@ -236,5 +236,49 @@ namespace BeautySCProject.Service.Services
             var result = await _customerRepository.GetCustomersAsync();
             return new MethodResult<IEnumerable<CustomerViewModel>>.Success(result);
         }
+
+        public async Task<MethodResult<string>> ActiveCustomerAsync(int userId)
+        {
+            var customer = await _customerRepository.GetCustomerByIdAsync(userId);
+            if (customer == null)
+            {
+                return new MethodResult<string>.Failure("Customer not found", StatusCodes.Status404NotFound);
+            }
+
+            if (customer.Status == true)
+            {
+                return new MethodResult<string>.Failure("Customer status already active", StatusCodes.Status400BadRequest);
+            }
+
+            customer.Status = true;
+            var check = await _customerRepository.UpdateCustomerAsync(customer);
+            if (!check)
+            {
+                return new MethodResult<string>.Failure("Fail while update customer", StatusCodes.Status500InternalServerError);
+            }
+            return new MethodResult<string>.Success("Active customer successfully");
+        }
+
+        public async Task<MethodResult<string>> DeactiveCustomerAsync(int userId)
+        {
+            var customer = await _customerRepository.GetCustomerByIdAsync(userId);
+            if (customer == null)
+            {
+                return new MethodResult<string>.Failure("Customer not found", StatusCodes.Status404NotFound);
+            }
+
+            if (customer.Status == false)
+            {
+                return new MethodResult<string>.Failure("Customer status already inactive", StatusCodes.Status400BadRequest);
+            }
+
+            customer.Status = false;
+            var check = await _customerRepository.UpdateCustomerAsync(customer);
+            if (!check)
+            {
+                return new MethodResult<string>.Failure("Fail while update customer", StatusCodes.Status500InternalServerError);
+            }
+            return new MethodResult<string>.Success("Imactive customer successfully");
+        }
     }
 }

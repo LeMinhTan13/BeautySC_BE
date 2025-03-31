@@ -102,5 +102,27 @@ namespace BeautySCProject.API.Controllers
                 Ok
             );
         }
+
+        [HttpPatch("active-customer")]
+        [Authorize(Roles = Constants.USER_ROLE_MANAGER)]
+        public async Task<IActionResult> ActiveCustomer(int userId)
+        {
+            var result = await _customerService.ActiveCustomerAsync(userId);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
+
+        [HttpPatch("deactive-customer")]
+        [Authorize(Roles = Constants.USER_ROLE_MANAGER)]
+        public async Task<IActionResult> DeactiveCustomer(int userId)
+        {
+            var result = await _customerService.DeactiveCustomerAsync(userId);
+            return result.Match(
+                (l, c) => Problem(detail: l, statusCode: c),
+                Ok
+            );
+        }
     }
 }
