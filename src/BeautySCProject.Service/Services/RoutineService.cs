@@ -170,7 +170,7 @@ namespace BeautySCProject.Service.Services
         {
             var routine = await _routineRepository.GetRoutinesByRoutineIdAsync(routineId);
             var mappedRoutine = _mapper.Map<RoutineViewModel>(routine);
-            foreach (var routineDetail in mappedRoutine.RoutineDetails)// lọc 6 sản phẩm daàu tiên
+            foreach (var routineDetail in mappedRoutine.RoutineDetails)
             {
                 foreach (var routineStep in routineDetail.RoutineSteps)
                 {

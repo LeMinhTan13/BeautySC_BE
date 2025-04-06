@@ -28,7 +28,7 @@ namespace BeautySCProject.Data.Repositories
         public async Task<Routine> GetRoutinesBySkinTypeAsync(int skinTypeId)
         {
             var routine = await Entities
-                .Where(r => r.SkinTypeId == skinTypeId)
+                .Where(r => r.SkinTypeId == skinTypeId && r.Status == true)
                 .Include(r => r.SkinType) 
                 .Include(r => r.RoutineDetails)
                     .ThenInclude(rd => rd.RoutineSteps)
